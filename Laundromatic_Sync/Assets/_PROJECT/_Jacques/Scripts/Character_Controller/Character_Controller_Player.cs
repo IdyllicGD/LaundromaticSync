@@ -68,7 +68,10 @@ public class Character_Controller_Player : MonoBehaviour
         
     }
 
-    
+    private void OnDestroy()
+    {
+        playerActions.Disable();
+    }
     
 }
 
