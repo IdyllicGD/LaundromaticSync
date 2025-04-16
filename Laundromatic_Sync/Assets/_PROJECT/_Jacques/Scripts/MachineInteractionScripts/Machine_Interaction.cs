@@ -1,13 +1,18 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
 {
     [SerializeField] Machine_Types machine_Type;
+    
+    public Transform look_At_Target;
+    public Transform machine_Cam_Transform;
     public Machine_Types Machine_Type => machine_Type;
     
     
+    #region Interact Swithc
     public void Interact()
     {
         switch (machine_Type)
@@ -23,6 +28,8 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
                 break;
         }
     }
+    
+    #endregion
 
     #region Machine Code Sections
 
@@ -54,7 +61,6 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
     #endregion
     
     #endregion
-    
     
 }
 
