@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class Character_Controller_Player : MonoBehaviour
@@ -40,7 +41,10 @@ public class Character_Controller_Player : MonoBehaviour
         playerActions.Player.Look.performed += x => MouseLookAround();
         playerActions.Player.Interact.performed += x => PlayerInteract ();
         playerActions.Player.Exit_Focus_Mode.performed += x => ExitFocusMode();
+
+        playerActions.MachineInteractions.MouseInteraction.performed += x => MouseInteraction();
     }
+    
     
     #region Controller
     
@@ -80,22 +84,35 @@ public class Character_Controller_Player : MonoBehaviour
 
     #endregion
 
-    #region Interaction
+    #region Interactions
 
+    #region Player Move Interactions
     void PlayerInteract () {
         if(!canMove) return;
         RaycastHit hit;
         
+        //Raycast hitting the interactable object, getting the script off of the object that derives from an interface
+        //Runs the code on that script to start the mechanics
+        
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance, interactionLayer)) {
-            //Debug.Log ($"[Interact With Interactable Object] [{hit.collider.gameObject.name}]");
             Machine_Interaction _interactable_Machine = hit.collider.gameObject.GetComponent<Machine_Interaction> ();
             if (_interactable_Machine != null) { }
             EnterFocusMode(_interactable_Machine.machine_Cam_Transform, _interactable_Machine.look_At_Target);
             _interactable_Machine.Interact();
-            //object that is hit, go out and run I_Interactable_Machine Interface type script code;
         }
     }
+    #endregion
 
+    #region Player Machine Mouse Interaction
+
+    void MouseInteraction()
+    {
+        
+    }
+
+    #endregion
+    
+    #region Focus Modes
     void EnterFocusMode(Transform camera_Move_Position, Transform look_At_Target)
     {
         canMove = false;
@@ -107,48 +124,30 @@ public class Character_Controller_Player : MonoBehaviour
         IEnumerator TimeToComplete(float time)
         {
             yield return new WaitForSeconds(time);
-            float currentTime = 0;
-        
-            while (currentTime < time)
-            {
-                currentTime += Time.deltaTime;
-                if (currentTime >= 1.0f)
-                {
-                    StartMove();
-                    break;
-                }
-                
-            }
-           
-        }
-        
-        void StartMove()
-        {
             Camera.main.transform.DOLookAt(look_At_Target.transform.position, 0.5f);
+            Cursor.lockState = CursorLockMode.None;
         }
         
     }
-
     void ExitFocusMode()
     {
         if (canMove) return;
         Camera.main.transform.DOMove(player_Cam_Original_Transform, 0.5f);
-        canMove = true;
+        StartCoroutine(TimeToWait(0.6f));
+        IEnumerator TimeToWait(float time)
+        {
+            float timeWaited = 0;
+            timeWaited += Time.deltaTime;
+            yield return new WaitForSeconds(time);
+            Debug.Log($"[Time Waited {timeWaited}ms]]");
+            canMove = true;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
-
-    // void RaycastingUpdated () {
-    //     RaycastHit hit;
-    //     Debug.DrawRay (playerCam.transform.position, playerCam.transform.forward, Color.blue);
-    //     if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance, interactionLayer)) {
-    //         Debug.DrawRay (playerCam.transform.position, playerCam.transform.forward, Color.blue);
-    //         //Debug.Log ("Looking at object");
-    //         
-    //     }
-    // }
+    #endregion
 
     #endregion
     
-
     private void OnDestroy()
     {
         playerActions.Disable();
