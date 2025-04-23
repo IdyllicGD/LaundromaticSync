@@ -8,18 +8,22 @@ using UnityEngine.InputSystem;
 public class Character_Controller_Player : MonoBehaviour
 {
     InputSystem_Actions playerActions;
+    private MachineFocusMode_Actions machineActions;
     Rigidbody playerRb;
     Vector3 moveDirection;
-    Vector2 moveInput, lookInput;
+    Vector2 moveInput, lookInput, macineLookInput;
     float rotateX, rotateY;
     Camera playerCam;
     bool isLookingAtObject;
     bool canMove = true;
+    bool canRotateObject = true;
+    Transform objectHit;
     
     //Serialize fields
     [SerializeField] float playerSpeed, minClampDistance, maxClampDistance, mouseSensitivity;
     [SerializeField] Vector3 player_Cam_Original_Transform;
     [SerializeField] LayerMask interactionLayer;
+    [SerializeField] private LayerMask machineInteractionLayer;
     [SerializeField] float raycastDistance;
 
     void FixedUpdate () {
@@ -27,22 +31,37 @@ public class Character_Controller_Player : MonoBehaviour
     }
     
     void Awake () {
+        
         Cursor.lockState = CursorLockMode.Locked;
         playerCam = Camera.main;
         playerRb = GetComponent<Rigidbody>();
+        
+        //Player Inputs
+        #region Player Action Inputs
+        
         playerActions = new InputSystem_Actions ();
         playerActions.Enable();
-        
-        //playerInputs
         playerActions.Player.Move.performed += OnMove;
         playerActions.Player.Move.canceled += OnMove;
         playerActions.Player.Look.performed += OnLook;
         playerActions.Player.Look.canceled += OnLook;
         playerActions.Player.Look.performed += x => MouseLookAround();
         playerActions.Player.Interact.performed += x => PlayerInteract ();
-        playerActions.Player.Exit_Focus_Mode.performed += x => ExitFocusMode();
+        
+        #endregion
+        //Machine input actions
+        #region Machine Inputs
+        
+        machineActions = new MachineFocusMode_Actions();
+        machineActions.Disable();
+        machineActions.MachineInteractions.ExtFocusMode.performed += x => ExitFocusMode();
+        //machineActions.MachineInteractions.MouseInteraction.performed += x => MouseInteraction();
+        machineActions.MachineInteractions.MouseLook.performed += MachineMousePosition;
+        machineActions.MachineInteractions.MouseLook.canceled += MachineMousePosition;
+        machineActions.MachineInteractions.MouseLook.canceled += MachineMousePosition;
 
-        playerActions.MachineInteractions.MouseInteraction.performed += x => MouseInteraction();
+        #endregion
+
     }
     
     
@@ -73,7 +92,6 @@ public class Character_Controller_Player : MonoBehaviour
         if(!canMove) return;
         float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime;
         float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime;
-        
         rotateX = Mathf.Clamp(rotateX, minClampDistance, maxClampDistance);
         rotateX -= mouseY;
         
@@ -105,9 +123,48 @@ public class Character_Controller_Player : MonoBehaviour
 
     #region Player Machine Mouse Interaction
 
-    void MouseInteraction()
+    private void MouseInteraction()
     {
+        Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = default;
+        bool wasHit = false;
+        float mouseX = macineLookInput.x * mouseSensitivity * Time.deltaTime;
+        float mouseY = macineLookInput.y * mouseSensitivity * Time.deltaTime;
         
+        
+        Debug.Log($"Mouse X: {mouseX} Mouse Y: {mouseY}");
+
+        if (Physics.Raycast(ray, out hit, 500f, machineInteractionLayer) || canRotateObject)
+        {
+            if (hit.transform != null)
+            {
+                objectHit = hit.transform;
+            }
+            if (canRotateObject)
+            {
+                Debug.DrawRay(ray.origin, ray.direction, Color.red);
+                if (objectHit != null) objectHit.transform.Rotate(mouseX, 0, 0, Space.World);
+            }
+            
+        }
+        
+        //objectRigidBody.linearVelocity = mouseX;
+        //hit.transform.position += ray.direction * 500f;
+    }
+
+    void MachineMousePosition(InputAction.CallbackContext obj)
+    {
+        macineLookInput = obj.ReadValue<Vector2>();
+        if (machineActions.MachineInteractions.MouseInteraction.inProgress )
+        {
+            MouseInteraction();
+            canRotateObject = true;
+        }
+    }
+
+    void MachineEndSpin()
+    {
+        canRotateObject = false;
     }
 
     #endregion
@@ -115,6 +172,7 @@ public class Character_Controller_Player : MonoBehaviour
     #region Focus Modes
     void EnterFocusMode(Transform camera_Move_Position, Transform look_At_Target)
     {
+        playerActions.Disable();
         canMove = false;
         player_Cam_Original_Transform = Camera.main.transform.position;
         Camera.main.transform.DOMove(camera_Move_Position.position, 1f);
@@ -125,6 +183,7 @@ public class Character_Controller_Player : MonoBehaviour
         {
             yield return new WaitForSeconds(time);
             Camera.main.transform.DOLookAt(look_At_Target.transform.position, 0.5f);
+            machineActions.Enable();
             Cursor.lockState = CursorLockMode.None;
         }
         
@@ -132,6 +191,7 @@ public class Character_Controller_Player : MonoBehaviour
     void ExitFocusMode()
     {
         if (canMove) return;
+        machineActions.Disable();
         Camera.main.transform.DOMove(player_Cam_Original_Transform, 0.5f);
         StartCoroutine(TimeToWait(0.6f));
         IEnumerator TimeToWait(float time)
@@ -141,7 +201,9 @@ public class Character_Controller_Player : MonoBehaviour
             yield return new WaitForSeconds(time);
             Debug.Log($"[Time Waited {timeWaited}ms]]");
             canMove = true;
+            playerActions.Enable();
             Cursor.lockState = CursorLockMode.Locked;
+            
         }
     }
     #endregion
@@ -151,6 +213,7 @@ public class Character_Controller_Player : MonoBehaviour
     private void OnDestroy()
     {
         playerActions.Disable();
+        machineActions.Disable();
     }
     
 }

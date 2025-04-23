@@ -1096,45 +1096,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""Machine Interactions"",
-            ""id"": ""cb47cf59-30af-4027-99ff-3e0c505ee5db"",
-            ""actions"": [
-                {
-                    ""name"": ""MouseInteraction"",
-                    ""type"": ""Button"",
-                    ""id"": ""17b3f1ab-5852-4533-8a75-6b04fffc7ca0"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""ad95f6c0-85da-4879-bf12-6eb23310e9d8"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MouseInteraction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""45dbbfd4-452c-4c99-aa70-31c711d698d1"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MouseInteraction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": [
@@ -1224,16 +1185,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
-        // Machine Interactions
-        m_MachineInteractions = asset.FindActionMap("Machine Interactions", throwIfNotFound: true);
-        m_MachineInteractions_MouseInteraction = m_MachineInteractions.FindAction("MouseInteraction", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputSystem_Actions.UI.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_MachineInteractions.enabled, "This will cause a leak and performance issues, InputSystem_Actions.MachineInteractions.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1695,102 +1652,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="UIActions" /> instance referencing this action map.
     /// </summary>
     public UIActions @UI => new UIActions(this);
-
-    // Machine Interactions
-    private readonly InputActionMap m_MachineInteractions;
-    private List<IMachineInteractionsActions> m_MachineInteractionsActionsCallbackInterfaces = new List<IMachineInteractionsActions>();
-    private readonly InputAction m_MachineInteractions_MouseInteraction;
-    /// <summary>
-    /// Provides access to input actions defined in input action map "Machine Interactions".
-    /// </summary>
-    public struct MachineInteractionsActions
-    {
-        private @InputSystem_Actions m_Wrapper;
-
-        /// <summary>
-        /// Construct a new instance of the input action map wrapper class.
-        /// </summary>
-        public MachineInteractionsActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action "MachineInteractions/MouseInteraction".
-        /// </summary>
-        public InputAction @MouseInteraction => m_Wrapper.m_MachineInteractions_MouseInteraction;
-        /// <summary>
-        /// Provides access to the underlying input action map instance.
-        /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_MachineInteractions; }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
-        public void Enable() { Get().Enable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
-        public void Disable() { Get().Disable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
-        public bool enabled => Get().enabled;
-        /// <summary>
-        /// Implicitly converts an <see ref="MachineInteractionsActions" /> to an <see ref="InputActionMap" /> instance.
-        /// </summary>
-        public static implicit operator InputActionMap(MachineInteractionsActions set) { return set.Get(); }
-        /// <summary>
-        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <param name="instance">Callback instance.</param>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
-        /// </remarks>
-        /// <seealso cref="MachineInteractionsActions" />
-        public void AddCallbacks(IMachineInteractionsActions instance)
-        {
-            if (instance == null || m_Wrapper.m_MachineInteractionsActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_MachineInteractionsActionsCallbackInterfaces.Add(instance);
-            @MouseInteraction.started += instance.OnMouseInteraction;
-            @MouseInteraction.performed += instance.OnMouseInteraction;
-            @MouseInteraction.canceled += instance.OnMouseInteraction;
-        }
-
-        /// <summary>
-        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <remarks>
-        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
-        /// </remarks>
-        /// <seealso cref="MachineInteractionsActions" />
-        private void UnregisterCallbacks(IMachineInteractionsActions instance)
-        {
-            @MouseInteraction.started -= instance.OnMouseInteraction;
-            @MouseInteraction.performed -= instance.OnMouseInteraction;
-            @MouseInteraction.canceled -= instance.OnMouseInteraction;
-        }
-
-        /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="MachineInteractionsActions.UnregisterCallbacks(IMachineInteractionsActions)" />.
-        /// </summary>
-        /// <seealso cref="MachineInteractionsActions.UnregisterCallbacks(IMachineInteractionsActions)" />
-        public void RemoveCallbacks(IMachineInteractionsActions instance)
-        {
-            if (m_Wrapper.m_MachineInteractionsActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        /// <summary>
-        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
-        /// </summary>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
-        /// </remarks>
-        /// <seealso cref="MachineInteractionsActions.AddCallbacks(IMachineInteractionsActions)" />
-        /// <seealso cref="MachineInteractionsActions.RemoveCallbacks(IMachineInteractionsActions)" />
-        /// <seealso cref="MachineInteractionsActions.UnregisterCallbacks(IMachineInteractionsActions)" />
-        public void SetCallbacks(IMachineInteractionsActions instance)
-        {
-            foreach (var item in m_Wrapper.m_MachineInteractionsActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_MachineInteractionsActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    /// <summary>
-    /// Provides a new <see cref="MachineInteractionsActions" /> instance referencing this action map.
-    /// </summary>
-    public MachineInteractionsActions @MachineInteractions => new MachineInteractionsActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -2011,20 +1872,5 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
-    }
-    /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Machine Interactions" which allows adding and removing callbacks.
-    /// </summary>
-    /// <seealso cref="MachineInteractionsActions.AddCallbacks(IMachineInteractionsActions)" />
-    /// <seealso cref="MachineInteractionsActions.RemoveCallbacks(IMachineInteractionsActions)" />
-    public interface IMachineInteractionsActions
-    {
-        /// <summary>
-        /// Method invoked when associated input action "MouseInteraction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMouseInteraction(InputAction.CallbackContext context);
     }
 }
