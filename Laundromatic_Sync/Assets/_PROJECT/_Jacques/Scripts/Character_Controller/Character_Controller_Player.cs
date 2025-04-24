@@ -7,21 +7,26 @@ using UnityEngine.InputSystem;
 
 public class Character_Controller_Player : MonoBehaviour
 {
-    InputSystem_Actions playerActions;
-    private MachineFocusMode_Actions machineActions;
+    public InputSystem_Actions playerActions;
+    public Vector3 player_Cam_Original_Transform;
+    [HideInInspector]public bool canMove;
+    
+    Character_Machine_Interaction character_Machine_Interaction;
+    
+    PlayerSettings playerSettings;
+    MachineFocusMode_Actions machineActions;
     Rigidbody playerRb;
     Vector3 moveDirection;
     Vector2 moveInput, lookInput, macineLookInput;
     float rotateX, rotateY;
+    float mouseSensitivity;
     Camera playerCam;
     bool isLookingAtObject;
-    bool canMove = true;
-    bool canRotateObject = true;
-    Transform objectHit;
+    
     
     //Serialize fields
-    [SerializeField] float playerSpeed, minClampDistance, maxClampDistance, mouseSensitivity;
-    [SerializeField] Vector3 player_Cam_Original_Transform;
+    [SerializeField] private Character_Machine_Interaction characterMachineInteraction;
+    [SerializeField] float playerSpeed, minClampDistance, maxClampDistance;
     [SerializeField] LayerMask interactionLayer;
     [SerializeField] private LayerMask machineInteractionLayer;
     [SerializeField] float raycastDistance;
@@ -32,12 +37,30 @@ public class Character_Controller_Player : MonoBehaviour
     
     void Awake () {
         
+        #region Start GetComponents
+
+        playerRb = GetComponent<Rigidbody>();
+        characterMachineInteraction = GetComponent<Character_Machine_Interaction> ();
+        playerSettings = GetComponent<PlayerSettings> ();
+
+        #endregion
+
+        #region Start Set Variables
+
         Cursor.lockState = CursorLockMode.Locked;
         playerCam = Camera.main;
-        playerRb = GetComponent<Rigidbody>();
+        
+        #endregion
+        
+        
+        #region Set Player Settings
+
+        mouseSensitivity = playerSettings.mouseSensitivity;
+
+        #endregion
         
         //Player Inputs
-        #region Player Action Inputs
+        #region Actions
         
         playerActions = new InputSystem_Actions ();
         playerActions.Enable();
@@ -49,19 +72,7 @@ public class Character_Controller_Player : MonoBehaviour
         playerActions.Player.Interact.performed += x => PlayerInteract ();
         
         #endregion
-        //Machine input actions
-        #region Machine Inputs
         
-        machineActions = new MachineFocusMode_Actions();
-        machineActions.Disable();
-        machineActions.MachineInteractions.ExtFocusMode.performed += x => ExitFocusMode();
-        //machineActions.MachineInteractions.MouseInteraction.performed += x => MouseInteraction();
-        machineActions.MachineInteractions.MouseLook.performed += MachineMousePosition;
-        machineActions.MachineInteractions.MouseLook.canceled += MachineMousePosition;
-        machineActions.MachineInteractions.MouseLook.canceled += MachineMousePosition;
-
-        #endregion
-
     }
     
     
@@ -120,54 +131,6 @@ public class Character_Controller_Player : MonoBehaviour
         }
     }
     #endregion
-
-    #region Player Machine Mouse Interaction
-
-    private void MouseInteraction()
-    {
-        Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit = default;
-        bool wasHit = false;
-        float mouseX = macineLookInput.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = macineLookInput.y * mouseSensitivity * Time.deltaTime;
-        
-        
-        Debug.Log($"Mouse X: {mouseX} Mouse Y: {mouseY}");
-
-        if (Physics.Raycast(ray, out hit, 500f, machineInteractionLayer) || canRotateObject)
-        {
-            if (hit.transform != null)
-            {
-                objectHit = hit.transform;
-            }
-            if (canRotateObject)
-            {
-                Debug.DrawRay(ray.origin, ray.direction, Color.red);
-                if (objectHit != null) objectHit.transform.Rotate(mouseX, 0, 0, Space.World);
-            }
-            
-        }
-        
-        //objectRigidBody.linearVelocity = mouseX;
-        //hit.transform.position += ray.direction * 500f;
-    }
-
-    void MachineMousePosition(InputAction.CallbackContext obj)
-    {
-        macineLookInput = obj.ReadValue<Vector2>();
-        if (machineActions.MachineInteractions.MouseInteraction.inProgress )
-        {
-            MouseInteraction();
-            canRotateObject = true;
-        }
-    }
-
-    void MachineEndSpin()
-    {
-        canRotateObject = false;
-    }
-
-    #endregion
     
     #region Focus Modes
     void EnterFocusMode(Transform camera_Move_Position, Transform look_At_Target)
@@ -183,28 +146,10 @@ public class Character_Controller_Player : MonoBehaviour
         {
             yield return new WaitForSeconds(time);
             Camera.main.transform.DOLookAt(look_At_Target.transform.position, 0.5f);
-            machineActions.Enable();
+            characterMachineInteraction.machineActions.Enable();
             Cursor.lockState = CursorLockMode.None;
         }
         
-    }
-    void ExitFocusMode()
-    {
-        if (canMove) return;
-        machineActions.Disable();
-        Camera.main.transform.DOMove(player_Cam_Original_Transform, 0.5f);
-        StartCoroutine(TimeToWait(0.6f));
-        IEnumerator TimeToWait(float time)
-        {
-            float timeWaited = 0;
-            timeWaited += Time.deltaTime;
-            yield return new WaitForSeconds(time);
-            Debug.Log($"[Time Waited {timeWaited}ms]]");
-            canMove = true;
-            playerActions.Enable();
-            Cursor.lockState = CursorLockMode.Locked;
-            
-        }
     }
     #endregion
 
@@ -213,7 +158,6 @@ public class Character_Controller_Player : MonoBehaviour
     private void OnDestroy()
     {
         playerActions.Disable();
-        machineActions.Disable();
     }
     
 }

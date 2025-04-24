@@ -117,6 +117,15 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseExit"",
+                    ""type"": ""Button"",
+                    ""id"": ""7f1f2e83-9cfb-43ac-b7ff-3b37f855d876"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -185,6 +194,17 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
                     ""action"": ""MouseLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3c62ea7-bf30-4da2-9d79-e1875a5fc465"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press(pressPoint=0.01,behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseExit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -196,6 +216,7 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
         m_MachineInteractions_MouseInteraction = m_MachineInteractions.FindAction("MouseInteraction", throwIfNotFound: true);
         m_MachineInteractions_ExtFocusMode = m_MachineInteractions.FindAction("ExtFocusMode", throwIfNotFound: true);
         m_MachineInteractions_MouseLook = m_MachineInteractions.FindAction("MouseLook", throwIfNotFound: true);
+        m_MachineInteractions_MouseExit = m_MachineInteractions.FindAction("MouseExit", throwIfNotFound: true);
     }
 
     ~@MachineFocusMode_Actions()
@@ -279,6 +300,7 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
     private readonly InputAction m_MachineInteractions_MouseInteraction;
     private readonly InputAction m_MachineInteractions_ExtFocusMode;
     private readonly InputAction m_MachineInteractions_MouseLook;
+    private readonly InputAction m_MachineInteractions_MouseExit;
     /// <summary>
     /// Provides access to input actions defined in input action map "Machine Interactions".
     /// </summary>
@@ -302,6 +324,10 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
         /// Provides access to the underlying input action "MachineInteractions/MouseLook".
         /// </summary>
         public InputAction @MouseLook => m_Wrapper.m_MachineInteractions_MouseLook;
+        /// <summary>
+        /// Provides access to the underlying input action "MachineInteractions/MouseExit".
+        /// </summary>
+        public InputAction @MouseExit => m_Wrapper.m_MachineInteractions_MouseExit;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -337,6 +363,9 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
             @MouseLook.started += instance.OnMouseLook;
             @MouseLook.performed += instance.OnMouseLook;
             @MouseLook.canceled += instance.OnMouseLook;
+            @MouseExit.started += instance.OnMouseExit;
+            @MouseExit.performed += instance.OnMouseExit;
+            @MouseExit.canceled += instance.OnMouseExit;
         }
 
         /// <summary>
@@ -357,6 +386,9 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
             @MouseLook.started -= instance.OnMouseLook;
             @MouseLook.performed -= instance.OnMouseLook;
             @MouseLook.canceled -= instance.OnMouseLook;
+            @MouseExit.started -= instance.OnMouseExit;
+            @MouseExit.performed -= instance.OnMouseExit;
+            @MouseExit.canceled -= instance.OnMouseExit;
         }
 
         /// <summary>
@@ -418,5 +450,12 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMouseLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MouseExit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMouseExit(InputAction.CallbackContext context);
     }
 }

@@ -40,7 +40,8 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
     #region Machine Code Sections
 
     #region Laundry
-
+    
+    
     void LaundryMechanicsStart()
     {
         Debug.Log($"[Laundry Machine Mechanics Start]");
