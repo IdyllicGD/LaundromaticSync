@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +11,7 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
 
     [HideInInspector]public Transform look_At_Target;
     [HideInInspector]public Transform machine_Cam_Transform;
+    
     public Machine_Types Machine_Type => machine_Type;
 
     private void Start()
@@ -46,6 +48,7 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
     {
         Debug.Log($"[Laundry Machine Mechanics Start]");
     }
+    
 
     #endregion
 

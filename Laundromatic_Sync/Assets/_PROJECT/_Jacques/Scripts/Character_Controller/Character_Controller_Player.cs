@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -22,14 +23,16 @@ public class Character_Controller_Player : MonoBehaviour
     float mouseSensitivity;
     Camera playerCam;
     bool isLookingAtObject;
-    
+    bool isHoldingObject = false;
+    private Transform handPosition;
     
     //Serialize fields
     [SerializeField] private Character_Machine_Interaction characterMachineInteraction;
-    [SerializeField] float playerSpeed, minClampDistance, maxClampDistance;
-    [SerializeField] LayerMask interactionLayer;
+    [SerializeField] private float playerSpeed, minClampDistance, maxClampDistance;
+    [SerializeField] private LayerMask interactionLayer;
     [SerializeField] private LayerMask machineInteractionLayer;
-    [SerializeField] float raycastDistance;
+    [SerializeField] private float raycastDistance;
+    
 
     void FixedUpdate () {
         PlayerMovement ();
@@ -42,6 +45,7 @@ public class Character_Controller_Player : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         characterMachineInteraction = GetComponent<Character_Machine_Interaction> ();
         playerSettings = GetComponent<PlayerSettings> ();
+        handPosition = transform.GetChild (0);
 
         #endregion
 
@@ -51,7 +55,6 @@ public class Character_Controller_Player : MonoBehaviour
         playerCam = Camera.main;
         
         #endregion
-        
         
         #region Set Player Settings
 
@@ -119,16 +122,26 @@ public class Character_Controller_Player : MonoBehaviour
     void PlayerInteract () {
         if(!canMove) return;
         RaycastHit hit;
-        
-        //Raycast hitting the interactable object, getting the script off of the object that derives from an interface
-        //Runs the code on that script to start the mechanics
-        
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance, interactionLayer)) {
-            Machine_Interaction _interactable_Machine = hit.collider.gameObject.GetComponent<Machine_Interaction> ();
-            if (_interactable_Machine != null) { }
-            EnterFocusMode(_interactable_Machine.machine_Cam_Transform, _interactable_Machine.look_At_Target);
-            _interactable_Machine.Interact();
-        }
+        if (!Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
+                interactionLayer)) return;
+        //Interact with Machine
+        if (hit.transform.TryGetComponent(out Machine_Interaction interaction)) InteractWithMachine(interaction);
+        //Pick up object
+        if (hit.transform.TryGetComponent(out PickUpObject objectToPickUp)) PickupObject(objectToPickUp.gameObject);
+    }
+
+
+    void InteractWithMachine(Machine_Interaction interaction)
+    {
+        EnterFocusMode(interaction.machine_Cam_Transform, interaction.look_At_Target);
+        //interaction.OpenDoorOnStart();
+    }
+
+    void PickupObject(GameObject objectToPickup)
+    {
+        objectToPickup.transform.DOMove(handPosition.position, 0.1f).WaitForCompletion();
+        objectToPickup.transform.SetParent(handPosition);
+        isHoldingObject = true;
     }
     #endregion
     
