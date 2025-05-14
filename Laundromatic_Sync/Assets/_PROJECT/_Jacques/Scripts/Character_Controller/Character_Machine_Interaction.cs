@@ -8,7 +8,12 @@ using UnityEngine.InputSystem;
 public class Character_Machine_Interaction : MonoBehaviour
 {
     [SerializeField] LayerMask machineInteractionLayer;
+    [SerializeField] LayerMask basketLayer;
     [SerializeField] float raycastDistance;
+    [SerializeField] bool isBasketLoaded;
+    
+    [HideInInspector] public GameObject basket;
+    
 
     //encapsulate data
     [SerializeField] DialSettings dialSettings;
@@ -17,17 +22,20 @@ public class Character_Machine_Interaction : MonoBehaviour
     private Vector3 currentEulerAngles;
     
     public MachineFocusMode_Actions machineActions;
-    private Machine_Interaction_Objects machineInteraction;
+    public Machine_Interaction_Objects machineInteraction;
+    public Machine_Interaction machineInteractionParent;
     
     private Character_Controller_Player characterControllerPlayer;
     private PlayerSettings playerSettings;
     private Camera playerCam;
     private Transform objectHit;
     
-    private bool isDoorClosed = true;
+    [SerializeField]private bool isDoorClosed = true;
     private bool canMove;
     private bool canRotateObject;
     private bool movingObject = false;
+    
+    public bool hasBasket = false;
     
     
     Transform player_Cam_Original_Transform;
@@ -55,10 +63,12 @@ public class Character_Machine_Interaction : MonoBehaviour
         #region Actions
 
         machineActions = new MachineFocusMode_Actions();
+        //machineActions.MachineInteractions.MouseInsert.performed += x => MousePressed();
         machineActions.MachineInteractions.ExtFocusMode.performed += x => ExitFocusMode();
         machineActions.MachineInteractions.MouseLook.performed += MachineMousePosition;
         machineActions.MachineInteractions.MouseLook.canceled += MachineMousePosition;
         machineActions.MachineInteractions.MouseExit.performed += x => MouseExit();
+        
         
 
         #endregion
@@ -69,13 +79,15 @@ public class Character_Machine_Interaction : MonoBehaviour
         
         #endregion
     }
+    
+
 
     #region Mouse
     
     void MachineMousePosition(InputAction.CallbackContext obj)
     {
         machineLookInput = obj.ReadValue<Vector2>();
-        if (machineActions.MachineInteractions.MouseInteraction.inProgress )
+        if (machineActions.MachineInteractions.MouseInteraction.inProgress)
         {
             MouseInteraction();
             //canRotateObject = true;
@@ -114,7 +126,7 @@ public class Character_Machine_Interaction : MonoBehaviour
                         LaundryDoorMove(canRotateObject, objectHit, ray, mouseX, mouseY);
                         break;
                     case Machine_Interactible_Types.MachineBasket:
-                        LaundryBasketFill(objectHit, ray);
+                        LaundryBasketFill(objectHit.transform.gameObject, ray);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -132,6 +144,22 @@ public class Character_Machine_Interaction : MonoBehaviour
         machineInteraction = null;
         objectHit = null;
     }
+
+    // void MousePressed()
+    // {
+    //     Debug.Log($"Pressed");
+    //     Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
+    //     RaycastHit hit = default;
+    //     if (Physics.Raycast(ray, out hit, 500f, basketLayer))
+    //     {
+    //         Debug.Log("Hit basket");
+    //     }
+    //     Machine_Interaction_Objects machineInteractionObjects =
+    //         hit.transform.GetComponent<Machine_Interaction_Objects>();
+    //     if (machineInteraction == null) return;
+    //     LaundryBasketFill(hit.transform.gameObject, ray);
+    //
+    // }
     
     #endregion
     
@@ -139,20 +167,26 @@ public class Character_Machine_Interaction : MonoBehaviour
 
     private void LaundryDialMove(bool canRotateObject, Transform objectHit, Ray ray, float mouseX, float mouseY)
     {
-        Debug.Log($"[{objectHit.transform.rotation.x}]");
-        switch (objectHit.localRotation.x)
+        Debug.Log($"[{objectHit.transform.rotation}]");
+        switch (objectHit.rotation.z)
         {
-            case >= 45f and < 90.01f:
+            case >= -0.66f and < -0.33f:
                 Debug.Log("[Option one]");
+                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[0].text = "Dial Setting: Low";
+                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[1].text = "Total Time: 5";
+                dialSettings = DialSettings.LowSetting;
                 break;
-            case >= 90.01f and < 180f:
+            case >= -0.33f and < 0.33f:
                 Debug.Log("[Option Two]");
+                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[0].text = "Dial Setting: Med";
+                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[1].text = "Total Time: 10";
+                dialSettings = DialSettings.MediumSetting;
                 break;
-            case >= 180f and < 270f:
+            case >= 0.33f and < 0.70f:
                 Debug.Log("[Option Three]");
-                break;
-            case >= 270f and < 350f:
-                Debug.Log("[Option Four]");
+                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[0].text = "Dial Setting: High";
+                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[1].text = "Total Time: 20";
+                dialSettings = DialSettings.HighSetting;
                 break;
         }
         
@@ -167,12 +201,12 @@ public class Character_Machine_Interaction : MonoBehaviour
 
     private void LaundryLeverMove(bool canMoveLever, Transform objectHit, Ray ray, float mouseX, float mouseY)
     {
+        if (!canMoveLever) return;
         if (objectHit.parent.localRotation.z <= -0.64f)
         {
+            if (!isDoorClosed) return;
             objectHit.parent.DORotate(new Vector3(0f, 0f, 10f), 1f);
             //check if door is closed
-            if (!isDoorClosed) return;
-            Debug.Log($"[Lever Pulled] Door is still open please close it before starting");
             //get setting
             switch (DialSettings)
             {
@@ -187,15 +221,18 @@ public class Character_Machine_Interaction : MonoBehaviour
                     break;
             }
             //Start machine
-            
             objectHit.parent.parent.GetComponent<Machine_Interaction>().Interact();
+            objectHit.parent.parent.GetComponent<Machine_Interaction>().isMachineBusy = true;
+            objectHit.parent.parent.GetComponent<Machine_Interaction>().StartTimer(machineTimer);
+            objectHit.parent.parent.GetComponent<Machine_Interaction>().isBasketLoaded = false;
             ExitFocusMode();
             rotationAmount = 0f;
             machineInteraction = null;
             objectHit = null;
             canMoveLever = false;
             canRotateObject = false;
-            StartCoroutine(TimeToWait(machineTimer, "Start Lever Timer"));
+            
+            StartCoroutine(TimeToWait(machineTimer, "Start Lever Timer",  objectHit));
         }
         
         if (!canMoveLever) return;
@@ -209,6 +246,7 @@ public class Character_Machine_Interaction : MonoBehaviour
     private void LaundryDoorMove(bool canMoveDoor, Transform objectHit, Ray ray, float mouseX, float mouseY)
     {
         Debug.Log("Move door");
+        isDoorClosed = rotationAmountDoor <= 0.001f;
         
         if (!canMoveDoor) return;
         Debug.DrawRay(ray.origin, ray.direction, Color.red);
@@ -218,10 +256,26 @@ public class Character_Machine_Interaction : MonoBehaviour
         objectHit.parent.transform.localRotation = Quaternion.Euler(0f,rotationAmountDoor ,0f);
     }
 
-    private void LaundryBasketFill(Transform objectHit, Ray ray)
+    private void LaundryBasketFill(GameObject objectHit, Ray ray)
     {
+        if(!hasBasket) return;
+        if (isBasketLoaded)
+        {
+            Debug.Log("Basket is already full");
+            return;
+        }
+
+        if (basket != null)
+        {
+            Destroy(basket);
+            basket = null;
+            hasBasket = false;
+        }
         
-        objectHit.GetComponent<Material>().color = Color.black;
+        Debug.Log($"[Laundry Basket] Basket has been filler");
+        isBasketLoaded = true;
+        objectHit.transform.parent.GetComponent<Machine_Interaction>().isBasketLoaded = true;
+        
     }
         
     #endregion
@@ -234,6 +288,10 @@ public class Character_Machine_Interaction : MonoBehaviour
         if (canMove) return;
         machineActions.Disable();
         Camera.main.transform.DOMove(characterControllerPlayer.player_Cam_Original_Transform, 0.5f);
+        if (hasBasket)
+        {
+            basket.transform.DOMove(characterControllerPlayer.handPosition.position, 0.5f);
+        }
         
         StartCoroutine(TimeToWait(0.6f, "ExitFocusMode"));
         characterControllerPlayer.canMove = true;
@@ -249,6 +307,15 @@ public class Character_Machine_Interaction : MonoBehaviour
         float timeWaited = 0;
         timeWaited += Time.deltaTime;
         yield return new WaitForSeconds(time);
+        Debug.Log($"[Time Waited {timeWaited}ms] for {forWhat}]");
+    }
+    
+    IEnumerator TimeToWait(float time, string forWhat, Transform objectHit)
+    {
+        float timeWaited = 0;
+        timeWaited += Time.deltaTime;
+        yield return new WaitForSeconds(time);
+        isBasketLoaded = false;
         Debug.Log($"[Time Waited {timeWaited}ms] for {forWhat}]");
     }
     

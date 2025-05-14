@@ -126,6 +126,15 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseInsert"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3ac3065-23cf-4f76-a0b6-704a2a09d0c8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -205,6 +214,28 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
                     ""action"": ""MouseExit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa8f1ef6-61a6-4e1e-8f8f-97ed11a839d9"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseInsert"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""763622da-4f9b-48fb-b39c-809afc9052da"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseInsert"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -217,6 +248,7 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
         m_MachineInteractions_ExtFocusMode = m_MachineInteractions.FindAction("ExtFocusMode", throwIfNotFound: true);
         m_MachineInteractions_MouseLook = m_MachineInteractions.FindAction("MouseLook", throwIfNotFound: true);
         m_MachineInteractions_MouseExit = m_MachineInteractions.FindAction("MouseExit", throwIfNotFound: true);
+        m_MachineInteractions_MouseInsert = m_MachineInteractions.FindAction("MouseInsert", throwIfNotFound: true);
     }
 
     ~@MachineFocusMode_Actions()
@@ -301,6 +333,7 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
     private readonly InputAction m_MachineInteractions_ExtFocusMode;
     private readonly InputAction m_MachineInteractions_MouseLook;
     private readonly InputAction m_MachineInteractions_MouseExit;
+    private readonly InputAction m_MachineInteractions_MouseInsert;
     /// <summary>
     /// Provides access to input actions defined in input action map "Machine Interactions".
     /// </summary>
@@ -328,6 +361,10 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
         /// Provides access to the underlying input action "MachineInteractions/MouseExit".
         /// </summary>
         public InputAction @MouseExit => m_Wrapper.m_MachineInteractions_MouseExit;
+        /// <summary>
+        /// Provides access to the underlying input action "MachineInteractions/MouseInsert".
+        /// </summary>
+        public InputAction @MouseInsert => m_Wrapper.m_MachineInteractions_MouseInsert;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -366,6 +403,9 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
             @MouseExit.started += instance.OnMouseExit;
             @MouseExit.performed += instance.OnMouseExit;
             @MouseExit.canceled += instance.OnMouseExit;
+            @MouseInsert.started += instance.OnMouseInsert;
+            @MouseInsert.performed += instance.OnMouseInsert;
+            @MouseInsert.canceled += instance.OnMouseInsert;
         }
 
         /// <summary>
@@ -389,6 +429,9 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
             @MouseExit.started -= instance.OnMouseExit;
             @MouseExit.performed -= instance.OnMouseExit;
             @MouseExit.canceled -= instance.OnMouseExit;
+            @MouseInsert.started -= instance.OnMouseInsert;
+            @MouseInsert.performed -= instance.OnMouseInsert;
+            @MouseInsert.canceled -= instance.OnMouseInsert;
         }
 
         /// <summary>
@@ -457,5 +500,12 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMouseExit(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MouseInsert" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMouseInsert(InputAction.CallbackContext context);
     }
 }

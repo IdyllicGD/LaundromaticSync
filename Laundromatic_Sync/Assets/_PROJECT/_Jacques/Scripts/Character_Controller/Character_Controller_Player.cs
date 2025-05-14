@@ -12,7 +12,6 @@ public class Character_Controller_Player : MonoBehaviour
     public Vector3 player_Cam_Original_Transform;
     [HideInInspector]public bool canMove;
     
-    Character_Machine_Interaction character_Machine_Interaction;
     
     PlayerSettings playerSettings;
     MachineFocusMode_Actions machineActions;
@@ -24,7 +23,7 @@ public class Character_Controller_Player : MonoBehaviour
     Camera playerCam;
     bool isLookingAtObject;
     bool isHoldingObject = false;
-    private Transform handPosition;
+    public Transform handPosition;
     
     //Serialize fields
     [SerializeField] private Character_Machine_Interaction characterMachineInteraction;
@@ -125,15 +124,30 @@ public class Character_Controller_Player : MonoBehaviour
         if (!Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
                 interactionLayer)) return;
         //Interact with Machine
-        if (hit.transform.TryGetComponent(out Machine_Interaction interaction)) InteractWithMachine(interaction);
+        if (hit.transform.TryGetComponent(out Machine_Interaction interaction))
+        {
+            if (interaction.isMachineBusy) return;
+            InteractWithMachine(interaction);
+            return;
+        }
         //Pick up object
-        if (hit.transform.TryGetComponent(out PickUpObject objectToPickUp)) PickupObject(objectToPickUp.gameObject);
+        if (hit.transform.TryGetComponent(out PickUpObject objectToPickUp))
+        {
+            if (objectToPickUp.PickUpObjectType == PickUpObjectType.LaundryBasket && characterMachineInteraction!= null)
+            {
+                characterMachineInteraction.hasBasket = true;
+                characterMachineInteraction.basket = objectToPickUp.gameObject;
+            }
+            PickupObject(objectToPickUp.gameObject);
+            
+            return;
+        }
     }
 
 
     void InteractWithMachine(Machine_Interaction interaction)
     {
-        EnterFocusMode(interaction.machine_Cam_Transform, interaction.look_At_Target);
+        EnterFocusMode(interaction.machine_Cam_Transform, interaction.look_At_Target, interaction.basket_Position, interaction);
         //interaction.OpenDoorOnStart();
     }
 
@@ -146,12 +160,17 @@ public class Character_Controller_Player : MonoBehaviour
     #endregion
     
     #region Focus Modes
-    void EnterFocusMode(Transform camera_Move_Position, Transform look_At_Target)
+    void EnterFocusMode(Transform camera_Move_Position, Transform look_At_Target, Transform basket_Position, Machine_Interaction interaction)
     {
+        characterMachineInteraction.machineInteractionParent = interaction;
         playerActions.Disable();
         canMove = false;
         player_Cam_Original_Transform = Camera.main.transform.position;
         Camera.main.transform.DOMove(camera_Move_Position.position, 1f);
+        if (characterMachineInteraction.hasBasket)
+        {
+            characterMachineInteraction.basket.transform.DOMove(basket_Position.position, 1f);
+        }
         
         StartCoroutine(TimeToComplete(1.1f));
         
