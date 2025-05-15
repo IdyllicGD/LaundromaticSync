@@ -13,8 +13,10 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
     [HideInInspector]public Transform look_At_Target;
     [HideInInspector]public Transform machine_Cam_Transform;
     [HideInInspector]public Transform basket_Position;
+    public Transform table_Top_Position;
     [HideInInspector]public bool isBasketLoaded;
     [HideInInspector]public bool isMachineBusy;
+    [HideInInspector]public bool isCounterTop;
     [SerializeField] public TMP_Text timeText;
     [SerializeField] public TMP_Text dialText;
     [SerializeField] private GameObject objectToSpawnAtEnd;
@@ -34,7 +36,7 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
 
     private void Update()
     {
-        if (machine_Type == Machine_Types.Cashregister_Machine || machine_Type == Machine_Types.Drying_Machine)return;
+        if (machine_Type == Machine_Types.Cashregister_Machine || machine_Type == Machine_Types.Drying_Machine || machine_Type == Machine_Types.Counter_Top)return;
         if (isBasketLoaded)
         {
             basketTexture.color = Color.black;
@@ -116,5 +118,6 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
 public enum Machine_Types{
     Laundry_Machine,
     Drying_Machine,
-    Cashregister_Machine
+    Cashregister_Machine,
+    Counter_Top
 }

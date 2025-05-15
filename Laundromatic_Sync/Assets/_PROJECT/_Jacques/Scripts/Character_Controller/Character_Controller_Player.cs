@@ -127,6 +127,20 @@ public class Character_Controller_Player : MonoBehaviour
         if (hit.transform.TryGetComponent(out Machine_Interaction interaction))
         {
             if (interaction.isMachineBusy) return;
+            if (interaction.isCounterTop)
+            {
+                if (handPosition.childCount <= 0) return;
+                if (handPosition.GetComponentInChildren<PickUpObject>().PickUpObjectType == PickUpObjectType.LaundryBasket)
+                {
+                    Transform _pickUpObject = handPosition.GetChild(0);
+                    _pickUpObject.DOMove(interaction.table_Top_Position.position, 1f);
+                    _pickUpObject.SetParent(interaction.transform);
+                    return;
+                }
+                
+                //place objects
+                //return
+            }
             InteractWithMachine(interaction);
             return;
         }

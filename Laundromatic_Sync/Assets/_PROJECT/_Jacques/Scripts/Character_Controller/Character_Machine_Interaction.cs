@@ -279,7 +279,13 @@ public class Character_Machine_Interaction : MonoBehaviour
     }
         
     #endregion
+
+
+    #region Cashregister Objects
+
     
+
+    #endregion
     
     void ExitFocusMode()
     {

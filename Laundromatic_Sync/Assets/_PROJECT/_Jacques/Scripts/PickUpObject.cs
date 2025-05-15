@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,6 +21,14 @@ public class PickUpObject : MonoBehaviour
         //     laundryLoadAmount = Random.Range(1, 3);
         //     UpdateLaundryBasketItems(laundryLoadAmount);
         // }
+    }
+
+    private void Awake()
+    {
+        if (pickUpObjectType == PickUpObjectType.LaundryBasket)
+        {
+            NpcManager.instance.basketID.Add(NpcManager.instance.npcCount, this.GameObject());
+        }
     }
 
     void UpdateLaundryBasketItems(int amount)
