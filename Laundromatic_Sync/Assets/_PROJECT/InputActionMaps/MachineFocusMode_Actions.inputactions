@@ -1,0 +1,158 @@
+{
+    "name": "MachineFocusMode_Actions",
+    "maps": [
+        {
+            "name": "Machine Interactions",
+            "id": "a0be240e-0a46-43c3-8d88-a943ff107321",
+            "actions": [
+                {
+                    "name": "MouseInteraction",
+                    "type": "Button",
+                    "id": "ac61eba8-9ddf-4ed6-9b21-fa050a1ebdc1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ExtFocusMode",
+                    "type": "Button",
+                    "id": "40573d5a-0389-4774-bfa1-fd7402dbf4aa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseLook",
+                    "type": "Value",
+                    "id": "1ceeb61f-6f79-4381-9e63-9865a8dc9abe",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MouseExit",
+                    "type": "Button",
+                    "id": "7f1f2e83-9cfb-43ac-b7ff-3b37f855d876",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseInsert",
+                    "type": "Button",
+                    "id": "a3ac3065-23cf-4f76-a0b6-704a2a09d0c8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f125d9e5-222a-4cfc-b82e-e52521c34ce0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseInteraction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec85ee9c-3d0d-42f2-a7aa-274ff0f8628b",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseInteraction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae8ced77-7f71-4c5f-80f5-d75fe3c7ccf1",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ExtFocusMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "35328f62-72d9-440e-b59a-97ea9becfbcd",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ExtFocusMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5ebe46e6-0b59-4dbe-b6d0-6decc67e88f0",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseLook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b013e9a5-7b45-4c1d-8f2f-d2dac1ffb344",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseLook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3c62ea7-bf30-4da2-9d79-e1875a5fc465",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press(pressPoint=0.01,behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseExit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aa8f1ef6-61a6-4e1e-8f8f-97ed11a839d9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseInsert",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "763622da-4f9b-48fb-b39c-809afc9052da",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseInsert",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
