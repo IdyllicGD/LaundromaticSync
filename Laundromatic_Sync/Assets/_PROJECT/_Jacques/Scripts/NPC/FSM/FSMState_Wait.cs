@@ -10,8 +10,12 @@ public class FSMState_Wait : FSMState
     [SerializeField] GameObject npcGameObject;
     private bool isInPosition;
     private int currentPositionIndex;
-    
-    public FSMState_Wait(FSMBehaviour fsmBehaviour) : base(fsmBehaviour) { }
+    NpcManager npcManager;
+
+    public FSMState_Wait(FSMBehaviour fsmBehaviour, NpcManager npcManager) : base(fsmBehaviour)
+    {
+        this.npcManager = npcManager;
+    }
 
     public override void Enable()
     {
@@ -25,7 +29,7 @@ public class FSMState_Wait : FSMState
         {
             if (!NpcManager.instance.isSittingPositionFull[i])
             {
-                npcGameObject.transform.DOMove(NpcManager.instance.npcSittingPositions[i].position, 0.1f).OnComplete(() => isInPosition = true).OnComplete(()=> currentPositionIndex = i);
+                npcGameObject.transform.DOMove(npcManager.npcSittingPositions[i].position, 0.1f).OnComplete(() => isInPosition = true).OnComplete(()=> currentPositionIndex = i);
                 NpcManager.instance.isSittingPositionFull[i] = true;
             }
         }

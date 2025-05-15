@@ -31,7 +31,7 @@ public abstract class FSMState
 
     public virtual Type GetNextState()
     {
-        return typeof(FSMState);
+        return typeof(FSMState_LineUp);
     }
     
     public abstract void Update();
