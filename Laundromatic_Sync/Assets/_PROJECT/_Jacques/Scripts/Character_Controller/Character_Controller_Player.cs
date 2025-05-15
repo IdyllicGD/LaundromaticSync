@@ -30,7 +30,9 @@ public class Character_Controller_Player : MonoBehaviour
     [SerializeField] private float playerSpeed, minClampDistance, maxClampDistance;
     [SerializeField] private LayerMask interactionLayer;
     [SerializeField] private LayerMask machineInteractionLayer;
+    [SerializeField] private LayerMask registerLayer;
     [SerializeField] private float raycastDistance;
+    [SerializeField] private int score;
     
 
     void FixedUpdate () {
@@ -121,40 +123,58 @@ public class Character_Controller_Player : MonoBehaviour
     void PlayerInteract () {
         if(!canMove) return;
         RaycastHit hit;
-        if (!Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
-                interactionLayer)) return;
-        //Interact with Machine
-        if (hit.transform.TryGetComponent(out Machine_Interaction interaction))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
+                interactionLayer))
         {
-            if (interaction.isMachineBusy) return;
-            if (interaction.isCounterTop)
+            //Interact with Machine
+            if (hit.transform.TryGetComponent(out Machine_Interaction interaction))
             {
-                if (handPosition.childCount <= 0) return;
-                if (handPosition.GetComponentInChildren<PickUpObject>().PickUpObjectType == PickUpObjectType.LaundryBasket)
+                if (interaction.isMachineBusy) return;
+                if (interaction.isCounterTop)
                 {
-                    Transform _pickUpObject = handPosition.GetChild(0);
-                    _pickUpObject.DOMove(interaction.table_Top_Position.position, 1f);
-                    _pickUpObject.SetParent(interaction.transform);
-                    return;
-                }
+                    if (handPosition.childCount <= 0) return;
+                    if (handPosition.GetComponentInChildren<PickUpObject>().PickUpObjectType == PickUpObjectType.LaundryBasket)
+                    {
+                        Transform _pickUpObject = handPosition.GetChild(0);
+                        _pickUpObject.DOMove(interaction.table_Top_Position.position, 1f);
+                        _pickUpObject.SetParent(interaction.transform);
+                        return;
+                    }
                 
-                //place objects
-                //return
+                    //place objects
+                    //return
+                }
+                InteractWithMachine(interaction);
+                return;
             }
-            InteractWithMachine(interaction);
-            return;
-        }
-        //Pick up object
-        if (hit.transform.TryGetComponent(out PickUpObject objectToPickUp))
-        {
-            if (objectToPickUp.PickUpObjectType == PickUpObjectType.LaundryBasket && characterMachineInteraction!= null)
+            //Pick up object
+            if (hit.transform.TryGetComponent(out PickUpObject objectToPickUp))
             {
-                characterMachineInteraction.hasBasket = true;
-                characterMachineInteraction.basket = objectToPickUp.gameObject;
-            }
-            PickupObject(objectToPickUp.gameObject);
+                if (objectToPickUp.PickUpObjectType == PickUpObjectType.LaundryBasket && characterMachineInteraction!= null)
+                {
+                    characterMachineInteraction.hasBasket = true;
+                    characterMachineInteraction.basket = objectToPickUp.gameObject;
+                }
+                PickupObject(objectToPickUp.gameObject);
             
-            return;
+                return;
+            }
+        }
+        
+
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance, registerLayer))
+        {
+            Debug.Log("Hit");
+            if (handPosition.childCount > 0)
+            {
+                
+                handPosition.GetChild(0).TryGetComponent(out PickUpObject _pickUpObject);
+                if (_pickUpObject.IsClean)
+                {
+                    score++;
+                    Destroy(handPosition.GetChild(0).gameObject);
+                }
+            }
         }
     }
 

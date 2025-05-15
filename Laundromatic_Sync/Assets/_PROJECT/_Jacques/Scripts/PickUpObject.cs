@@ -12,7 +12,7 @@ public class PickUpObject : MonoBehaviour
     private int laundryLoadAmount = 1;
 
     [SerializeField]private bool isFull = true;
-    [SerializeField]private bool IsClean = false;
+    [SerializeField]public bool IsClean = false;
 
     private void Start()
     {
