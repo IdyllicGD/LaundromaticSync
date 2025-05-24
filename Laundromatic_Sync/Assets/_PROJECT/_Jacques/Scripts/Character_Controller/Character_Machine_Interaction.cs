@@ -63,14 +63,17 @@ public class Character_Machine_Interaction : MonoBehaviour
         #region Actions
 
         machineActions = new MachineFocusMode_Actions();
-        //machineActions.MachineInteractions.MouseInsert.performed += x => MousePressed();
         machineActions.MachineInteractions.ExtFocusMode.performed += x => ExitFocusMode();
-        machineActions.MachineInteractions.MouseLook.performed += MachineMousePosition;
-        machineActions.MachineInteractions.MouseLook.canceled += MachineMousePosition;
-        machineActions.MachineInteractions.MouseExit.performed += x => MouseExit();
-        
-        
 
+        #region OLD
+
+        // machineActions.MachineInteractions.MouseLook.performed += MachineMousePosition;
+
+        // machineActions.MachineInteractions.MouseLook.canceled += MachineMousePosition;
+
+        // machineActions.MachineInteractions.MouseExit.performed += x => MouseExit();
+
+        #endregion
         #endregion
         
         #region Set Player Settings
@@ -79,71 +82,70 @@ public class Character_Machine_Interaction : MonoBehaviour
         
         #endregion
     }
-    
 
 
-    #region Mouse
+    #region Mouse OLD
     
-    void MachineMousePosition(InputAction.CallbackContext obj)
-    {
-        machineLookInput = obj.ReadValue<Vector2>();
-        if (machineActions.MachineInteractions.MouseInteraction.inProgress)
-        {
-            MouseInteraction();
-            //canRotateObject = true;
-        }
-    }
+    // void MachineMousePosition(InputAction.CallbackContext obj)
+    // {
+    //     machineLookInput = obj.ReadValue<Vector2>();
+    //     if (machineActions.MachineInteractions.MouseInteraction.inProgress)
+    //     {
+    //         //MouseInteraction();
+    //         //canRotateObject = true;
+    //     }
+    // }
     
     
-    private void MouseInteraction()
-    {
-        Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit = default;
-        bool wasHit = false;
-        float mouseX = machineLookInput.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = machineLookInput.y * mouseSensitivity * Time.deltaTime;
-        
+    // private void MouseInteraction()
+    // {
+    //     Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
+    //     RaycastHit hit = default;
+    //     bool wasHit = false;
+    //     float mouseX = machineLookInput.x * mouseSensitivity * Time.deltaTime;
+    //     float mouseY = machineLookInput.y * mouseSensitivity * Time.deltaTime;
+    //     
+    //
+    //     if (Physics.Raycast(ray, out hit, 500f, machineInteractionLayer) || canRotateObject)
+    //     {
+    //             // if (canRotateObject == false)
+    //             // {
+    //             //     machineInteraction = hit.transform.GetComponent<Machine_Interaction_Objects>();
+    //             //     objectHit = hit.transform;
+    //             //     canRotateObject = true;
+    //             // }
+    //             //
+    //             // if (canRotateObject == false) return;
+    //             // switch (machineInteraction.Machine_Interactible_Type)
+    //             // {
+    //             //     case Machine_Interactible_Types.Dial:
+    //             //         LaundryDialMove(canRotateObject, objectHit, ray, mouseX, mouseY);
+    //             //         break;
+    //             //     case Machine_Interactible_Types.Lever:
+    //             //         LaundryLeverMove(canRotateObject, objectHit, ray, mouseX, mouseY);
+    //             //         break;
+    //             //     case Machine_Interactible_Types.Door:
+    //             //         LaundryDoorMove(canRotateObject, objectHit, ray, mouseX, mouseY);
+    //             //         break;
+    //             //     case Machine_Interactible_Types.MachineBasket:
+    //             //         LaundryBasketFill(objectHit.transform.gameObject, ray);
+    //             //         break;
+    //             //     default:
+    //             //         throw new ArgumentOutOfRangeException();
+    //             // }
+    //             
+    //         
+    //     }
+    //     
+    // }
 
-        if (Physics.Raycast(ray, out hit, 500f, machineInteractionLayer) || canRotateObject)
-        {
-                if (canRotateObject == false)
-                {
-                    machineInteraction = hit.transform.GetComponent<Machine_Interaction_Objects>();
-                    objectHit = hit.transform;
-                    canRotateObject = true;
-                }
-                
-                if (canRotateObject == false) return;
-                switch (machineInteraction.Machine_Interactible_Type)
-                {
-                    case Machine_Interactible_Types.Dial:
-                        LaundryDialMove(canRotateObject, objectHit, ray, mouseX, mouseY);
-                        break;
-                    case Machine_Interactible_Types.Lever:
-                        LaundryLeverMove(canRotateObject, objectHit, ray, mouseX, mouseY);
-                        break;
-                    case Machine_Interactible_Types.Door:
-                        LaundryDoorMove(canRotateObject, objectHit, ray, mouseX, mouseY);
-                        break;
-                    case Machine_Interactible_Types.MachineBasket:
-                        LaundryBasketFill(objectHit.transform.gameObject, ray);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                
-            
-        }
-        
-    }
-
-    void MouseExit()
-    {
-        Debug.Log($"Released");
-        canRotateObject = false;
-        machineInteraction = null;
-        objectHit = null;
-    }
+    // void MouseExit()
+    // {
+    //     Debug.Log($"Released");
+    //     canRotateObject = false;
+    //     machineInteraction = null;
+    //     objectHit = null;
+    // }
 
     // void MousePressed()
     // {
@@ -163,120 +165,120 @@ public class Character_Machine_Interaction : MonoBehaviour
     
     #endregion
     
-    #region Laundry Objects
+    #region Laundry Objects OLD
 
-    private void LaundryDialMove(bool canRotateObject, Transform objectHit, Ray ray, float mouseX, float mouseY)
-    {
-        Debug.Log($"[{objectHit.transform.rotation}]");
-        switch (objectHit.rotation.z)
-        {
-            case >= -0.66f and < -0.33f:
-                Debug.Log("[Option one]");
-                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[0].text = "Dial Setting: Low";
-                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[1].text = "Total Time: 5";
-                dialSettings = DialSettings.LowSetting;
-                break;
-            case >= -0.33f and < 0.33f:
-                Debug.Log("[Option Two]");
-                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[0].text = "Dial Setting: Med";
-                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[1].text = "Total Time: 10";
-                dialSettings = DialSettings.MediumSetting;
-                break;
-            case >= 0.33f and < 0.70f:
-                Debug.Log("[Option Three]");
-                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[0].text = "Dial Setting: High";
-                objectHit.GetComponent<Machine_Interaction_Objects>().machineText[1].text = "Total Time: 20";
-                dialSettings = DialSettings.HighSetting;
-                break;
-        }
-        
-        if (!canRotateObject) return;
-        Debug.DrawRay(ray.origin, ray.direction, Color.red);
-        rotationAmountDial = Mathf.Clamp(rotationAmountDial,45f,330f);
-        rotationAmountDial -= mouseY;
-        rotationAmountDial -= mouseX;
-        objectHit.transform.localRotation = Quaternion.Euler(rotationAmountDial,0f ,-90f );
-        
-    }
-
-    private void LaundryLeverMove(bool canMoveLever, Transform objectHit, Ray ray, float mouseX, float mouseY)
-    {
-        if (!canMoveLever) return;
-        if (objectHit.parent.localRotation.z <= -0.64f)
-        {
-            if (!isDoorClosed) return;
-            objectHit.parent.DORotate(new Vector3(0f, 0f, 10f), 1f);
-            //check if door is closed
-            //get setting
-            switch (DialSettings)
-            {
-                case DialSettings.LowSetting:
-                    machineTimer = 5f;
-                    break;
-                case DialSettings.MediumSetting:
-                    machineTimer = 10f;
-                    break;
-                case DialSettings.HighSetting:
-                    machineTimer = 20f;
-                    break;
-            }
-            //Start machine
-            objectHit.parent.parent.GetComponent<Machine_Interaction>().Interact();
-            objectHit.parent.parent.GetComponent<Machine_Interaction>().isMachineBusy = true;
-            objectHit.parent.parent.GetComponent<Machine_Interaction>().StartTimer(machineTimer);
-            objectHit.parent.parent.GetComponent<Machine_Interaction>().isBasketLoaded = false;
-            ExitFocusMode();
-            rotationAmount = 0f;
-            machineInteraction = null;
-            objectHit = null;
-            canMoveLever = false;
-            canRotateObject = false;
-            
-            StartCoroutine(TimeToWait(machineTimer, "Start Lever Timer",  objectHit));
-        }
-        
-        if (!canMoveLever) return;
-        Debug.DrawRay(ray.origin, ray.direction, Color.red);
-        rotationAmount = Mathf.Clamp(rotationAmount, -10, 80);
-        rotationAmount -= mouseY;
-        
-        objectHit.parent.transform.localRotation = Quaternion.Euler(0f,0f , -rotationAmount);
-    }
-
-    private void LaundryDoorMove(bool canMoveDoor, Transform objectHit, Ray ray, float mouseX, float mouseY)
-    {
-        Debug.Log("Move door");
-        isDoorClosed = rotationAmountDoor <= 0.001f;
-        
-        if (!canMoveDoor) return;
-        Debug.DrawRay(ray.origin, ray.direction, Color.red);
-        rotationAmountDoor = Mathf.Clamp(rotationAmountDoor,0f,150f);
-        rotationAmountDoor -= mouseX;
-        
-        objectHit.parent.transform.localRotation = Quaternion.Euler(0f,rotationAmountDoor ,0f);
-    }
-
-    private void LaundryBasketFill(GameObject objectHit, Ray ray)
-    {
-        if(!hasBasket) return;
-        if (isBasketLoaded)
-        {
-            Debug.Log("Basket is already full");
-            return;
-        }
-
-        if (basket != null)
-        {
-            Destroy(basket);
-            basket = null;
-            hasBasket = false;
-        }
-        
-        Debug.Log($"[Laundry Basket] Basket has been filler");
-        isBasketLoaded = true;
-        objectHit.transform.parent.GetComponent<Machine_Interaction>().isBasketLoaded = true;
-        
-    }
+    // private void LaundryDialMove(bool canRotateObject, Transform objectHit, Ray ray, float mouseX, float mouseY)
+    // {
+    //     Debug.Log($"[{objectHit.transform.rotation}]");
+    //     switch (objectHit.rotation.z)
+    //     {
+    //         case >= -0.66f and < -0.33f:
+    //             Debug.Log("[Option one]");
+    //             objectHit.GetComponent<Machine_Interaction_Objects>().machineText[0].text = "Dial Setting: Low";
+    //             objectHit.GetComponent<Machine_Interaction_Objects>().machineText[1].text = "Total Time: 5";
+    //             dialSettings = DialSettings.LowSetting;
+    //             break;
+    //         case >= -0.33f and < 0.33f:
+    //             Debug.Log("[Option Two]");
+    //             objectHit.GetComponent<Machine_Interaction_Objects>().machineText[0].text = "Dial Setting: Med";
+    //             objectHit.GetComponent<Machine_Interaction_Objects>().machineText[1].text = "Total Time: 10";
+    //             dialSettings = DialSettings.MediumSetting;
+    //             break;
+    //         case >= 0.33f and < 0.70f:
+    //             Debug.Log("[Option Three]");
+    //             objectHit.GetComponent<Machine_Interaction_Objects>().machineText[0].text = "Dial Setting: High";
+    //             objectHit.GetComponent<Machine_Interaction_Objects>().machineText[1].text = "Total Time: 20";
+    //             dialSettings = DialSettings.HighSetting;
+    //             break;
+    //     }
+    //     
+    //     if (!canRotateObject) return;
+    //     Debug.DrawRay(ray.origin, ray.direction, Color.red);
+    //     rotationAmountDial = Mathf.Clamp(rotationAmountDial,45f,330f);
+    //     rotationAmountDial -= mouseY;
+    //     rotationAmountDial -= mouseX;
+    //     objectHit.transform.localRotation = Quaternion.Euler(rotationAmountDial,0f ,-90f );
+    //     
+    // }
+    //
+    // private void LaundryLeverMove(bool canMoveLever, Transform objectHit, Ray ray, float mouseX, float mouseY)
+    // {
+    //     if (!canMoveLever) return;
+    //     if (objectHit.parent.localRotation.z <= -0.64f)
+    //     {
+    //         if (!isDoorClosed) return;
+    //         objectHit.parent.DORotate(new Vector3(0f, 0f, 10f), 1f);
+    //         //check if door is closed
+    //         //get setting
+    //         switch (DialSettings)
+    //         {
+    //             case DialSettings.LowSetting:
+    //                 machineTimer = 5f;
+    //                 break;
+    //             case DialSettings.MediumSetting:
+    //                 machineTimer = 10f;
+    //                 break;
+    //             case DialSettings.HighSetting:
+    //                 machineTimer = 20f;
+    //                 break;
+    //         }
+    //         //Start machine
+    //         objectHit.parent.parent.GetComponent<Machine_Interaction>().Interact();
+    //         objectHit.parent.parent.GetComponent<Machine_Interaction>().isMachineBusy = true;
+    //         objectHit.parent.parent.GetComponent<Machine_Interaction>().StartTimer(machineTimer);
+    //         objectHit.parent.parent.GetComponent<Machine_Interaction>().isBasketLoaded = false;
+    //         ExitFocusMode();
+    //         rotationAmount = 0f;
+    //         machineInteraction = null;
+    //         objectHit = null;
+    //         canMoveLever = false;
+    //         canRotateObject = false;
+    //         
+    //         StartCoroutine(TimeToWait(machineTimer, "Start Lever Timer",  objectHit));
+    //     }
+    //     
+    //     if (!canMoveLever) return;
+    //     Debug.DrawRay(ray.origin, ray.direction, Color.red);
+    //     rotationAmount = Mathf.Clamp(rotationAmount, -10, 80);
+    //     rotationAmount -= mouseY;
+    //     
+    //     objectHit.parent.transform.localRotation = Quaternion.Euler(0f,0f , -rotationAmount);
+    // }
+    //
+    // private void LaundryDoorMove(bool canMoveDoor, Transform objectHit, Ray ray, float mouseX, float mouseY)
+    // {
+    //     Debug.Log("Move door");
+    //     isDoorClosed = rotationAmountDoor <= 0.001f;
+    //     
+    //     if (!canMoveDoor) return;
+    //     Debug.DrawRay(ray.origin, ray.direction, Color.red);
+    //     rotationAmountDoor = Mathf.Clamp(rotationAmountDoor,0f,150f);
+    //     rotationAmountDoor -= mouseX;
+    //     
+    //     objectHit.parent.transform.localRotation = Quaternion.Euler(0f,rotationAmountDoor ,0f);
+    // }
+    //
+    // private void LaundryBasketFill(GameObject objectHit, Ray ray)
+    // {
+    //     if(!hasBasket) return;
+    //     if (isBasketLoaded)
+    //     {
+    //         Debug.Log("Basket is already full");
+    //         return;
+    //     }
+    //
+    //     if (basket != null)
+    //     {
+    //         Destroy(basket);
+    //         basket = null;
+    //         hasBasket = false;
+    //     }
+    //     
+    //     Debug.Log($"[Laundry Basket] Basket has been filler");
+    //     isBasketLoaded = true;
+    //     objectHit.transform.parent.GetComponent<Machine_Interaction>().isBasketLoaded = true;
+    //     
+    // }
         
     #endregion
 

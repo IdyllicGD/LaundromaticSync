@@ -238,6 +238,138 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Rhythm"",
+            ""id"": ""40a62d4c-9aea-45f6-b92e-676712707eff"",
+            ""actions"": [
+                {
+                    ""name"": ""X/A[Xbox]"",
+                    ""type"": ""Button"",
+                    ""id"": ""98deea44-5776-4906-b36b-485900f5bcd6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Square/X[Xbox]"",
+                    ""type"": ""Button"",
+                    ""id"": ""b064d368-46b3-49ce-9b62-20367893c19c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Triangle/Y[Xbox]"",
+                    ""type"": ""Button"",
+                    ""id"": ""91a72497-aecf-4128-89ab-15b669dfce12"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scicle/B[Xbox]"",
+                    ""type"": ""Button"",
+                    ""id"": ""134f3af3-aea8-4319-8be2-be54ef473243"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0a79c866-9dc3-4613-a591-aaf5fd479c6a"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""X/A[Xbox]"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1eec7619-3726-4bd8-a670-0690d3eac92d"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""X/A[Xbox]"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34f14545-9322-46cd-9bf5-3d5e3e453f4f"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Square/X[Xbox]"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""97470f26-4f93-4bff-8b6f-0a343f5cebe7"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Square/X[Xbox]"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""137e351b-0e0e-4815-a975-e6d194f187d1"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Triangle/Y[Xbox]"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27dd57d0-b353-487d-974a-323d4eb9e296"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Triangle/Y[Xbox]"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""82921bb4-21f3-46f6-8fbd-6ed2c49b47fe"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scicle/B[Xbox]"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""020de2b8-5854-4ec0-8061-4455d38a3a47"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scicle/B[Xbox]"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -249,11 +381,18 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
         m_MachineInteractions_MouseLook = m_MachineInteractions.FindAction("MouseLook", throwIfNotFound: true);
         m_MachineInteractions_MouseExit = m_MachineInteractions.FindAction("MouseExit", throwIfNotFound: true);
         m_MachineInteractions_MouseInsert = m_MachineInteractions.FindAction("MouseInsert", throwIfNotFound: true);
+        // Rhythm
+        m_Rhythm = asset.FindActionMap("Rhythm", throwIfNotFound: true);
+        m_Rhythm_XAXbox = m_Rhythm.FindAction("X/A[Xbox]", throwIfNotFound: true);
+        m_Rhythm_SquareXXbox = m_Rhythm.FindAction("Square/X[Xbox]", throwIfNotFound: true);
+        m_Rhythm_TriangleYXbox = m_Rhythm.FindAction("Triangle/Y[Xbox]", throwIfNotFound: true);
+        m_Rhythm_ScicleBXbox = m_Rhythm.FindAction("Scicle/B[Xbox]", throwIfNotFound: true);
     }
 
     ~@MachineFocusMode_Actions()
     {
         UnityEngine.Debug.Assert(!m_MachineInteractions.enabled, "This will cause a leak and performance issues, MachineFocusMode_Actions.MachineInteractions.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Rhythm.enabled, "This will cause a leak and performance issues, MachineFocusMode_Actions.Rhythm.Disable() has not been called.");
     }
 
     /// <summary>
@@ -465,6 +604,135 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
     /// Provides a new <see cref="MachineInteractionsActions" /> instance referencing this action map.
     /// </summary>
     public MachineInteractionsActions @MachineInteractions => new MachineInteractionsActions(this);
+
+    // Rhythm
+    private readonly InputActionMap m_Rhythm;
+    private List<IRhythmActions> m_RhythmActionsCallbackInterfaces = new List<IRhythmActions>();
+    private readonly InputAction m_Rhythm_XAXbox;
+    private readonly InputAction m_Rhythm_SquareXXbox;
+    private readonly InputAction m_Rhythm_TriangleYXbox;
+    private readonly InputAction m_Rhythm_ScicleBXbox;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Rhythm".
+    /// </summary>
+    public struct RhythmActions
+    {
+        private @MachineFocusMode_Actions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public RhythmActions(@MachineFocusMode_Actions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Rhythm/XAXbox".
+        /// </summary>
+        public InputAction @XAXbox => m_Wrapper.m_Rhythm_XAXbox;
+        /// <summary>
+        /// Provides access to the underlying input action "Rhythm/SquareXXbox".
+        /// </summary>
+        public InputAction @SquareXXbox => m_Wrapper.m_Rhythm_SquareXXbox;
+        /// <summary>
+        /// Provides access to the underlying input action "Rhythm/TriangleYXbox".
+        /// </summary>
+        public InputAction @TriangleYXbox => m_Wrapper.m_Rhythm_TriangleYXbox;
+        /// <summary>
+        /// Provides access to the underlying input action "Rhythm/ScicleBXbox".
+        /// </summary>
+        public InputAction @ScicleBXbox => m_Wrapper.m_Rhythm_ScicleBXbox;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Rhythm; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="RhythmActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(RhythmActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="RhythmActions" />
+        public void AddCallbacks(IRhythmActions instance)
+        {
+            if (instance == null || m_Wrapper.m_RhythmActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_RhythmActionsCallbackInterfaces.Add(instance);
+            @XAXbox.started += instance.OnXAXbox;
+            @XAXbox.performed += instance.OnXAXbox;
+            @XAXbox.canceled += instance.OnXAXbox;
+            @SquareXXbox.started += instance.OnSquareXXbox;
+            @SquareXXbox.performed += instance.OnSquareXXbox;
+            @SquareXXbox.canceled += instance.OnSquareXXbox;
+            @TriangleYXbox.started += instance.OnTriangleYXbox;
+            @TriangleYXbox.performed += instance.OnTriangleYXbox;
+            @TriangleYXbox.canceled += instance.OnTriangleYXbox;
+            @ScicleBXbox.started += instance.OnScicleBXbox;
+            @ScicleBXbox.performed += instance.OnScicleBXbox;
+            @ScicleBXbox.canceled += instance.OnScicleBXbox;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="RhythmActions" />
+        private void UnregisterCallbacks(IRhythmActions instance)
+        {
+            @XAXbox.started -= instance.OnXAXbox;
+            @XAXbox.performed -= instance.OnXAXbox;
+            @XAXbox.canceled -= instance.OnXAXbox;
+            @SquareXXbox.started -= instance.OnSquareXXbox;
+            @SquareXXbox.performed -= instance.OnSquareXXbox;
+            @SquareXXbox.canceled -= instance.OnSquareXXbox;
+            @TriangleYXbox.started -= instance.OnTriangleYXbox;
+            @TriangleYXbox.performed -= instance.OnTriangleYXbox;
+            @TriangleYXbox.canceled -= instance.OnTriangleYXbox;
+            @ScicleBXbox.started -= instance.OnScicleBXbox;
+            @ScicleBXbox.performed -= instance.OnScicleBXbox;
+            @ScicleBXbox.canceled -= instance.OnScicleBXbox;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="RhythmActions.UnregisterCallbacks(IRhythmActions)" />.
+        /// </summary>
+        /// <seealso cref="RhythmActions.UnregisterCallbacks(IRhythmActions)" />
+        public void RemoveCallbacks(IRhythmActions instance)
+        {
+            if (m_Wrapper.m_RhythmActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="RhythmActions.AddCallbacks(IRhythmActions)" />
+        /// <seealso cref="RhythmActions.RemoveCallbacks(IRhythmActions)" />
+        /// <seealso cref="RhythmActions.UnregisterCallbacks(IRhythmActions)" />
+        public void SetCallbacks(IRhythmActions instance)
+        {
+            foreach (var item in m_Wrapper.m_RhythmActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_RhythmActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="RhythmActions" /> instance referencing this action map.
+    /// </summary>
+    public RhythmActions @Rhythm => new RhythmActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Machine Interactions" which allows adding and removing callbacks.
     /// </summary>
@@ -507,5 +775,41 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMouseInsert(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Rhythm" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="RhythmActions.AddCallbacks(IRhythmActions)" />
+    /// <seealso cref="RhythmActions.RemoveCallbacks(IRhythmActions)" />
+    public interface IRhythmActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "X/A[Xbox]" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnXAXbox(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Square/X[Xbox]" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSquareXXbox(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Triangle/Y[Xbox]" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTriangleYXbox(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Scicle/B[Xbox]" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnScicleBXbox(InputAction.CallbackContext context);
     }
 }

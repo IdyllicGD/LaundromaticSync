@@ -24,6 +24,7 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
     [SerializeField] private Transform objectSpawnPosition;
     
     [SerializeField] Material basketTexture;
+    [HideInInspector]public bool isBeingUsed;
     
     public Machine_Types Machine_Type => machine_Type;
 

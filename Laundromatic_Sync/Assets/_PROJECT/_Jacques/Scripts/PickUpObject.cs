@@ -23,13 +23,13 @@ public class PickUpObject : MonoBehaviour
         // }
     }
 
-    private void Awake()
-    {
-        if (pickUpObjectType == PickUpObjectType.LaundryBasket)
-        {
-            NpcManager.instance.basketID.Add(NpcManager.instance.npcCount, this.GameObject());
-        }
-    }
+    // private void Awake()
+    // {
+    //     if (pickUpObjectType == PickUpObjectType.LaundryBasket)
+    //     {
+    //         NpcManager.instance.basketID.Add(NpcManager.instance.npcCount, this.GameObject());
+    //     }
+    // }
 
     void UpdateLaundryBasketItems(int amount)
     {
