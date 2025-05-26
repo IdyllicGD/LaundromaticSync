@@ -77,19 +77,14 @@ public class Character_Controller_Player : MonoBehaviour
         playerActions.Player.Move.canceled += OnMove;
         playerActions.Player.Look.performed += OnLook;
         playerActions.Player.Look.canceled += OnLook;
-        //playerActions.Player.Look.performed += x => MouseLookAround();
+        playerActions.Player.Look.performed += x => MouseLookAround();
         playerActions.Player.Interact.performed += x => PlayerInteract ();
-        playerActions.Player.NextScene.performed += x => GoToNextScene();
 
         #endregion
 
     }
 
-    void GoToNextScene()
-    {
-        SceneManager.LoadScene(1);
-    }
-    
+
     
     #region Controller
     

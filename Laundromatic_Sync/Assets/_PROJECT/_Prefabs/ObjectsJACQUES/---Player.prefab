@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 33195208744781144}
   - component: {fileID: 8174138883105128757}
-  - component: {fileID: 6277045810610787542}
   - component: {fileID: 2795968142919615219}
   - component: {fileID: 7636066000063943068}
+  - component: {fileID: -1125113185342230788}
+  - component: {fileID: 5050972348712490808}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -76,7 +77,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8600000, guid: 72be098e39eea3844b8e771f42883b62, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -86,14 +87,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &6277045810610787542
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 920297708915017404}
-  m_Enabled: 1
 --- !u!114 &2795968142919615219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,6 +147,34 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 160
   m_MaxRayIntersections: 0
+--- !u!114 &-1125113185342230788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920297708915017404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
+--- !u!114 &5050972348712490808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920297708915017404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &5537540550140722785
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,6 +346,7 @@ MonoBehaviour:
   player_Cam_Original_Transform: {x: 0, y: 0, z: 0}
   canMove: 1
   handPosition: {fileID: 0}
+  controllerSensitivity: 100
   characterMachineInteraction: {fileID: 3527320586818520128}
   playerSpeed: 100
   minClampDistance: -75
@@ -335,11 +357,13 @@ MonoBehaviour:
   machineInteractionLayer:
     serializedVersion: 2
     m_Bits: 128
+  tableLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   registerLayer:
     serializedVersion: 2
     m_Bits: 512
-  raycastDistance: 5
-  score: 0
+  raycastDistance: 500
 --- !u!114 &3527320586818520128
 MonoBehaviour:
   m_ObjectHideFlags: 0
