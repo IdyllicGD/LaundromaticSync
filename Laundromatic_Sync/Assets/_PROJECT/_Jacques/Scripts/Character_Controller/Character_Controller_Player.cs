@@ -34,11 +34,8 @@ public class Character_Controller_Player : MonoBehaviour
     [SerializeField] private float playerSpeed, minClampDistance, maxClampDistance;
     [SerializeField] private LayerMask interactionLayer;
     [SerializeField] private LayerMask machineInteractionLayer;
-<<<<<<< Updated upstream
-=======
     [SerializeField] private LayerMask tableLayer;
     [SerializeField] private LayerMask registerLayer;
->>>>>>> Stashed changes
     [SerializeField] private float raycastDistance;
     
 
@@ -141,182 +138,129 @@ public class Character_Controller_Player : MonoBehaviour
     #region Interactions
 
     #region Player Move Interactions
-    void PlayerInteract () {
-        if(!canMove) return;
+
+    void PlayerInteract()
+    {
+        Debug.Log("Interact");
+        if (!canMove) return;
         RaycastHit hit;
-        if (!Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
-                interactionLayer)) return;
-        //Interact with Machine
-        if (hit.transform.TryGetComponent(out Machine_Interaction interaction))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
+                interactionLayer))
         {
-<<<<<<< Updated upstream
-            if (interaction.isMachineBusy) return;
-            if (interaction.isCounterTop)
+
+            //Interact with Machine
+            if (hit.transform.TryGetComponent(out Machine_Interaction interaction))
             {
-                if (handPosition.childCount <= 0) return;
-                if (handPosition.GetComponentInChildren<PickUpObject>().PickUpObjectType == PickUpObjectType.LaundryBasket)
+                if (interaction.isMachineBusy) return;
+                if (interaction.isCounterTop)
                 {
-                    Transform _pickUpObject = handPosition.GetChild(0);
-                    _pickUpObject.DOMove(interaction.table_Top_Position.position, 1f);
-                    _pickUpObject.SetParent(interaction.transform);
-                    return;
+                    if (handPosition.childCount <= 0) return;
+                    if (handPosition.GetComponentInChildren<PickUpObject>().PickUpObjectType ==
+                        PickUpObjectType.LaundryBasket)
+                    {
+                        Transform _pickUpObject = handPosition.GetChild(0);
+                        _pickUpObject.DOMove(interaction.table_Top_Position.position, 1f);
+                        _pickUpObject.SetParent(interaction.transform);
+                        return;
+                    }
                 }
-                
-                //place objects
-                //return
-=======
+            }
+
+            //place objects
             if (hit.transform.TryGetComponent(out I_Interactable_Machine interactableMachine))
             {
-                if(transform.GetChild(0).childCount == 0)
+                if (transform.GetChild(0).childCount == 0)
                 {
                     Debug.Log("[No Basket detected]");
                     return;
-                    
+
                 }
-                
+
                 if (hit.transform.TryGetComponent(out LaundryMacineRhythm rhythmL))
                 {
-                    if(rhythmL.transform.GetChild(0).childCount != 0)return;
+                    if (rhythmL.transform.GetChild(0).childCount != 0) return;
                     interactableMachine.Interact();
                     rhythmL.originalCamPosition = playerCam.transform.position;
                     EnterFocusMode(rhythmL.camPosition, rhythmL.lookAtPosition, rhythmL.basketPosition, rhythmL);
                 }
             }
-            
-            //Interact with Machine
-            if (hit.transform.TryGetComponent(out Machine_Interaction interaction))
-            {
-                if (interaction.isMachineBusy) return;
 
-                #region Counter top code FIX LATER
-                
-                // if (interaction.isCounterTop)
-                // {
-                //     if (handPosition.childCount <= 0) return;
-                //     if (handPosition.GetComponentInChildren<PickUpObject>().PickUpObjectType == PickUpObjectType.LaundryBasket)
-                //     {
-                //         Transform _pickUpObject = handPosition.GetChild(0);
-                //         _pickUpObject.DOMove(interaction.table_Top_Position.position, 1f);
-                //         _pickUpObject.SetParent(interaction.transform);
-                //         return;
-                //     }
-                
-                    //place objects
-                    //return
-                //}
-                #endregion
-                
-                InteractWithMachine(interaction);
-                return;
-            }
             //Pick up object
             if (hit.transform.TryGetComponent(out PickUpObject objectToPickUp))
             {
-                if (handPosition.childCount != 0)return;
+                if (handPosition.childCount != 0) return;
                 if (objectToPickUp.PickUpObjectType == PickUpObjectType.LaundryBasket)
                 {
                     basket = objectToPickUp.gameObject;
                 }
+
                 PickupObject(objectToPickUp.gameObject);
-            
+
                 return;
->>>>>>> Stashed changes
             }
-            InteractWithMachine(interaction);
-            return;
-        }
-        //Pick up object
-        if (hit.transform.TryGetComponent(out PickUpObject objectToPickUp))
-        {
-            if (objectToPickUp.PickUpObjectType == PickUpObjectType.LaundryBasket && characterMachineInteraction!= null)
-            {
-                characterMachineInteraction.hasBasket = true;
-                characterMachineInteraction.basket = objectToPickUp.gameObject;
-            }
-            PickupObject(objectToPickUp.gameObject);
-            
-            return;
+
         }
 
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance, tableLayer))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
+                tableLayer))
         {
             if (handPosition.childCount == 0) return;
-            
+
             handPosition.GetChild(0).transform.DOMove(hit.point, .5f);
             handPosition.GetChild(0).SetParent(hit.transform);
         }
     }
 
+    // void InteractWithMachine(Machine_Interaction interaction)
+        // {
+        //     EnterFocusMode(interaction.machine_Cam_Transform, interaction.look_At_Target, interaction.basket_Position,
+        //         interaction);
+        //     //interaction.OpenDoorOnStart();
+        // }
 
-    void InteractWithMachine(Machine_Interaction interaction)
-    {
-        EnterFocusMode(interaction.machine_Cam_Transform, interaction.look_At_Target, interaction.basket_Position, interaction);
-        //interaction.OpenDoorOnStart();
-    }
-
-    void PickupObject(GameObject objectToPickup)
-    {
-        objectToPickup.transform.DOMove(handPosition.position, 0.1f).WaitForCompletion();
-        objectToPickup.transform.SetParent(handPosition);
-        isHoldingObject = true;
-    }
-    #endregion
-    
-    #region Focus Modes
-    void EnterFocusMode(Transform camera_Move_Position, Transform look_At_Target, Transform basket_Position, Machine_Interaction interaction)
-    {
-        characterMachineInteraction.machineInteractionParent = interaction;
-        playerActions.Disable();
-        canMove = false;
-        player_Cam_Original_Transform = Camera.main.transform.position;
-        Camera.main.transform.DOMove(camera_Move_Position.position, 1f);
-        if (characterMachineInteraction.hasBasket)
+        void PickupObject(GameObject objectToPickup)
         {
-            characterMachineInteraction.basket.transform.DOMove(basket_Position.position, 1f).OnComplete(() => Camera.main.transform.DOLookAt(look_At_Target.transform.position, 0.5f));
-            characterMachineInteraction.machineActions.Enable();
-            Cursor.lockState = CursorLockMode.None;
+            objectToPickup.transform.DOMove(handPosition.position, 0.1f).WaitForCompletion();
+            objectToPickup.transform.SetParent(handPosition);
+            isHoldingObject = true;
         }
-        
-        // StartCoroutine(TimeToComplete(1.1f));
-        //
-        // IEnumerator TimeToComplete(float time)
-        // {
-        //     yield return new WaitForSeconds(time);
-        //     
-        // }
-        
-    }
-    
-    void EnterFocusMode(Transform camera_Move_Position, Transform look_At_Target, Transform basket_Position, LaundryMacineRhythm interaction)
-    {
-        if (interaction.isBusy) return;
-        if (transform.GetChild(0).childCount == 0) return;
-        playerActions.Disable();
-        canMove = false;
-        player_Cam_Original_Transform = Camera.main.transform.position;
-        Camera.main.transform.DOMove(camera_Move_Position.position, 1f).OnComplete(() => Camera.main.transform.DOLookAt(look_At_Target.transform.position, 0.5f));
-        basket.transform.SetParent(basket_Position);
-        basket.transform.DOMove(basket_Position.position, 1f);
-        // if (characterMachineInteraction.hasBasket)
-        // {
-        //     characterMachineInteraction.basket.transform.DOMove(basket_Position.position, 1f);
-        //     characterMachineInteraction.machineActions.Enable();
-        //     Cursor.lockState = CursorLockMode.None;
-        // }
 
-        // StartCoroutine(TimeToComplete(1.1f));
-        //
-        // IEnumerator TimeToComplete(float time)
-        // {
-        //     yield return new WaitForSeconds(time);
-        //     
-        // }
+        #endregion
 
-    }
-    #endregion
+        #region Focus Modes
 
-    #endregion
-    
+        void EnterFocusMode(Transform camera_Move_Position, Transform look_At_Target, Transform basket_Position,
+            LaundryMacineRhythm interaction)
+        {
+            if (interaction.isBusy) return;
+            if (transform.GetChild(0).childCount == 0) return;
+            playerActions.Disable();
+            canMove = false;
+            player_Cam_Original_Transform = Camera.main.transform.position;
+            Camera.main.transform.DOMove(camera_Move_Position.position, 1f).OnComplete(() => Camera.main.transform.DOLookAt(look_At_Target.transform.position, 0.5f));
+            basket.transform.SetParent(basket_Position);
+            basket.transform.DOMove(basket_Position.position, 1f);
+            // if (characterMachineInteraction.hasBasket)
+            // {
+            //     characterMachineInteraction.basket.transform.DOMove(basket_Position.position, 1f);
+            //     characterMachineInteraction.machineActions.Enable();
+            //     Cursor.lockState = CursorLockMode.None;
+            // }
+
+            // StartCoroutine(TimeToComplete(1.1f));
+            //
+            // IEnumerator TimeToComplete(float time)
+            // {
+            //     yield return new WaitForSeconds(time);
+            //     
+            // }
+
+        }
+
+        #endregion
+
+        #endregion
+
     private void OnDestroy()
     {
         playerActions.Disable();
