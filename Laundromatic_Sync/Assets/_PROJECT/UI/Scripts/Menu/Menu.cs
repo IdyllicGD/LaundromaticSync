@@ -1,13 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using FMOD;
+using FMODUnity;
 
 public class Menu : MonoBehaviour
 {
-    public GameObject Screen1;
-    public GameObject Screen2;
+    public GameObject Screen1; //Phone Unlock Screen
+    public GameObject Screen2; //Main Screen
+    public GameObject Screen3; //Controls Screen
     public Slider menuSlider;
     public float toggleValue = 1f;
+    public FMODUnity.EventReference SoundClick;
 
     private bool hasToggled = false;
 
@@ -25,18 +29,36 @@ public class Menu : MonoBehaviour
     }
     public void QuitGame ()
     {
-        Debug.Log("Quit");
+        UnityEngine.Debug.Log("Quit");
         Application.Quit();
     }
 
     public void OnSliderValueChanged(float value)
     {
-       if (!hasToggled && Mathf.Approximately(value, 1f))
+       if (!hasToggled && Mathf.Approximately(value, toggleValue))
         {
             Screen1.SetActive(false);
             Screen2.SetActive(true);   
             hasToggled = true;
+            FMODUnity.RuntimeManager.PlayOneShot(SoundClick, 0);
         }
     
+    }
+
+    public void ToggleControls()
+    {
+        Screen2.SetActive(false);
+        Screen3.SetActive(true);
+    }
+
+    public void ToggleMain()
+    {
+        Screen3.SetActive(false);
+        Screen2.SetActive(true);
+    }
+    
+    public void ButtonClick()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(SoundClick, 0);
     }
 }
