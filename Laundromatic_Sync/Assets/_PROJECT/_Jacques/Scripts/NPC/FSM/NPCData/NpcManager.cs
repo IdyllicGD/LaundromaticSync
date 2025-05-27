@@ -22,6 +22,8 @@ public class NpcManager : MonoBehaviour
     public int npcCount;
     public int ordersCompleted;
     public int maxNpcCount;
+
+    public bool tableHasBasket;
     
     Transform LiningUpPosition;
     Transform SittingPosition;
@@ -41,31 +43,12 @@ public class NpcManager : MonoBehaviour
     private void Start()
     {
         instance = this;
-
-        // #region NPC Data
-        //
-        // maxNpcCount = 5;
-        // LiningUpPosition = transform.GetChild(0);
-        // SittingPosition = transform.GetChild(1);
-        // basketPlacePosition = transform.GetChild(2);
-        // spawnPosition.position = transform.GetChild(3).position;
-        //
-        // for (int i = 0; i < LiningUpPosition.childCount; i++)
-        // {
-        //     npcLiningUpPositions.Add(LiningUpPosition.GetChild(i));
-        // }
-        //
-        // for (int i = 0; i < SittingPosition.childCount; i++)
-        // {
-        //     npcSittingPositions.Add(SittingPosition.GetChild(i));
-        // }
-        //
         SpawnNpc();
-        // #endregion
         
     }
 
     private void SpawnNpc() { if (npcCount == maxNpcCount) return;
+        //choose variant
         Debug.Log("Start Spawn");
         npcCount++;
         npcID.Add(npcCount ,Instantiate(npcPrefab, spawnPosition));

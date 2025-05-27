@@ -31,6 +31,7 @@ public class FSMBehaviour : MonoBehaviour
         typeStateLookup[typeof(FSMState_Wait)] = stateWait;
         
         SetState(stateLineUp);
+        StartCoroutine(TimeToWait(5f));
     }
 
     void SetState(FSMState state)
@@ -53,7 +54,14 @@ public class FSMBehaviour : MonoBehaviour
     private void Update()
     {
         currentState?.Update();
+        
+    }
+
+    IEnumerator TimeToWait(float timeToWait)
+    {
+        yield return new WaitForSeconds(timeToWait);
         CheckStaleState();
+        StartCoroutine(TimeToWait(timeToWait));
     }
     
 }

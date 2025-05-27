@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -26,6 +27,9 @@ public class Character_Controller_Player : MonoBehaviour
     bool isHoldingObject = false;
     private GameObject basket;
     public Transform handPosition;
+    public float score;
+
+    private float timer = 120f;
     
     [SerializeField]float controllerSensitivity;
     
@@ -37,11 +41,25 @@ public class Character_Controller_Player : MonoBehaviour
     [SerializeField] private LayerMask tableLayer;
     [SerializeField] private LayerMask registerLayer;
     [SerializeField] private float raycastDistance;
+
+    #region HUD Refs
+
+    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI timeText;
+
+    #endregion
     
 
     void FixedUpdate () {
         PlayerMovement ();
         MouseLookAround();
+        timer -= Time.deltaTime;
+        timeText.text = timer.ToString ();
+        if (timer <= 0)
+        {
+            SceneManager.LoadScene(0);
+        }
+        
     }
     
     void Awake () {
@@ -204,6 +222,19 @@ public class Character_Controller_Player : MonoBehaviour
             handPosition.GetChild(0).transform.DOMove(hit.point, .5f);
             handPosition.GetChild(0).SetParent(hit.transform);
         }
+
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance, registerLayer))
+        {
+            if (handPosition.childCount == 0) return;
+            if (handPosition.GetChild(0).GetComponent<PickUpObject>().IsClean)
+            {
+                DestroyImmediate(handPosition.GetChild(0).gameObject);
+                score += 100;
+                UpdateHUD();
+            }
+
+            
+        }
     }
 
     // void InteractWithMachine(Machine_Interaction interaction)
@@ -256,6 +287,15 @@ public class Character_Controller_Player : MonoBehaviour
 
         #endregion
 
+        #region HUD
+
+        void UpdateHUD()
+        {
+            scoreText.text = $"Score: {score}";
+        }
+
+        #endregion    
+    
     private void OnDestroy()
     {
         playerActions.Disable();

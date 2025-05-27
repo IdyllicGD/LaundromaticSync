@@ -11,10 +11,12 @@ public class FSMState_Wait : FSMState
     private bool isInPosition;
     private int currentPositionIndex;
     NpcManager npcManager;
+    FSMBehaviour _fsmBehaviour;
 
     public FSMState_Wait(FSMBehaviour fsmBehaviour, NpcManager npcManager) : base(fsmBehaviour)
     {
         this.npcManager = npcManager;
+        _fsmBehaviour = fsmBehaviour;
     }
 
     public override void Enable()
@@ -25,11 +27,12 @@ public class FSMState_Wait : FSMState
 
     void GoToWaitPosition()
     {
+        Debug.Log("[GoWaitPosition] Started");
         for (int i = 0; i < NpcManager.instance.npcSittingPositions.Capacity; i++)
         {
             if (!NpcManager.instance.isSittingPositionFull[i])
             {
-                npcGameObject.transform.DOMove(npcManager.npcSittingPositions[i].position, 0.1f).OnComplete(() => isInPosition = true).OnComplete(()=> currentPositionIndex = i);
+                _fsmBehaviour.transform.DOMove(npcManager.npcSittingPositions[i].position, 0.1f).OnComplete(() => isInPosition = true).OnComplete(()=> currentPositionIndex = i);
                 NpcManager.instance.isSittingPositionFull[i] = true;
             }
         }
