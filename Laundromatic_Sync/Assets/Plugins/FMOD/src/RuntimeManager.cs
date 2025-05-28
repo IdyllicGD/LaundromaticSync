@@ -1233,7 +1233,7 @@ retry:
             return newInstance;
         }
 
-        public static void PlayOneShot(EventReference eventReference, Vector3 position = new Vector3())
+        public static void PlayOneShot(EventReference eventReference, int v, Vector3 position = new Vector3())
         {
             try
             {
