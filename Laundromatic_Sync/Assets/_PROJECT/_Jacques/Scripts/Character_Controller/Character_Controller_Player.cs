@@ -54,7 +54,7 @@ public class Character_Controller_Player : MonoBehaviour
         PlayerMovement ();
         MouseLookAround();
         timer -= Time.deltaTime;
-        timeText.text = timer.ToString ();
+        timeText.text = Mathf.RoundToInt(timer).ToString();
         if (timer <= 0)
         {
             SceneManager.LoadScene(0);

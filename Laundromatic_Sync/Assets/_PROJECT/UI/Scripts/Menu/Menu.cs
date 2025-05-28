@@ -17,6 +17,7 @@ public class Menu : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
         if (menuSlider != null)
         { 
             menuSlider.onValueChanged.AddListener(OnSliderValueChanged);
