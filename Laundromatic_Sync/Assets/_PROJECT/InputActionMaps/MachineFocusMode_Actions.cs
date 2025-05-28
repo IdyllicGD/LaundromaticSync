@@ -317,7 +317,7 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
                 {
                     ""name"": """",
                     ""id"": ""97470f26-4f93-4bff-8b6f-0a343f5cebe7"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -339,7 +339,7 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
                 {
                     ""name"": """",
                     ""id"": ""27dd57d0-b353-487d-974a-323d4eb9e296"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/y"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -361,7 +361,7 @@ public partial class @MachineFocusMode_Actions: IInputActionCollection2, IDispos
                 {
                     ""name"": """",
                     ""id"": ""020de2b8-5854-4ec0-8061-4455d38a3a47"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/b"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
