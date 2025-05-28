@@ -45,6 +45,13 @@ public class Menu : MonoBehaviour
         Screen2.SetActive(true);
         Screen3.SetActive(false);
         PauseCanvas.SetActive(false);
+        Time.timeScale = toggleValue;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    void SetCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
     }
     public void OnSliderValueChanged(float value)
     {

@@ -42,6 +42,10 @@ public class Character_Controller_Player : MonoBehaviour
     [SerializeField] private LayerMask registerLayer;
     [SerializeField] private float raycastDistance;
 
+    [SerializeField] private GameObject coinSound;
+
+    [SerializeField] private GameObject PauseMenu;
+
     #region HUD Refs
 
     [SerializeField] TextMeshProUGUI scoreText;
@@ -97,12 +101,18 @@ public class Character_Controller_Player : MonoBehaviour
         playerActions.Player.Look.canceled += OnLook;
         playerActions.Player.Look.performed += x => MouseLookAround();
         playerActions.Player.Interact.performed += x => PlayerInteract ();
+        playerActions.Player.Exit_Focus_Mode.performed += x => PauseAndPlay();
 
         #endregion
 
     }
 
-
+    void PauseAndPlay()
+    {
+        Time.timeScale = 0;
+        PauseMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+    }
     
     #region Controller
     
@@ -223,6 +233,7 @@ public class Character_Controller_Player : MonoBehaviour
             handPosition.GetChild(0).SetParent(hit.transform);
         }
 
+        //Register
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance, registerLayer))
         {
             if (handPosition.childCount == 0) return;
@@ -230,6 +241,8 @@ public class Character_Controller_Player : MonoBehaviour
             {
                 DestroyImmediate(handPosition.GetChild(0).gameObject);
                 score += 100;
+                coinSound.SetActive(true);
+                StartCoroutine(TimeToWaitSound(1f));
                 UpdateHUD();
             }
 
@@ -299,6 +312,12 @@ public class Character_Controller_Player : MonoBehaviour
     private void OnDestroy()
     {
         playerActions.Disable();
+    }
+
+    IEnumerator TimeToWaitSound(float timeToWait)
+    {
+        yield return new WaitForSeconds(timeToWait);
+        coinSound.SetActive(false);
     }
     
 }

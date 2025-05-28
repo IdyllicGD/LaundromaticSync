@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerSettings:MonoBehaviour
@@ -6,4 +7,9 @@ public class PlayerSettings:MonoBehaviour
     //Display size
     //Volume
     //Accessibility settings
+
+    private void Start()
+    {
+        Time.timeScale = 1f;
+    }
 }
