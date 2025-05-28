@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour
     public Slider menuSlider;
     public float toggleValue = 1f;
     public FMODUnity.EventReference SoundClick;
+    public GameObject PauseCanvas;
 
     private bool hasToggled = false;
 
@@ -34,6 +35,17 @@ public class Menu : MonoBehaviour
         Application.Quit();
     }
 
+    public void ReturnToMenu ()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void ToggleCanvas ()
+    {
+        Screen2.SetActive(true);
+        Screen3.SetActive(false);
+        PauseCanvas.SetActive(false);
+    }
     public void OnSliderValueChanged(float value)
     {
        if (!hasToggled && Mathf.Approximately(value, toggleValue))
