@@ -149,6 +149,7 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
         rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
         currentRhythmListPosition++;
         stage = 0;
+        
         dialSound.SetActive(false);
         Debug.Log($"[Play Lever Sound]");
         machineBusySound.SetActive(true);
@@ -156,6 +157,7 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
         lever.DOLocalRotate(new Vector3(0f, 0f, 35f), 0.5f, RotateMode.Fast).OnComplete(() => lever.DOLocalRotate(new Vector3(0f,0f,-47.908f), 0.5f, RotateMode.Fast));
         MachineStart();
         LaundryRhythm(bpm);
+        
         
     }
     
@@ -173,6 +175,8 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
         
         Image image = rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>();
         RectTransform rectTransformOfCircle = rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<RectTransform>();
+        rectTransformOfCircle.DOKill();
+        rectTransformOfCircle.localScale = new Vector3(3.040269f, 3.040269f, 3.040269f);
         float timeInSeconds = bpm / 60f;
         
         InteractionAnimation(image, rectTransformOfCircle, timeInSeconds);
