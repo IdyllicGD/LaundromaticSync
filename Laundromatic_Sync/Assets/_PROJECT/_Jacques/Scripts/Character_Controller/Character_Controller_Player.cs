@@ -189,7 +189,7 @@ public class Character_Controller_Player : MonoBehaviour
                 }
             }
 
-            //place objects
+            //Interactable Machine
             if (hit.transform.TryGetComponent(out I_Interactable_Machine interactableMachine))
             {
                 if (transform.GetChild(0).childCount == 0)
@@ -223,12 +223,14 @@ public class Character_Controller_Player : MonoBehaviour
             }
 
         }
-
+        
+        //Place object on Table
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
                 tableLayer))
         {
             if (handPosition.childCount == 0) return;
-
+            
+            handPosition.GetChild(0).GetComponent<Collider>().enabled = true;
             handPosition.GetChild(0).transform.DOMove(hit.point, .5f);
             handPosition.GetChild(0).SetParent(hit.transform);
         }
@@ -259,8 +261,11 @@ public class Character_Controller_Player : MonoBehaviour
 
         void PickupObject(GameObject objectToPickup)
         {
-            objectToPickup.transform.DOMove(handPosition.position, 0.1f).WaitForCompletion();
+            //FIX
+            objectToPickup.GetComponent<Collider>().enabled = false;
             objectToPickup.transform.SetParent(handPosition);
+            objectToPickup.transform.DOLocalMove(Vector3.zero, 0.2f).WaitForCompletion();
+            
             isHoldingObject = true;
         }
 
