@@ -17,7 +17,7 @@ public class NPCBehaviour : MonoBehaviour
     private void Awake()
     {
         npcManager = NPCManagerFrontDesk.instance;
-        OnLinePositionChanged(CurrentLinePosition);
+        //OnLinePositionChanged(CurrentLinePosition);
     }
 
     private void OnLinePositionChanged(int linePosition)
@@ -34,21 +34,21 @@ public class NPCBehaviour : MonoBehaviour
         if (npcManager.hasBasket)return;
         Debug.Log($"[NPCBehaviour] Current NPC: {ID} npc manager has Basket");
         if(CurrentLinePosition != 0)return;
-        basket.transform.DOMove(npcManager.basketPlacePosition.position, 0.5f).OnComplete(MoveToWaitingArea);
-        
+        basket.transform.SetParent(npcManager.basketPlacePosition.transform);
+        basket.transform.DOLocalMove(new Vector3(0f,0f,0f), 0.5f).OnComplete(MoveToWaitingArea);
         
     }
 
     void MoveToWaitingArea()
     {
+        
         npcManager.hasBasket = true;
         hasBasket = false;
+        npcManager.npcsWaiting.Add(gameObject);
         npcManager.GoToWaitingArea(ID);
         npcManager.npcs.RemoveAt(ID);
-        npcManager.npcsWaiting.Add(gameObject);
-        npcManager.MoveLineForward();
+        npcManager.MoveLineForward(currentLinePosition);
         
-        basket.transform.SetParent(npcManager.basketPlacePosition.transform);
     }
     
     

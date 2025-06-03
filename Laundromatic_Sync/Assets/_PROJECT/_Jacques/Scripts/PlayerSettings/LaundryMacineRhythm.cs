@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _PROJECT.Scripts.Rhythm;
 using DG.Tweening;
 using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
+public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine, RythmStages
 {
     [SerializeField] 
     private float bpm = 60f;
@@ -40,6 +41,7 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
     [SerializeField] private Transform coin;
     [SerializeField] private Transform lever;
     [SerializeField] private GameObject cleanBasket;
+    [SerializeField] private ButtonSpawner buttonSpawner;
 
     #region Sounds
     [SerializeField] private GameObject openDoorSound;
@@ -57,11 +59,11 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
     private void Start()
     {
         //Initialize the Actions
-        machineActions = new MachineFocusMode_Actions();
-        machineActions.Rhythm.XAXbox.performed += x => SouthButtonPressed();
-        machineActions.Rhythm.SquareXXbox.performed += x => EastButtonPressed();
-        machineActions.Rhythm.TriangleYXbox.performed += x => NorthButtonPressed();
-        machineActions.Rhythm.ScicleBXbox.performed += x => WestButtonPressed();
+        // machineActions = new MachineFocusMode_Actions();
+        // machineActions.Rhythm.XAXbox.performed += x => SouthButtonPressed();
+        // machineActions.Rhythm.SquareXXbox.performed += x => EastButtonPressed();
+        // machineActions.Rhythm.TriangleYXbox.performed += x => NorthButtonPressed();
+        // machineActions.Rhythm.ScicleBXbox.performed += x => WestButtonPressed();
         
     }
 
@@ -70,6 +72,78 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
         if (isBusy) return;
         //Make Action map active
         StartCoroutine(TimeToWait(2f));
+        buttonSpawner.SpawnButton();
+    }
+
+    public void StageCheck()
+    {
+        switch (stage)
+        {
+            case 0:
+                FirstInteract();
+                break;
+            case 1:
+                SecondInteract();
+                break;
+            case 2:
+                ThirdInteract();
+                break;
+            case 3:
+                FourthInteract();
+                break;
+            
+        }
+    }
+
+    public void FirstInteract()
+    {
+        Debug.Log($"[Play Coin Sound]");
+        coinSound.SetActive(true);
+        Debug.Log($"[Play Open Door Sound]");
+        openDoorSound.SetActive(true);
+        //open door
+        door.DOLocalRotate(new Vector3(0f, -160f, 0f), 1f, RotateMode.Fast);
+        stage = 1;
+    }
+
+    public void SecondInteract()
+    {
+        stage = 2;
+        Destroy(transform.GetChild(0).GetChild(0).gameObject);
+        coinSound.SetActive(false);
+        openDoorSound.SetActive(false);
+        Debug.Log($"[Play Close Door Sound]");
+        closeDoorSound.SetActive(true);
+        //close door
+        door.DOLocalRotate(new Vector3(0f, 0f, 0f), 1f, RotateMode.Fast);
+    }
+
+    public void ThirdInteract()
+    {
+        stage = 3;
+        closeDoorSound.SetActive(false);
+        Debug.Log($"[Play Twist Nob Sound]");
+        dialSound.SetActive(true);
+        //twist nob
+        nob.DOLocalRotate(new Vector3(60f, 0f, 0f), 1f, RotateMode.Fast);
+    }
+
+    public void FourthInteract()
+    {
+        stage = 0;
+        
+        dialSound.SetActive(false);
+        Debug.Log($"[Play Lever Sound]");
+        machineBusySound.SetActive(true);
+        //pull lever
+        lever.DOLocalRotate(new Vector3(0f, 0f, 35f), 0.5f, RotateMode.Fast).OnComplete((OnCompleteDoThis));
+        
+    }
+
+    void OnCompleteDoThis()
+    {
+        lever.DOLocalRotate(new Vector3(0f,0f,-47.908f), 0.5f, RotateMode.Fast).OnComplete(ExitFocusMode);
+        MachineStart();
     }
 
     void SouthButtonPressed()
@@ -82,14 +156,14 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
         if (stage != 0) return;
         
         
-        rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>().DOKill();
+        // rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>().DOKill();
+        //
+        // rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
+        // rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
+        // currentRhythmListPosition++;
+        // rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
+        // rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
         
-        rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
-        rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
-        currentRhythmListPosition++;
-        rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
-        rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
-        stage = 1;
         Debug.Log($"[Play Coin Sound]");
         coinSound.SetActive(true);
         Debug.Log($"[Play Open Door Sound]");
@@ -101,97 +175,97 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
 
     void EastButtonPressed()
     {
-        Debug.Log("East Button Pressed");
-        if (stage != 1) return;
-        rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>().DOKill();
-        
-        rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
-        rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
-        currentRhythmListPosition++;
-        rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
-        rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
-        stage = 2;
-        Destroy(transform.GetChild(0).GetChild(0).gameObject);
-        coinSound.SetActive(false);
-        openDoorSound.SetActive(false);
-        Debug.Log($"[Play Close Door Sound]");
-        closeDoorSound.SetActive(true);
-        //close door
-        door.DOLocalRotate(new Vector3(0f, 0f, 0f), 1f, RotateMode.Fast);
-        LaundryRhythm(bpm);
+        // Debug.Log("East Button Pressed");
+        // if (stage != 1) return;
+        // rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>().DOKill();
+        //
+        // rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
+        // rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
+        // currentRhythmListPosition++;
+        // rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
+        // rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
+        // stage = 2;
+        // //Destroy(transform.GetChild(0).GetChild(0).gameObject);
+        // coinSound.SetActive(false);
+        // openDoorSound.SetActive(false);
+        // Debug.Log($"[Play Close Door Sound]");
+        // closeDoorSound.SetActive(true);
+        // //close door
+        // door.DOLocalRotate(new Vector3(0f, 0f, 0f), 1f, RotateMode.Fast);
+        // LaundryRhythm(bpm);
     }
 
     void NorthButtonPressed()
     {
-        Debug.Log("North Button Pressed");
-        if (stage != 2) return;
-        rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>().DOKill();
-        
-        rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
-        rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
-        currentRhythmListPosition++;
-        rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
-        rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
-        stage = 3;
-        closeDoorSound.SetActive(false);
-        Debug.Log($"[Play Twist Nob Sound]");
-        dialSound.SetActive(true);
-        //twist nob
-        nob.DOLocalRotate(new Vector3(60f, 0f, 0f), 1f, RotateMode.Fast);
-        LaundryRhythm(bpm);
+        // Debug.Log("North Button Pressed");
+        // if (stage != 2) return;
+        // rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>().DOKill();
+        //
+        // rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
+        // rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
+        // currentRhythmListPosition++;
+        // rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
+        // rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 1f);
+        // stage = 3;
+        // closeDoorSound.SetActive(false);
+        // Debug.Log($"[Play Twist Nob Sound]");
+        // dialSound.SetActive(true);
+        // //twist nob
+        // nob.DOLocalRotate(new Vector3(60f, 0f, 0f), 1f, RotateMode.Fast);
+        // LaundryRhythm(bpm);
     }
 
     void WestButtonPressed()
     {
-        Debug.Log("West Button Pressed");
-        if (stage != 3) return;
-        rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>().DOKill();
-        
-        rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
-        rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
-        currentRhythmListPosition++;
-        stage = 0;
-        
-        dialSound.SetActive(false);
-        Debug.Log($"[Play Lever Sound]");
-        machineBusySound.SetActive(true);
-        //pull lever
-        lever.DOLocalRotate(new Vector3(0f, 0f, 35f), 0.5f, RotateMode.Fast).OnComplete(() => lever.DOLocalRotate(new Vector3(0f,0f,-47.908f), 0.5f, RotateMode.Fast));
-        MachineStart();
-        LaundryRhythm(bpm);
-        
+        // Debug.Log("West Button Pressed");
+        // if (stage != 3) return;
+        // rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>().DOKill();
+        //
+        // rhythmPositions[currentRhythmListPosition].GetChild(0).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
+        // rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<Image>().color = new Color(1f, 1, 1, 0f);
+        // currentRhythmListPosition++;
+        // stage = 0;
+        //
+        // dialSound.SetActive(false);
+        // Debug.Log($"[Play Lever Sound]");
+        // machineBusySound.SetActive(true);
+        // //pull lever
+        // lever.DOLocalRotate(new Vector3(0f, 0f, 35f), 0.5f, RotateMode.Fast).OnComplete(() => lever.DOLocalRotate(new Vector3(0f,0f,-47.908f), 0.5f, RotateMode.Fast));
+        // MachineStart();
+        //
+        //
         
     }
     
     void LaundryRhythm(float bpm)
     {
-        if (currentRhythmListPosition >= rhythmPositions.Count)
-        {
-            currentRhythmListPosition = 0;
-            stage = 0;
-            //Exit Focus Mode
-            ExitFocusMode();
-            //Start Machine
-            return;
-        }
+        // if (currentRhythmListPosition >= rhythmPositions.Count)
+        // {
+        //     currentRhythmListPosition = 0;
+        //     stage = 0;
+        //     //Exit Focus Mode
+        //     ExitFocusMode();
+        //     //Start Machine
+        //     return;
+        // }
         
-        Image image = rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>();
-        RectTransform rectTransformOfCircle = rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<RectTransform>();
-        rectTransformOfCircle.DOKill();
-        rectTransformOfCircle.localScale = new Vector3(3.040269f, 3.040269f, 3.040269f);
-        float timeInSeconds = bpm / 60f;
-        
-        InteractionAnimation(image, rectTransformOfCircle, timeInSeconds);
+        // Image image = rhythmPositions[currentRhythmListPosition].transform.GetChild(0).GetComponent<Image>();
+        // RectTransform rectTransformOfCircle = rhythmPositions[currentRhythmListPosition].GetChild(1).GetComponent<RectTransform>();
+        // rectTransformOfCircle.DOKill();
+        // rectTransformOfCircle.localScale = new Vector3(3.040269f, 3.040269f, 3.040269f);
+        // float timeInSeconds = bpm / 60f;
+        //
+        // InteractionAnimation(image, rectTransformOfCircle, timeInSeconds);
         
     }
 
-    void InteractionAnimation(Image image, RectTransform rectTransformOfCircle, float timeInSeconds)
-    {
-        image.DOFade(1, timeInSeconds).SetLoops(-1, LoopType.Yoyo);
-        rectTransformOfCircle.gameObject.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
-        rectTransformOfCircle.DOScale(1, timeInSeconds).SetLoops(-1, LoopType.Yoyo);
-    }
-    
+    // void InteractionAnimation(Image image, RectTransform rectTransformOfCircle, float timeInSeconds)
+    // {
+    //     image.DOFade(1, timeInSeconds).SetLoops(-1, LoopType.Yoyo);
+    //     rectTransformOfCircle.gameObject.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+    //     rectTransformOfCircle.DOScale(1, timeInSeconds).SetLoops(-1, LoopType.Yoyo);
+    // }
+    //
 
     void MachineStart()
     {
@@ -209,9 +283,9 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
     IEnumerator TimeToWait(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        rhythmPositions[currentRhythmListPosition].gameObject.SetActive(true);
-        machineActions.Enable();
-        LaundryRhythm(bpm);
+        //rhythmPositions[currentRhythmListPosition].gameObject.SetActive(true);
+//        machineActions.Enable();
+        //LaundryRhythm(bpm);
         currentRhythmListPosition = 0;
         stage = 0;
     }

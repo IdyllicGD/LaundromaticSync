@@ -45,18 +45,21 @@ public class NPCManagerFrontDesk : MonoBehaviour
         }
     }
 
-    public void MoveLineForward()
+    public void MoveLineForward(int npcLinePosition)
     {
-        int currentNpcIndex = npcs.Count;
-        for (int i = 0; i < currentNpcIndex; i++)
-        {
-            if (!npcs[i].GetComponent<NPCBehaviour>().hasBasket) return;
-            
-            if (npcs[i].GetComponent<NPCBehaviour>().currentLinePosition != 0) npcs[i].GetComponent<NPCBehaviour>().currentLinePosition--;
-            npcs[i].transform.DOMove(lineTransforms[npcs[i].GetComponent<NPCBehaviour>().currentLinePosition].position, 1f);
-            if(npcs[i].GetComponent<NPCBehaviour>().currentLinePosition == 0 && !npcs[i].GetComponent<NPCBehaviour>().hasBasket) GoToWaitingArea(npcs[i].GetComponent<NPCBehaviour>().ID);
-            
-        }
+        
+        npcs[npcLinePosition].transform.DOMove(lineTransforms[npcLinePosition].position, 1f);
+        // for (int i = 0; i < npcs.Count; i++)
+        // {
+        //     
+        //     if (!npcs[i].GetComponent<NPCBehaviour>().hasBasket) return;
+        //     if (npcs[i].GetComponent<NPCBehaviour>().currentLinePosition == 0) return;
+        //     
+        //     if (npcs[i].GetComponent<NPCBehaviour>().currentLinePosition != 0) npcs[i].GetComponent<NPCBehaviour>().currentLinePosition--;
+        //     npcs[i].transform.DOMove(lineTransforms[npcs[i].GetComponent<NPCBehaviour>().currentLinePosition].position, 1f);
+        //     if(npcs[i].GetComponent<NPCBehaviour>().currentLinePosition == 0 && !npcs[i].GetComponent<NPCBehaviour>().hasBasket) GoToWaitingArea(npcs[i].GetComponent<NPCBehaviour>().ID);
+        //     
+        // }
         
     }
     
@@ -64,8 +67,8 @@ public class NPCManagerFrontDesk : MonoBehaviour
 
     public void GoToWaitingArea(int ID)
     {
-        MoveLineForward();
         npcsWaiting[ID].transform.DOMove(waitingArea[ID].position, 1f) ;
+        
     }
 
     private void Update()

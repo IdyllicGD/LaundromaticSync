@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _PROJECT._Jacques.Scripts.Interfaces;
 using DG.Tweening;
 using TMPro;
 using Unity.VisualScripting;
@@ -170,7 +171,11 @@ public class Character_Controller_Player : MonoBehaviour
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
                 interactionLayer))
         {
-
+            //interacting with other object types
+            if (hit.transform.TryGetComponent(out Iinteractable interactable))
+            {
+                interactable.Interact();
+            }
             //Interact with Machine
             if (hit.transform.TryGetComponent(out Machine_Interaction interaction))
             {
@@ -242,7 +247,8 @@ public class Character_Controller_Player : MonoBehaviour
             if (handPosition.GetChild(0).GetComponent<PickUpObject>().IsClean)
             {
                 DestroyImmediate(handPosition.GetChild(0).gameObject);
-                score += 100;
+                score += 5;
+                playerSettings.playerMoney = score;
                 coinSound.SetActive(true);
                 StartCoroutine(TimeToWaitSound(1f));
                 UpdateHUD();
@@ -288,7 +294,8 @@ public class Character_Controller_Player : MonoBehaviour
 
         void UpdateHUD()
         {
-            scoreText.text = $"Score: {score}";
+            scoreText.text = $"${score}";
+            
         }
 
         #endregion    

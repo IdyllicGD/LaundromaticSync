@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
  
 public class TimeManager : MonoBehaviour
 {
+    #region Skybox
     [SerializeField] private Texture2D skyboxNight;
     [SerializeField] private Texture2D skyboxSunrise;
     [SerializeField] private Texture2D skyboxDay;
@@ -14,13 +17,24 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private Gradient graddientSunsetToNight;
  
     [SerializeField] private Light globalLight;
- 
+    #endregion
+    
+    #region Visual Timer
+    [SerializeField] TextMeshProUGUI minutesText;
+    [SerializeField] TextMeshProUGUI hoursText;
+    [SerializeField] TextMeshProUGUI dayText;
+    #endregion
+    
+    public static TimeManager instance;
+    
+    public bool paused = false;
+    
     public int minutes;
  
     public int Minutes
     { get { return minutes; } set { minutes = value; OnMinutesChange(value); } }
  
-    public int hours = 5;
+    public int hours;
  
     public int Hours
     { get { return hours; } set { hours = value; OnHoursChange(value); } }
@@ -31,14 +45,27 @@ public class TimeManager : MonoBehaviour
     { get { return days; } set { days = value; OnDaysChange(value); } }
  
     private float tempSecond;
- 
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void Start()
+    {
+        minutesText.text = Minutes.ToString("00");
+        hoursText.text = Hours.ToString("00");
+    }
+
     public void Update()
     {
+        if (paused)return;   
         tempSecond += Time.deltaTime;
  
         if (tempSecond >= 1)
         {
             Minutes += 1;
+            minutesText.text = Minutes.ToString("00");
             tempSecond = 0;
         }
     }
@@ -49,6 +76,7 @@ public class TimeManager : MonoBehaviour
         if (value >= 60)
         {
             Hours++;
+            hoursText.text = Hours.ToString("00");
             minutes = 0;
         }
     }
@@ -80,7 +108,8 @@ public class TimeManager : MonoBehaviour
     {
         if (Hours < 24) return;
         Hours = 0;
-        Days++;
+        paused = true;
+        //Days++;
     }
     private IEnumerator LerpSkybox(Texture2D a, Texture2D b, float time)
     {
