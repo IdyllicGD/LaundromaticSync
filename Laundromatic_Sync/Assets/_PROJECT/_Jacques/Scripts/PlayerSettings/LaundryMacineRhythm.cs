@@ -41,6 +41,7 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
     [SerializeField] private Transform lever;
     [SerializeField] private GameObject cleanBasket;
 
+    #region Sounds
     [SerializeField] private GameObject openDoorSound;
     [SerializeField] private GameObject  closeDoorSound;
     [SerializeField] private GameObject  coinSound;
@@ -49,6 +50,7 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine
     [SerializeField] private GameObject  machineBusySound;
     [SerializeField] private GameObject  machineEmtySound;
     [SerializeField] private GameObject  dialSound;
+    #endregion
 
     public Vector3 originalCamPosition;
 

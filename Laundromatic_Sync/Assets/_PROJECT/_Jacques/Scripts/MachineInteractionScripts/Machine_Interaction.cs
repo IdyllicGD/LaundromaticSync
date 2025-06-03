@@ -32,23 +32,16 @@ public class Machine_Interaction : MonoBehaviour, I_Interactable_Machine
     {
         look_At_Target = gameObject.transform.GetChild(1);
         machine_Cam_Transform = gameObject.transform.GetChild(0);
-        if (machine_Type == Machine_Types.Laundry_Machine || machine_Type == Machine_Types.Drying_Machine) basket_Position = gameObject.transform.GetChild(2);
+        if (machine_Type is Machine_Types.Laundry_Machine or Machine_Types.Drying_Machine) basket_Position = gameObject.transform.GetChild(2);
     }
 
     private void Update()
     {
-        if (machine_Type == Machine_Types.Cashregister_Machine || machine_Type == Machine_Types.Drying_Machine || machine_Type == Machine_Types.Counter_Top)return;
-        if (isBasketLoaded)
-        {
-            basketTexture.color = Color.black;
-        }
-        else
-        {
-            basketTexture.color = Color.white;
-        }
+        if (machine_Type is Machine_Types.Cashregister_Machine or Machine_Types.Drying_Machine or Machine_Types.Counter_Top)return;
+        basketTexture.color = isBasketLoaded ? Color.black : Color.white;
     }
 
-    #region Interact Swithc
+    #region Interact Switch
     public void Interact()
     {
         switch (machine_Type)

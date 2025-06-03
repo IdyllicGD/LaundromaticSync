@@ -57,12 +57,12 @@ public class Character_Controller_Player : MonoBehaviour
     void FixedUpdate () {
         PlayerMovement ();
         MouseLookAround();
-        timer -= Time.deltaTime;
-        timeText.text = Mathf.RoundToInt(timer).ToString();
-        if (timer <= 0)
-        {
-            SceneManager.LoadScene(0);
-        }
+        // timer -= Time.deltaTime;
+        // timeText.text = Mathf.RoundToInt(timer).ToString();
+        // if (timer <= 0)
+        // {
+        //     SceneManager.LoadScene(0);
+        // }
         
     }
     
@@ -252,13 +252,6 @@ public class Character_Controller_Player : MonoBehaviour
         }
     }
 
-    // void InteractWithMachine(Machine_Interaction interaction)
-        // {
-        //     EnterFocusMode(interaction.machine_Cam_Transform, interaction.look_At_Target, interaction.basket_Position,
-        //         interaction);
-        //     //interaction.OpenDoorOnStart();
-        // }
-
         void PickupObject(GameObject objectToPickup)
         {
             //FIX
@@ -284,20 +277,6 @@ public class Character_Controller_Player : MonoBehaviour
             Camera.main.transform.DOMove(camera_Move_Position.position, 1f).OnComplete(() => Camera.main.transform.DOLookAt(look_At_Target.transform.position, 0.5f));
             basket.transform.SetParent(basket_Position);
             basket.transform.DOMove(basket_Position.position, 1f);
-            // if (characterMachineInteraction.hasBasket)
-            // {
-            //     characterMachineInteraction.basket.transform.DOMove(basket_Position.position, 1f);
-            //     characterMachineInteraction.machineActions.Enable();
-            //     Cursor.lockState = CursorLockMode.None;
-            // }
-
-            // StartCoroutine(TimeToComplete(1.1f));
-            //
-            // IEnumerator TimeToComplete(float time)
-            // {
-            //     yield return new WaitForSeconds(time);
-            //     
-            // }
 
         }
 

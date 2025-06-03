@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -46,22 +47,24 @@ public class NPCManagerFrontDesk : MonoBehaviour
 
     public void MoveLineForward()
     {
-        for (int i = 0; i < npcs.Capacity; i++)
+        int currentNpcIndex = npcs.Count;
+        for (int i = 0; i < currentNpcIndex; i++)
         {
-            npcs[i].GetComponent<NPCBehaviour>().currentLinePosition--;
-            npcs[i].transform.DOMove(lineTransforms[npcs[i].GetComponent<NPCBehaviour>().currentLinePosition].position, 1f) ;
+            if (!npcs[i].GetComponent<NPCBehaviour>().hasBasket) return;
+            
+            if (npcs[i].GetComponent<NPCBehaviour>().currentLinePosition != 0) npcs[i].GetComponent<NPCBehaviour>().currentLinePosition--;
+            npcs[i].transform.DOMove(lineTransforms[npcs[i].GetComponent<NPCBehaviour>().currentLinePosition].position, 1f);
+            if(npcs[i].GetComponent<NPCBehaviour>().currentLinePosition == 0 && !npcs[i].GetComponent<NPCBehaviour>().hasBasket) GoToWaitingArea(npcs[i].GetComponent<NPCBehaviour>().ID);
+            
         }
-        //npcs[linePosition].transform.DOMove(lineTransforms[linePosition - 1].position, 1f) ;
+        
     }
     
     
 
     public void GoToWaitingArea(int ID)
     {
-        if (!hasBasket)
-        {
-            MoveLineForward();
-        }
+        MoveLineForward();
         npcsWaiting[ID].transform.DOMove(waitingArea[ID].position, 1f) ;
     }
 
@@ -76,4 +79,6 @@ public class NPCManagerFrontDesk : MonoBehaviour
             hasBasket = true;
         }
     }
+    
+    
 }

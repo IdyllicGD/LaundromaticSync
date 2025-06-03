@@ -6,17 +6,24 @@ using UnityEngine;
 public class NPCBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject basket;
-    bool hasBasket = true;
+    public bool hasBasket = true;
     bool orderComplete = false;
     public int ID;
-    public int currentLinePosition;
+    public int CurrentLinePosition;
+    public int currentLinePosition  {get => CurrentLinePosition; set {CurrentLinePosition = value ; OnLinePositionChanged(value);}}
     
     NPCManagerFrontDesk npcManager;
 
     private void Awake()
     {
         npcManager = NPCManagerFrontDesk.instance;
-        StartCoroutine(this.TimeToWait(2f));
+        OnLinePositionChanged(CurrentLinePosition);
+    }
+
+    private void OnLinePositionChanged(int linePosition)
+    {
+        if (linePosition != 0) return;
+        FrontOfLine();
     }
     
 
@@ -26,8 +33,9 @@ public class NPCBehaviour : MonoBehaviour
         Debug.Log($"[NPCBehaviour] Current NPC: {ID} has Basket");
         if (npcManager.hasBasket)return;
         Debug.Log($"[NPCBehaviour] Current NPC: {ID} npc manager has Basket");
-        if(currentLinePosition != 0)return;
+        if(CurrentLinePosition != 0)return;
         basket.transform.DOMove(npcManager.basketPlacePosition.position, 0.5f).OnComplete(MoveToWaitingArea);
+        
         
     }
 
@@ -35,19 +43,14 @@ public class NPCBehaviour : MonoBehaviour
     {
         npcManager.hasBasket = true;
         hasBasket = false;
-        basket.transform.SetParent(npcManager.basketPlacePosition.transform);
+        npcManager.GoToWaitingArea(ID);
         npcManager.npcs.RemoveAt(ID);
         npcManager.npcsWaiting.Add(gameObject);
-        npcManager.GoToWaitingArea(ID);
         npcManager.MoveLineForward();
+        
+        basket.transform.SetParent(npcManager.basketPlacePosition.transform);
     }
     
-
-    IEnumerator TimeToWait(float TimeToWait)
-    {
-        yield return new WaitForSeconds(TimeToWait);
-        FrontOfLine();
-        StartCoroutine(this.TimeToWait(2f));
-    }
+    
     
 }
