@@ -32,6 +32,9 @@
         },
         {
             "m_Id": "6897cd0d2b794beea44ab294c34adcbf"
+        },
+        {
+            "m_Id": "6b2ca909cf454d38b9814d147b07ed6d"
         }
     ],
     "m_Keywords": [],
@@ -164,6 +167,9 @@
         },
         {
             "m_Id": "fec77d84d1a0441bbeb3bb59e74f9bc7"
+        },
+        {
+            "m_Id": "a6ff693772fa4eeb87dade3a24691001"
         }
     ],
     "m_GroupDatas": [
@@ -511,6 +517,20 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "9e53f986ded44c899f844307f0213684"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "a6ff693772fa4eeb87dade3a24691001"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "71a37138f4314ea4a22899289dadc37d"
                 },
                 "m_SlotId": 0
             }
@@ -1592,6 +1612,31 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "343f34c031a34381b703c770f08518a8",
+    "m_Id": 0,
+    "m_DisplayName": "Specular Color",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.AddNode",
     "m_ObjectId": "34a1defb3543426f9ddb30dbe8004b33",
     "m_Group": {
@@ -1683,8 +1728,8 @@
     "m_ObjectId": "3c8527ec16684fa6863847eeabf127e1",
     "m_Title": "Cel Shading Cutoff",
     "m_Position": {
-        "x": -1876.0001220703125,
-        "y": 458.99993896484377
+        "x": -1876.0,
+        "y": 459.0
     }
 }
 
@@ -2361,6 +2406,9 @@
             "m_Id": "c354bfa7b681485c997a6262c1c98658"
         },
         {
+            "m_Id": "6b2ca909cf454d38b9814d147b07ed6d"
+        },
+        {
             "m_Id": "6897cd0d2b794beea44ab294c34adcbf"
         },
         {
@@ -2556,6 +2604,36 @@
 }
 
 {
+    "m_SGVersion": 3,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty",
+    "m_ObjectId": "6b2ca909cf454d38b9814d147b07ed6d",
+    "m_Guid": {
+        "m_GuidSerialized": "642d465e-7b8f-49e2-ba5a-be8a2c13156c"
+    },
+    "m_Name": "Specular Color",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Specular Color",
+    "m_DefaultReferenceName": "_Specular_Color",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "r": 0.501960813999176,
+        "g": 0.501960813999176,
+        "b": 0.501960813999176,
+        "a": 1.0
+    },
+    "isMainColor": false,
+    "m_ColorMode": 0
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "6d1158eb2e944eefa5888ed314c66906",
@@ -2607,7 +2685,7 @@
     "m_Title": "Diffues n Dot",
     "m_Position": {
         "x": -2560.0,
-        "y": 606.0000610351563
+        "y": 606.0
     }
 }
 
@@ -2706,7 +2784,7 @@
     "m_Title": "Base Color",
     "m_Position": {
         "x": -1581.0,
-        "y": -251.99996948242188
+        "y": -252.0
     }
 }
 
@@ -3524,6 +3602,42 @@
     },
     "m_Labels": [],
     "m_Space": 0
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "a6ff693772fa4eeb87dade3a24691001",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 395.9999694824219,
+            "y": 487.99993896484377,
+            "width": 153.99996948242188,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "343f34c031a34381b703c770f08518a8"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "6b2ca909cf454d38b9814d147b07ed6d"
+    }
 }
 
 {
