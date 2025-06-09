@@ -10,9 +10,9 @@ public class Menu : MonoBehaviour
     public GameObject Screen2; //Main Screen
     public GameObject Screen3; //Controls Screen
     public Slider menuSlider;
-    public float toggleValue = 1f;
-    public FMODUnity.EventReference SoundClick;
-    public GameObject PauseCanvas;
+    public float toggleValue = 1f; //Slider complete value
+    public FMODUnity.EventReference SoundClick; //button click sound
+    public GameObject PauseCanvas; //Slider status
 
     private bool hasToggled = false;
 
