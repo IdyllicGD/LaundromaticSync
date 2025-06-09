@@ -11777,7 +11777,6 @@ GameObject:
   - component: {fileID: 4279083856688840724}
   - component: {fileID: 5278051224152049692}
   - component: {fileID: 8674639541850140309}
-  - component: {fileID: 8674639541850140310}
   m_Layer: 0
   m_Name: PlantPot
   m_TagString: Untagged
@@ -12267,7 +12266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 85
-  moveDistance: 1
+  moveDistance: 0.05
 --- !u!23 &7558232127420732391
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13609,20 +13608,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8674639541850140310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6981836689550641314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e9e1f2e9c0578a4b9f58a09bb3627e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bpm: 85
-  moveDistance: 1
 --- !u!4 &8742976564046487844
 Transform:
   m_ObjectHideFlags: 0

@@ -680,8 +680,8 @@ MonoBehaviour:
   Screen1: {fileID: 1107014376}
   Screen2: {fileID: 1498826483}
   Screen3: {fileID: 1103397034}
+  PauseCanvas: {fileID: 0}
   menuSlider: {fileID: 1309414844}
-  toggleValue: 1
   SoundClick:
     Guid:
       Data1: -614796844
@@ -689,7 +689,6 @@ MonoBehaviour:
       Data3: -1961038692
       Data4: 1308057671
     Path: event:/UI/Button/Click/Click 1
-  PauseCanvas: {fileID: 0}
 --- !u!1 &502604163
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,7 +857,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1820, y: 980}
+  m_SizeDelta: {x: 2000, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &577594855
 MonoBehaviour:
@@ -3011,8 +3010,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1824886772}
   - component: {fileID: 1824886771}
-  - component: {fileID: 1824886770}
   - component: {fileID: 1824886773}
+  - component: {fileID: 1824886774}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3020,14 +3019,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1824886770
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824886769}
-  m_Enabled: 1
 --- !u!20 &1824886771
 Camera:
   m_ObjectHideFlags: 0
@@ -3138,6 +3129,20 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1824886774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824886769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1856663123
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,8 +3,8 @@ using DG.Tweening;
 
 public class PropDance : MonoBehaviour
 {
-    public float bpm = 120f;
-    public float moveDistance = 1f;
+    public float bpm;
+    public float moveDistance = 1f; //how high the object will 
 
     private float beatDuration;
 
