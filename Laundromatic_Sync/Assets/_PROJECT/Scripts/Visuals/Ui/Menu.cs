@@ -28,7 +28,7 @@ public class Menu : MonoBehaviour
     public FMODUnity.EventReference SoundClick; //button click sound
     
 
-    
+
 
     private void Start()
     {
@@ -76,7 +76,7 @@ public class Menu : MonoBehaviour
                     .SetLoops(-1)
                     .SetUpdate(true);
             }
-        } verticl layout group causing problems */
+        } not working */
     }
     void SetCursor()
     {
