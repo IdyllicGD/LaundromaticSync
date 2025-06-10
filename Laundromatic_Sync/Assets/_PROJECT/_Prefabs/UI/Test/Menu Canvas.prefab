@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 7415712371843994464}
   - component: {fileID: 5545819094412000259}
   - component: {fileID: 9149521105364524116}
+  - component: {fileID: 2807042705886615713}
   m_Layer: 5
   m_Name: Button Back
-  m_TagString: Untagged
+  m_TagString: AnimateMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,6 +146,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2807042705886615713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014291015112463453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727757ad28ec036449edd46ca61e9537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1081409543382657302
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,7 +351,7 @@ GameObject:
   - component: {fileID: 2052700809257566741}
   m_Layer: 5
   m_Name: 'BG Controls '
-  m_TagString: Untagged
+  m_TagString: AnimateMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -854,8 +867,8 @@ MonoBehaviour:
   Screen1: {fileID: 9167133642961540966}
   Screen2: {fileID: 1459278443717968224}
   Screen3: {fileID: 6720002293502697601}
+  PauseCanvas: {fileID: 0}
   menuSlider: {fileID: 6014521098223809201}
-  toggleValue: 1
   SoundClick:
     Guid:
       Data1: -614796844
@@ -863,7 +876,6 @@ MonoBehaviour:
       Data3: -1961038692
       Data4: 1308057671
     Path: event:/UI/Button/Click/Click 1
-  PauseCanvas: {fileID: 0}
 --- !u!1 &5423710648487204799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,9 +1033,10 @@ GameObject:
   - component: {fileID: 4758842894433386}
   - component: {fileID: 8488498709968080770}
   - component: {fileID: 5428209664764254722}
+  - component: {fileID: 6000981928907284151}
   m_Layer: 5
   m_Name: Button Start
-  m_TagString: Untagged
+  m_TagString: AnimateMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1154,6 +1167,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6000981928907284151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5436365240687827887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727757ad28ec036449edd46ca61e9537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6720002293502697601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1306,9 +1331,10 @@ GameObject:
   - component: {fileID: 7253840922690150350}
   - component: {fileID: 4221870608315253273}
   - component: {fileID: 1935671750174245513}
+  - component: {fileID: 6779639333938646789}
   m_Layer: 5
   m_Name: Button Controls (1)
-  m_TagString: Untagged
+  m_TagString: AnimateMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1439,6 +1465,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6779639333938646789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7368892036715299256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727757ad28ec036449edd46ca61e9537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7380481565236827139
 GameObject:
   m_ObjectHideFlags: 0
@@ -2322,9 +2360,10 @@ GameObject:
   - component: {fileID: 4094511011446412421}
   - component: {fileID: 9163903891272247051}
   - component: {fileID: 5649142629188581503}
+  - component: {fileID: 2776853520272908296}
   m_Layer: 5
   m_Name: Button Exit
-  m_TagString: Untagged
+  m_TagString: AnimateMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2455,6 +2494,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2776853520272908296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8855079620955391898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727757ad28ec036449edd46ca61e9537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8986894736931177315
 GameObject:
   m_ObjectHideFlags: 0

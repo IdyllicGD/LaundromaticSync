@@ -52,35 +52,51 @@ public class Menu : MonoBehaviour
     public void ReturnToMenu ()
     {
         SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
     }
 
-    public void ToggleCanvas ()
+    public void ToggleCanvas()
     {
+        DOTween.Init();
         Screen2.SetActive(true);
         Screen3.SetActive(false);
         PauseCanvas.SetActive(false);
         Time.timeScale = toggleValue;
         Cursor.lockState = CursorLockMode.Locked;
-    }
 
+        /*button animations
+
+        foreach (Button button in GetComponentsInChildren<Button>(true))
+        {
+            if (button.CompareTag("AnimateMe")) // Optional filter
+            {
+                RectTransform rect = button.transform as RectTransform;
+                rect.DOScale(3f, 1f)
+                    .SetEase(Ease.Linear)
+                    .SetLoops(-1)
+                    .SetUpdate(true);
+            }
+        } verticl layout group causing problems */
+    }
     void SetCursor()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.Locked;
     }
+
     public void OnSliderValueChanged(float value)
     {
         CanvasTransform = GetComponent<RectTransform>();
-        float upscale = Mathf.Lerp(1, maxScale, value);
+        float upscale = Mathf.Lerp(1, maxScale, value); // zoom in relation to slider value
 
         if (currentTween != null && currentTween.IsActive())
         {
             currentTween.Kill();
         }
-        currentTween = CanvasTransform.DOScale(upscale, zoomDuration);
+        currentTween = CanvasTransform.DOScale(upscale, zoomDuration); // for smooth slider zoom
 
         if (!hasToggled && Mathf.Approximately(value, toggleValue))
         {
-            CanvasTransform.DOScale(1, 1).SetEase(Ease.InOutBack);
+            CanvasTransform.DOScale(1, 1).SetEase(Ease.InOutBack); // ease back and bounce
             Screen1.SetActive(false);
             Screen2.SetActive(true);   
             hasToggled = true;
