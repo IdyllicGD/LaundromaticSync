@@ -5,6 +5,11 @@ using FMOD;
 using FMODUnity;
 using DG.Tweening;
 using System.Data;
+using Unity.VisualScripting;
+using TMPro;
+using System.Xml;
+using System.Collections;
+
 
 public class Shop : MonoBehaviour
 {
@@ -14,14 +19,40 @@ public class Shop : MonoBehaviour
     public Image Background;
     //FMOD Event References
     public FMODUnity.EventReference SoundClick; //button click sound
-    
+    //Animation
+    public TMP_Text tmpText;
+    public float charDelay = 0.05f;
 
 
 
     private void Start()
     {
-        ShopCanvas.enabled = false;
+        ShopCanvas.enabled = true;
+        StartCoroutine(AnimateText("UPGRADES!"));
+        tmpText.transform.DOLocalMoveY(20f, .5f)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine);
     }
+
+    private void Awake()
+    {
+        
+    }
+    IEnumerator AnimateText(string message)
+    {
+        tmpText.text = ""; // Clear text
+        for (int i = 0; i < message.Length; i++)
+        {
+            string visibleText = tmpText.text;
+            string nextChar = message[i].ToString();
+            tmpText.text = visibleText + $"<color=#D982D9>{nextChar}"; // Transparent initially
+            yield return null;
+
+            tmpText.text = visibleText + $"<color=#D982D9>{nextChar}"; // Opaque white
+            yield return new WaitForSeconds(charDelay);
+        }
+    }
+    
     public void ReturnToGame ()
     {
         ShopCanvas.enabled = false;
