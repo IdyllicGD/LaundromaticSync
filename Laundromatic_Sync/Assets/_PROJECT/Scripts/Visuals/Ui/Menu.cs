@@ -3,18 +3,32 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using FMOD;
 using FMODUnity;
+using DG.Tweening;
+using System.Data;
 
 public class Menu : MonoBehaviour
 {
     public GameObject Screen1; //Phone Unlock Screen
     public GameObject Screen2; //Main Screen
     public GameObject Screen3; //Controls Screen
-    public Slider menuSlider;
-    public float toggleValue = 1f;
-    public FMODUnity.EventReference SoundClick;
+
+    //Canvas'
     public GameObject PauseCanvas;
 
+    //Intro Slider Behaviour
+    public Slider menuSlider;
+    private float toggleValue = 1f; //Slider complete value
     private bool hasToggled = false;
+    private float maxScale = 1.25f; //Canvas zoomed in scale
+    private float zoomDuration = .1f;
+    private RectTransform CanvasTransform;
+    private Tween currentTween;
+
+    //FMOD Event References
+    public FMODUnity.EventReference SoundClick; //button click sound
+    
+
+
 
     private void Start()
     {
@@ -38,25 +52,51 @@ public class Menu : MonoBehaviour
     public void ReturnToMenu ()
     {
         SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
     }
 
-    public void ToggleCanvas ()
+    public void ToggleCanvas()
     {
+        DOTween.Init();
         Screen2.SetActive(true);
         Screen3.SetActive(false);
         PauseCanvas.SetActive(false);
         Time.timeScale = toggleValue;
         Cursor.lockState = CursorLockMode.Locked;
-    }
 
+        /*button animations
+
+        foreach (Button button in GetComponentsInChildren<Button>(true))
+        {
+            if (button.CompareTag("AnimateMe")) // Optional filter
+            {
+                RectTransform rect = button.transform as RectTransform;
+                rect.DOScale(3f, 1f)
+                    .SetEase(Ease.Linear)
+                    .SetLoops(-1)
+                    .SetUpdate(true);
+            }
+        } not working */
+    }
     void SetCursor()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.Locked;
     }
+
     public void OnSliderValueChanged(float value)
     {
-       if (!hasToggled && Mathf.Approximately(value, toggleValue))
+        CanvasTransform = GetComponent<RectTransform>();
+        float upscale = Mathf.Lerp(1, maxScale, value); // zoom in relation to slider value
+
+        if (currentTween != null && currentTween.IsActive())
         {
+            currentTween.Kill();
+        }
+        currentTween = CanvasTransform.DOScale(upscale, zoomDuration); // for smooth slider zoom
+
+        if (!hasToggled && Mathf.Approximately(value, toggleValue))
+        {
+            CanvasTransform.DOScale(1, 1).SetEase(Ease.InOutBack); // ease back and bounce
             Screen1.SetActive(false);
             Screen2.SetActive(true);   
             hasToggled = true;
