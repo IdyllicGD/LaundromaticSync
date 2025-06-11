@@ -10,7 +10,7 @@ public class ShopUiInfo : MonoBehaviour
     
     public void UpgradeLaundry()
     {
-        if (laundryAmountAvailable == 0)
+        if (laundryAmountAvailable == 0 || PlayerManager.Instance.playerMoney < 30)
         {
             //playRejectSound
             shopRejectSound.SetActive(true);
