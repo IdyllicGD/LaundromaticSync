@@ -197,10 +197,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638839917977823163
+  lastModified: 638852354482777905
   FileSizes:
   - Name: Desktop
-    Value: 6848
+    Value: 134496
   Exists: 1
 --- !u!114 &-4982969377379185429
 MonoBehaviour:
@@ -271,10 +271,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638839917910605970
+  lastModified: 638852354470461108
   FileSizes:
   - Name: Desktop
-    Value: 2210
+    Value: 2302
   Exists: 1
 --- !u!114 &-3333710545849025258
 MonoBehaviour:
@@ -372,10 +372,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638839917910586567
+  lastModified: 638852354470439693
   FileSizes:
   - Name: Desktop
-    Value: 1340
+    Value: 1486
   Exists: 1
 --- !u!114 &-1973612620699713779
 MonoBehaviour:
@@ -404,6 +404,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 340
+--- !u!114 &-1418340371042928338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Button/Error/Error.01
+  m_EditorClassIdentifier: 
+  Path: event:/UI/Button/Error/Error.01
+  Guid:
+    Data1: -110365759
+    Data2: 1317743213
+    Data3: -980282752
+    Data4: -1835711795
+  Banks:
+  - {fileID: -5994439395285655752}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 680
 --- !u!114 &-1373889764487742976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +446,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638839917975366419
+  lastModified: 638852354477374259
   FileSizes:
   - Name: Desktop
     Value: 1362720
@@ -524,12 +551,13 @@ MonoBehaviour:
   - {fileID: -6549546802190826832}
   - {fileID: 7859350958166673944}
   - {fileID: 6547905064578497832}
+  - {fileID: -1418340371042928338}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2125593146152450226}
   StringsBanks:
   - {fileID: -3629877894166248456}
-  cacheTime: 638839917977823163
+  cacheTime: 638852354482777905
   cacheVersion: 131624
 --- !u!114 &68791234730322443
 MonoBehaviour:
