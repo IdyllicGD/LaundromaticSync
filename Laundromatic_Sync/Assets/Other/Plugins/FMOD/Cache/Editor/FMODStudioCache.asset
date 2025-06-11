@@ -197,11 +197,38 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638838775013340149
+  lastModified: 638852356722546751
   FileSizes:
   - Name: Desktop
-    Value: 6848
+    Value: 134496
   Exists: 1
+--- !u!114 &-5789162574870310547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Button/Error/Error.01
+  m_EditorClassIdentifier: 
+  Path: event:/UI/Button/Error/Error.01
+  Guid:
+    Data1: -110365759
+    Data2: 1317743213
+    Data3: -980282752
+    Data4: -1835711795
+  Banks:
+  - {fileID: -5994439395285655752}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 680
 --- !u!114 &-4982969377379185429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,10 +298,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638838775012664247
+  lastModified: 638852356722296101
   FileSizes:
   - Name: Desktop
-    Value: 2210
+    Value: 2302
   Exists: 1
 --- !u!114 &-3333710545849025258
 MonoBehaviour:
@@ -372,10 +399,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638838775012664247
+  lastModified: 638852356722161810
   FileSizes:
   - Name: Desktop
-    Value: 1340
+    Value: 1486
   Exists: 1
 --- !u!114 &-1973612620699713779
 MonoBehaviour:
@@ -419,7 +446,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638838775013340149
+  lastModified: 638852356722523081
   FileSizes:
   - Name: Desktop
     Value: 1362720
@@ -524,12 +551,13 @@ MonoBehaviour:
   - {fileID: -6549546802190826832}
   - {fileID: 7859350958166673944}
   - {fileID: 6547905064578497832}
+  - {fileID: -5789162574870310547}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2125593146152450226}
   StringsBanks:
   - {fileID: -3629877894166248456}
-  cacheTime: 638838775013340149
+  cacheTime: 638852356722546751
   cacheVersion: 131624
 --- !u!114 &68791234730322443
 MonoBehaviour:
