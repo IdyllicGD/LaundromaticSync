@@ -746,7 +746,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Open
+  m_text: Closed
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e2e5b7f3aabd2a84f9aa419f976631f9, type: 2}
   m_sharedMaterial: {fileID: -221205623887621268, guid: e2e5b7f3aabd2a84f9aa419f976631f9, type: 2}
@@ -5632,7 +5632,7 @@ Transform:
   m_GameObject: {fileID: 2075760367}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.846, y: 0.928, z: 6.435}
+  m_LocalPosition: {x: -3.941, y: 0.928, z: 3.035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5771,6 +5771,10 @@ PrefabInstance:
       propertyPath: attenuationObject
       value: 
       objectReference: {fileID: 1888316717}
+    - target: {fileID: 380032954413778689, guid: f9b40a3f46ddc214b9a2fda980d8971d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2795968142919615219, guid: f9b40a3f46ddc214b9a2fda980d8971d, type: 3}
       propertyPath: m_RendererIndex
       value: -1
@@ -6927,7 +6931,7 @@ GameObject:
   - component: {fileID: 3469287837490492423}
   - component: {fileID: 1711813855642173645}
   - component: {fileID: 3469287837490492424}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Counter (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9395,8 +9399,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0004271, y: 0.8178153, z: 1.0004271}
-  m_Center: {x: 0, y: 0.40890765, z: 0}
+  m_Size: {x: 1.73, y: 3.78, z: 6.45}
+  m_Center: {x: 0.34, y: -0.01, z: 0}
 --- !u!33 &3469287837552018646
 MeshFilter:
   m_ObjectHideFlags: 0

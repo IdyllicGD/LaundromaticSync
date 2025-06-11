@@ -261,7 +261,7 @@ public class Character_Controller_Player : MonoBehaviour
             {
                 DestroyImmediate(handPosition.GetChild(0).gameObject);
                 
-                PlayerManager.Instance.playerMoney += 5f;
+                PlayerManager.Instance.playerMoney += 10f;
                 coinSound.SetActive(true);
                 StartCoroutine(TimeToWaitSound(1f));
                 UpdateHUD();
