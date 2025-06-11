@@ -27,17 +27,25 @@ public class Shop : MonoBehaviour
 
     private void Start()
     {
-        ShopCanvas.enabled = true;
-        StartCoroutine(AnimateText("UPGRADES!"));
-        tmpText.transform.DOLocalMoveY(20f, .5f)
-            .SetLoops(-1, LoopType.Yoyo)
-            .SetEase(Ease.InOutSine);
+       
+
     }
+
 
     private void Awake()
     {
         
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = true;
+        
+
+        StartCoroutine(AnimateText("UPGRADES!")); //IEnumerator animation call
+        tmpText.transform.DOLocalMoveY(20f, .5f)    //Additional DOTWeen bounce
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine);
+
     }
+
     IEnumerator AnimateText(string message)
     {
         tmpText.text = ""; // Clear text
@@ -55,8 +63,10 @@ public class Shop : MonoBehaviour
     
     public void ReturnToGame ()
     {
+        Time.timeScale = 1f;
         ShopCanvas.enabled = false;
         ButtonClick();
+        Cursor.visible = false;
     }
     
     public void BuyWashingMachine()
