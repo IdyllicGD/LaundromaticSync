@@ -69,10 +69,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638852359251630841
+  lastModified: 638852497558205775
   FileSizes:
   - Name: Desktop
-    Value: 6123264
+    Value: 6125824
   Exists: 1
 --- !u!114 &-6887512458019167540
 MonoBehaviour:
@@ -197,7 +197,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638852367482034175
+  lastModified: 638852497558475764
   FileSizes:
   - Name: Desktop
     Value: 134496
@@ -298,10 +298,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638852367477747759
+  lastModified: 638852497557740416
   FileSizes:
   - Name: Desktop
-    Value: 2302
+    Value: 2376
   Exists: 1
 --- !u!114 &-3333710545849025258
 MonoBehaviour:
@@ -399,10 +399,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638852367477717511
+  lastModified: 638852497557730417
   FileSizes:
   - Name: Desktop
-    Value: 1486
+    Value: 1632
   Exists: 1
 --- !u!114 &-1973612620699713779
 MonoBehaviour:
@@ -446,7 +446,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638852367478975571
+  lastModified: 638852489106481057
   FileSizes:
   - Name: Desktop
     Value: 1362720
@@ -552,12 +552,13 @@ MonoBehaviour:
   - {fileID: 7859350958166673944}
   - {fileID: 6547905064578497832}
   - {fileID: -5789162574870310547}
+  - {fileID: 555755883639678961}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2125593146152450226}
   StringsBanks:
   - {fileID: -3629877894166248456}
-  cacheTime: 638852367482034175
+  cacheTime: 638852497558475764
   cacheVersion: 131624
 --- !u!114 &68791234730322443
 MonoBehaviour:
@@ -586,6 +587,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1000
+--- !u!114 &555755883639678961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MUSIC/LoFi/Loop Music
+  m_EditorClassIdentifier: 
+  Path: event:/MUSIC/LoFi/Loop Music
+  Guid:
+    Data1: -1069411607
+    Data2: 1259383189
+    Data3: 1463714745
+    Data4: -599962957
+  Banks:
+  - {fileID: -7905140173239117327}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 454652
 --- !u!114 &777237215504395819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,7 +926,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 638852359208776526
+  lastModified: 638852489100629435
   FileSizes:
   - Name: Desktop
     Value: 615904
