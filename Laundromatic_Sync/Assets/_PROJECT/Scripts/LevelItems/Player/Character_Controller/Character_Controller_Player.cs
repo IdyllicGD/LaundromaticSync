@@ -169,6 +169,7 @@ public class Character_Controller_Player : MonoBehaviour
 
     void PlayerInteract()
     {
+        PlayerManager.Instance.character_Player = this;
         Debug.Log("Interact");
         if (!canMove) return;
         RaycastHit hit;
@@ -259,8 +260,8 @@ public class Character_Controller_Player : MonoBehaviour
             if (handPosition.GetChild(0).GetComponent<PickUpObject>().IsClean)
             {
                 DestroyImmediate(handPosition.GetChild(0).gameObject);
-                score += 5;
-                playerSettings.playerMoney = score;
+                
+                PlayerManager.Instance.playerMoney += 5f;
                 coinSound.SetActive(true);
                 StartCoroutine(TimeToWaitSound(1f));
                 UpdateHUD();

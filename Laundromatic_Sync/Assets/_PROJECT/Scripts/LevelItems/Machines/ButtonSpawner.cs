@@ -5,7 +5,7 @@ public class ButtonSpawner : MonoBehaviour
 {
     [SerializeField] List<GameObject> buttons = new List<GameObject>();
     [SerializeField] List<Transform> spawnPoints = new List<Transform>();
-    private int currentStage;
+    public int currentStage;
 
     public void SpawnButton()
     {
