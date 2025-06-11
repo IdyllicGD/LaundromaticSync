@@ -11,6 +11,8 @@ using UnityEngine.SceneManagement;
 
 public class Character_Controller_Player : MonoBehaviour
 {
+    public static Character_Controller_Player instance;
+    
     public InputSystem_Actions playerActions;
     public Vector3 player_Cam_Original_Transform;
     [HideInInspector]public bool canMove;
@@ -68,6 +70,8 @@ public class Character_Controller_Player : MonoBehaviour
     }
     
     void Awake () {
+        
+        instance = this;
         
         #region Start GetComponents
 
@@ -171,6 +175,14 @@ public class Character_Controller_Player : MonoBehaviour
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, raycastDistance,
                 interactionLayer))
         {
+            if (hit.transform.TryGetComponent(out TableInteraction tableInteraction))
+            {
+                EnterFocusMode(tableInteraction.camPos, tableInteraction.camLookAtPos);
+                tableInteraction._inputAction.Enable();
+                tableInteraction.mainCanvas.gameObject.SetActive(true);
+                tableInteraction.originalCamPos = playerCam.transform;
+                Cursor.lockState = CursorLockMode.None;
+            }
             //interacting with other object types
             if (hit.transform.TryGetComponent(out Iinteractable interactable))
             {
@@ -256,6 +268,7 @@ public class Character_Controller_Player : MonoBehaviour
 
             
         }
+        
     }
 
         void PickupObject(GameObject objectToPickup)
@@ -283,6 +296,16 @@ public class Character_Controller_Player : MonoBehaviour
             Camera.main.transform.DOMove(camera_Move_Position.position, 1f).OnComplete(() => Camera.main.transform.DOLookAt(look_At_Target.transform.position, 0.5f));
             basket.transform.SetParent(basket_Position);
             basket.transform.DOMove(basket_Position.position, 1f);
+
+        }
+        
+        void EnterFocusMode(Transform camera_Move_Position, Transform look_At_Target)
+        {
+            playerActions.Disable();
+            canMove = false;
+            player_Cam_Original_Transform = Camera.main.transform.position;
+            Camera.main.transform.DOMove(camera_Move_Position.position, 1f).OnComplete(() => Camera.main.transform.DOLookAt(look_At_Target.transform.position, 0.5f));
+
 
         }
 
