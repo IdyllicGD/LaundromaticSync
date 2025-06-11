@@ -14,7 +14,7 @@ public class ShopUiInfo : MonoBehaviour
         {
             //playRejectSound
             shopRejectSound.SetActive(true);
-            StartCoroutine(TimeToWait(0.1f));
+            StartCoroutine(TimeToWait(1f));
             return;
         }
 

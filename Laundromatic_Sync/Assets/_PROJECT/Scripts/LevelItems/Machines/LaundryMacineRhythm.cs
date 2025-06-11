@@ -155,7 +155,7 @@ public class LaundryMacineRhythm : MonoBehaviour, I_Interactable_Machine, RythmS
 
     void MachineStart()
     {
-        StartCoroutine(TimeToWaitAtEnd(5f));
+        StartCoroutine(TimeToWaitAtEnd(15f));
         buttonSpawner.currentStage = 0;
         isBusy = true;
     }
