@@ -1845,6 +1845,7 @@ GameObject:
   - component: {fileID: 4612763760758536530}
   - component: {fileID: 1007511109164198367}
   - component: {fileID: 5683442118133435153}
+  - component: {fileID: 3834645123899119692}
   m_Layer: 6
   m_Name: WashingMachine
   m_TagString: Untagged
@@ -1984,6 +1985,7 @@ MonoBehaviour:
   coin: {fileID: 6077057381238438777}
   lever: {fileID: 8615824057683018421}
   cleanBasket: {fileID: 5662443402454060199, guid: 611992fe1f19b884294eb39d8870712d, type: 3}
+  buttonSpawner: {fileID: 0}
   openDoorSound: {fileID: 2301375689400344989}
   closeDoorSound: {fileID: 1087305176280802421}
   coinSound: {fileID: 8317020496164809810}
@@ -1993,6 +1995,28 @@ MonoBehaviour:
   machineEmtySound: {fileID: 844472591724301815}
   dialSound: {fileID: 8179746615137468041}
   originalCamPosition: {x: 0, y: 0, z: 0}
+--- !u!95 &3834645123899119692
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6558129751790262407}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a2ff46864628a5949b71d6655f219d1f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6664432945856669588
 GameObject:
   m_ObjectHideFlags: 0
