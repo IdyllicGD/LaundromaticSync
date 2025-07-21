@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerSettings:MonoBehaviour
 {
     public float mouseSensitivity = 100f;
-
     public float playerMoney;
     //Display size
     //Volume

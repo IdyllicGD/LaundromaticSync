@@ -1,0 +1,31 @@
+using _PROJECT._Jacques.Scripts.Interfaces;
+using UnityEngine;
+
+namespace _PROJECT.Scripts.temp.Scripts
+{
+    public class Basket : MonoBehaviour, IMachineUsableItems
+    {
+
+        public BasketType BasketType;
+        public ItemsUsed ItemsUsed;
+        public MachineUsableItemsType usableItemsType;
+
+        public BasketType ReturnBasketType()
+        {
+            return BasketType;
+        }
+
+        public MachineUsableItemsType ReturnMachineUsableItemsType()
+        {
+            return usableItemsType;
+        }
+    }
+    public enum BasketType
+    {
+        Dirty, WetClean, DryClean, None
+    }
+    public enum ItemsUsed
+    {
+        FabricSoftner, None
+    }
+}

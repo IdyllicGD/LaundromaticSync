@@ -33,7 +33,7 @@ public class RhythmButtonInfo : MonoBehaviour
             case RhythmButtons.A:
                 if (rhythmButtons == RhythmButtons.A)
                 {
-                    transform.parent.parent.parent.GetComponent<RythmStages>().StageCheck();
+                    transform.parent.parent.parent.GetComponentInChildren<RythmStages>().StageCheck();
                     //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
@@ -41,7 +41,7 @@ public class RhythmButtonInfo : MonoBehaviour
             case RhythmButtons.B:
                 if (rhythmButtons == RhythmButtons.B)
                 {
-                    transform.parent.parent.parent.GetComponent<RythmStages>().StageCheck();
+                    transform.parent.parent.parent.GetComponentInChildren<RythmStages>().StageCheck();
                     //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
@@ -49,7 +49,7 @@ public class RhythmButtonInfo : MonoBehaviour
             case RhythmButtons.X:
                 if (rhythmButtons == RhythmButtons.X)
                 {
-                    transform.parent.parent.parent.GetComponent<RythmStages>().StageCheck();
+                    transform.parent.parent.parent.GetComponentInChildren<RythmStages>().StageCheck();
                     //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
@@ -57,7 +57,7 @@ public class RhythmButtonInfo : MonoBehaviour
             case RhythmButtons.Y:
                 if (rhythmButtons == RhythmButtons.Y)
                 {
-                    transform.parent.parent.parent.GetComponent<RythmStages>().StageCheck();
+                    transform.parent.parent.parent.GetComponentInChildren<RythmStages>().StageCheck();
                     //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
