@@ -442,7 +442,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3434850954871775718}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.70708686, z: -0, w: 0.70712674}
+  m_LocalRotation: {x: 0, y: 0.70708823, z: 0, w: 0.7071253}
   m_LocalPosition: {x: 2.973, y: 0.031, z: 0.652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -544,8 +544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e35fa8373c6456d479ac34696efac671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemsUsed: 1
-  isBusy: 0
   machineTimeToComplete: 10
   raycastPosition: {fileID: 5813886713611600607}
   camPosition: {fileID: 3787662315766326080}
@@ -556,6 +554,8 @@ MonoBehaviour:
   doneSound: {fileID: 8445136217868492296}
   busySound: {fileID: 2861843357517856507}
   buttonSound: {fileID: 6289921689936280163}
+  itemsUsed: 1
+  isBusy: 0
 --- !u!1 &3672471298653249820
 GameObject:
   m_ObjectHideFlags: 0

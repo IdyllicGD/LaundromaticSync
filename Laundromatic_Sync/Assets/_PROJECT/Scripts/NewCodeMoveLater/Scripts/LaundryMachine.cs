@@ -10,35 +10,48 @@ using UnityEngine.UI;
 using _PROJECT.Scripts.Rhythm;
 using UnityEngine.UIElements;
 using FMODUnity;
+using Sirenix.OdinInspector;
 
 public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable, RythmStages
 {
     MachineHead head;
     Animator animator;
-    [SerializeField] Transform raycastPosition;
     PlayerMovement currentPlayerMovement;
+    [Title("Wash time", null, TitleAlignments.Centered)]
+    [SerializeField] float machineTimeToComplete;
+
+    [Title("Transforms", null, TitleAlignments.Centered)]
     [SerializeField] Transform camPosition;
     [SerializeField] Transform camLookAtPosition;
     [SerializeField] Transform basketPosition;
+
+    [Title("Button Info", null, TitleAlignments.Centered)]
     [SerializeField] ButtonSpawner buttonSpawner;
 
+    [Title("Prefabs", null, TitleAlignments.Centered)]
     [SerializeField] GameObject cleanBasket;
-    [SerializeField] LsDATA lsDATA;
+
+    [Title("Sounds", null, TitleAlignments.Centered)]
     [SerializeField] StudioEventEmitter doneSound;
     [SerializeField] StudioEventEmitter busySound;
     [SerializeField] StudioEventEmitter buttonSound;
+    
+    [Title("Enums", null, TitleAlignments.Centered)]
+    [SerializeField] CurrentStage currentStage;
+    private Transform raycastPosition;
 
 
 
     public MachineType machineType;
-    [SerializeField] CurrentStage currentStage;
+
 
     #region Needed Public Vars
 
-    public bool hasDetergent;
-    public bool hasFabricSoftener;
-    public bool isBusy;
-    public bool isDone;
+    [Title("Bools", "Only for debugging", TitleAlignments.Centered)]
+    [ReadOnly] public bool hasDetergent;
+    [ReadOnly] public bool hasFabricSoftener;
+    [ReadOnly] public bool isBusy;
+    [ReadOnly] public bool isDone;
 
     #endregion
 
@@ -47,7 +60,6 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     private float baseSpeedCam;
     private float baseSpeedSecondObject;
     private float baseLookAtPositionSpeed;
-    [SerializeField] float machineTimeToComplete;
 
     #endregion
 

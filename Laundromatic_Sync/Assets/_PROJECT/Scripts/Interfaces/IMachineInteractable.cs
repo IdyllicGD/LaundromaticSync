@@ -14,6 +14,6 @@ namespace _PROJECT._Jacques.Scripts.Interfaces
 
     public enum MachineType
     {
-        Laundry, Drying, Other
+        Laundry, Drying, Folding, Other
     }
 }

@@ -6,26 +6,40 @@ using _PROJECT.Scripts.Rhythm;
 using _PROJECT.Scripts.temp.Scripts;
 using DG.Tweening;
 using FMODUnity;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class DryerMachine : MonoBehaviour, IMachineInteractable, Iinteractable, RythmStages
 {
     //When a basket is placed in, store what items have been used on it to set it again when the new one is spawned
-    [SerializeField]ItemsUsed itemsUsed;
     CurrentStage currentStage;
     PlayerMovement currentPlayerMovement;
-    public bool isBusy;
+    [Title("Wash time", null, TitleAlignments.Centered)]
     [SerializeField] float machineTimeToComplete;
+
+    [Title("Transforms", null, TitleAlignments.Centered)]
     [SerializeField] Transform raycastPosition;
     [SerializeField] Transform camPosition;
     [SerializeField] Transform camLookAtPosition;
     [SerializeField] Transform basketPosition;
+
+    [Title("Outside Refrences", null, TitleAlignments.Centered)]
     [SerializeField] ButtonSpawner buttonSpawner;
+
+    [Title("Prefabs", null, TitleAlignments.Centered)]
     [SerializeField] GameObject dryBasket;
+
+    [Title("Sounds", null, TitleAlignments.Centered)]
     [SerializeField] StudioEventEmitter doneSound;
     [SerializeField] StudioEventEmitter busySound;
     [SerializeField] StudioEventEmitter buttonSound;
+
+    [Title("Enums", null, TitleAlignments.Centered)]
+    [SerializeField] ItemsUsed itemsUsed;
+
+    [Title("Bools", "Only for debugging", TitleAlignments.Centered)]
+    [ReadOnly] public bool isBusy;
 
 
     void Update()

@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float playerSpeed; 
     private float playerOriginalSpeed;
     public Vector3 cameraOriginalTransform;
+    public Vector3 cameraLookAtPosition;
     [SerializeField] float sprintMultiplier;
     [SerializeField] float minClampDistance;
     [SerializeField] float maxClampDistance;

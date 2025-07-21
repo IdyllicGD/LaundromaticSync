@@ -22,7 +22,7 @@ namespace _PROJECT.Scripts.temp.Scripts
     }
     public enum BasketType
     {
-        Dirty, WetClean, DryClean, None
+        Dirty, WetClean, DryClean, Folded,None
     }
     public enum ItemsUsed
     {
