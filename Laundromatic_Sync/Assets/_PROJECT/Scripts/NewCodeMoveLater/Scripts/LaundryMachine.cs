@@ -1,0 +1,293 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using _PROJECT._Jacques.Scripts.Interfaces;
+using _PROJECT.Scripts.temp.Scripts;
+using DG.Tweening;
+using UnityEngine;
+using LaundromaticSyncApi;
+using UnityEngine.UI;
+using _PROJECT.Scripts.Rhythm;
+using UnityEngine.UIElements;
+using FMODUnity;
+
+public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable, RythmStages
+{
+    MachineHead head;
+    Animator animator;
+    [SerializeField] Transform raycastPosition;
+    PlayerMovement currentPlayerMovement;
+    [SerializeField] Transform camPosition;
+    [SerializeField] Transform camLookAtPosition;
+    [SerializeField] Transform basketPosition;
+    [SerializeField] ButtonSpawner buttonSpawner;
+
+    [SerializeField] GameObject cleanBasket;
+    [SerializeField] LsDATA lsDATA;
+    [SerializeField] StudioEventEmitter doneSound;
+    [SerializeField] StudioEventEmitter busySound;
+    [SerializeField] StudioEventEmitter buttonSound;
+
+
+
+    public MachineType machineType;
+    [SerializeField] CurrentStage currentStage;
+
+    #region Needed Public Vars
+
+    public bool hasDetergent;
+    public bool hasFabricSoftener;
+    public bool isBusy;
+    public bool isDone;
+
+    #endregion
+
+    #region Machine Head Vars
+
+    private float baseSpeedCam;
+    private float baseSpeedSecondObject;
+    private float baseLookAtPositionSpeed;
+    [SerializeField] float machineTimeToComplete;
+
+    #endregion
+
+    void Update()
+    {
+        
+        if (!isDone) return;
+        if (HasCleanBasket()) return;
+        animator.SetBool("isFinished", false);
+        animator.SetBool("isIdle", true);
+        isDone = false;
+    }
+
+    public bool IsBusy()
+    {
+        return isBusy;
+    }
+    private void Awake()
+    {
+        currentStage = CurrentStage.FillingUpStage;
+        head = GetComponent<MachineHead>();
+
+        #region Machine Head
+
+        //TODO: Refactor this later to not use magic numbers
+        baseSpeedCam = 0.5f;
+        baseSpeedSecondObject = 0.5f;
+        baseLookAtPositionSpeed = 0.5f;
+
+        #endregion
+        animator = transform.GetComponentInParent<Animator>();
+
+        animator.SetBool("isIdle", true);
+
+    }
+
+    public void Interact()
+    {
+        Debug.Log($"[Laundry Machine] Interact With Object");
+
+    }
+
+    //Interact With machine and just moving the cam
+    public void Interact(Camera camObject)
+    {
+        Debug.Log($"[LaundryMachine] just move cam Interaction Func");
+    }
+
+    void StartStage(CurrentStage stage)
+    {
+        switch (stage)
+        {
+            case CurrentStage.FillingUpStage:
+                break;
+            case CurrentStage.WashingStage:
+                StartButtonSpawning();
+                
+                //Start beeps and boops
+                break;
+            case CurrentStage.FinishedStage:
+                //exit to normal view
+                busySound.Play();
+                buttonSound.Play();
+                animator.SetTrigger("StartCycle");
+                animator.SetBool("isIdle", false);
+                StartCoroutine(EndMachineFunc(machineTimeToComplete));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(stage), stage, null);
+        }
+    }
+
+    void StartButtonSpawning()
+    {
+        buttonSpawner.currentStage = 0;
+        buttonSpawner.SpawnButton();
+        
+
+
+    }
+
+    bool HasCleanBasket()
+    {
+        Debug.DrawRay(raycastPosition.position, Vector3.down, Color.blue, 1f);
+        if (Physics.Raycast(raycastPosition.position, Vector3.down, out RaycastHit hit, 1f))
+        {
+            if (hit.transform.TryGetComponent(out Basket basket))
+            {
+                if (basket.BasketType == BasketType.WetClean)
+                {
+                    return true;
+                }
+                
+            }
+        }
+        
+        return false;
+        
+    }
+
+
+    #region Interact with machine and move cam and another object. Example: Basket
+    public void Interact(Camera camObject, GameObject secondaryObject)
+    {
+        if (HasCleanBasket()) return;
+        PlayerInteraction playerInteraction = camObject.transform.parent.GetComponentInParent<PlayerInteraction>();
+        currentPlayerMovement = camObject.transform.parent.GetComponentInParent<PlayerMovement>();
+        
+        Debug.Log($"[Laundry Machine] {ReturnItemType(secondaryObject)}");
+        switch (ReturnItemType(secondaryObject))
+        {
+            case MachineUsableItemsType.None:
+                Debug.Log($"[Laundry Machine] Item type set to NONE, change item type");
+                return;
+            case MachineUsableItemsType.Basket:
+                //Checks if the basket type is dirty, is the machine has Detergent and if the machine is in the correct state
+                if (ReturnBasketType(secondaryObject) == BasketType.Dirty && hasDetergent)
+                {
+                    if (currentStage == CurrentStage.FillingUpStage)
+                    {
+                        currentStage++;
+                        currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
+                        playerInteraction.StopPlayerMovement();
+                        camObject.transform.DOMove(camPosition.position, baseSpeedCam);
+                        camObject.transform.DODynamicLookAt(camLookAtPosition.position, baseLookAtPositionSpeed);
+                        secondaryObject.transform.SetParent(basketPosition);
+                        secondaryObject.transform.DOLocalMove(Vector3.zero, baseSpeedSecondObject).OnComplete(() => StartStage(currentStage));
+                    }
+                }
+
+
+                break;
+            case MachineUsableItemsType.Detergent:
+                if (hasDetergent)
+                {
+                    Debug.Log($"[Laundry Machine] Machine already has detergent");
+                    break;
+                }
+                if (currentStage == CurrentStage.FillingUpStage)
+                {
+                    Destroy(secondaryObject);
+                    hasDetergent = true;
+                }
+                break;
+            case MachineUsableItemsType.FabricSoftener:
+                if (hasFabricSoftener)
+                {
+                    Debug.Log($"[Laundry Machine] Machine already has fabric softner");
+                    break;
+                }
+                if (currentStage == CurrentStage.FillingUpStage)
+                {
+                    Destroy(secondaryObject);
+                    hasFabricSoftener = true;
+                }
+                break;
+            default:
+                Debug.Log($"[Laundry Machine] This item cannot be used on this machine");
+                break;
+        }
+
+    }
+    #endregion
+
+    #region Return Functions
+
+    MachineUsableItemsType ReturnItemType(GameObject itemObject)
+    {
+        return !itemObject.TryGetComponent(out IMachineUsableItems interactable)
+            ? MachineUsableItemsType.None
+            : interactable.ReturnMachineUsableItemsType();
+    }
+
+    BasketType ReturnBasketType(GameObject basket)
+    {
+        return !basket.TryGetComponent(out Basket basketScript)
+            ? BasketType.None
+            : basketScript.ReturnBasketType();
+    }
+
+    public MachineType MachineType()
+    {
+        return machineType;
+    }
+
+
+    #endregion
+
+
+
+
+    IEnumerator EndMachineFunc(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        currentStage = CurrentStage.FillingUpStage;
+        //Instantiate clean wet basket
+        GameObject _cleanBasket = Instantiate(cleanBasket, basketPosition);
+        if (hasFabricSoftener)
+        {
+            _cleanBasket.GetComponent<Basket>().ItemsUsed = ItemsUsed.FabricSoftner;
+        }
+        hasDetergent = false;
+        hasFabricSoftener = false;
+        animator.SetBool("isFinished", true);
+        isDone = true;
+        busySound.Stop();
+        doneSound.Play();
+
+    }
+
+    public void StageCheck()
+    {
+        if (buttonSpawner.currentStage == buttonSpawner.spawnPoints.Count)
+        {
+            currentStage = 0;
+            currentStage = CurrentStage.FinishedStage;
+            StartStage(currentStage);
+            if (currentPlayerMovement != null)
+            {
+                Debug.Log("CurrentPlayerMovement is null");
+            }
+            else
+            {
+                Debug.Log("Current player movement is not null");
+            }
+            
+            currentPlayerMovement.ResetCamera();
+            Destroy(transform.parent.GetChild(0).GetChild(0).gameObject);
+            //Exit focus mode
+            return;
+        }
+        buttonSpawner.SpawnButton();
+        //Play current animation where needed
+
+    }
+
+}
+
+public enum CurrentStage{
+        FillingUpStage, WashingStage, FinishedStage, DryingStage
+    }
+    
+    
