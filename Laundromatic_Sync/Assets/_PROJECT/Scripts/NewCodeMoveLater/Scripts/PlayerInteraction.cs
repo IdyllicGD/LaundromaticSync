@@ -2,16 +2,20 @@ using System;
 using _PROJECT._Jacques.Scripts.Interfaces;
 using _PROJECT.Scripts.temp.Scripts;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    [Title("Player", null, TitleAlignments.Centered)]
     [SerializeField] Transform handPosition;
     private PlayerMovement playerMovement;
-    InteractionType interactionType;
+    private InteractionType interactionType;
 
     #region Interaction Variables
 
+    [Title("Interaction Vars", null, TitleAlignments.Centered)]
+    [Range(0f, 10f)]
     [SerializeField] float raycastDistance;
     [SerializeField] LayerMask interactionLayer;
     [SerializeField] LayerMask tableLayer;

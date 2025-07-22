@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 2795968142919615219}
   - component: {fileID: 7636066000063943068}
   - component: {fileID: -1125113185342230788}
-  - component: {fileID: 6501087761303964658}
-  - component: {fileID: 1710398499024105928}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -162,43 +160,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 0}
---- !u!114 &6501087761303964658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 920297708915017404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71fee551ef9e4f6990f42c55c3d67cda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camPosition: {fileID: 0}
-  camLookAtPosition: {fileID: 0}
-  basketPosition: {fileID: 0}
-  buttonSpawner: {fileID: 0}
-  cleanBasket: {fileID: 0}
-  lsDATA: {fileID: 0}
-  machineType: 0
-  currentStage: 0
-  hasDetergent: 0
-  isBusy: 0
-  isDone: 0
-  machineTimeToComplete: 0
---- !u!114 &1710398499024105928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 920297708915017404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9cf960c28f4c6fac552f15521940d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lsData: {fileID: 0}
 --- !u!1 &5537540550140722785
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,11 +330,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 125
-  cameraOriginalTransform: {fileID: 0}
   sprintMultiplier: 2
   minClampDistance: -75
   maxClampDistance: 75
   canMoveAndLook: 1
+  cameraOriginalTransform: {x: 0, y: 0, z: 0}
+  cameraLookAtPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &5793707460548223006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,13 +349,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handPosition: {fileID: 836578651913164142}
-  raycastDistance: 10
+  raycastDistance: 2.2
   interactionLayer:
     serializedVersion: 2
     m_Bits: 64
-  machineInteractionLayer:
+  tableLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1024
 --- !u!1 &7072479082921541872
 GameObject:
   m_ObjectHideFlags: 0

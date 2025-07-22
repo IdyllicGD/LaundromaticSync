@@ -1,22 +1,24 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Title("Character Controller Vars", null, TitleAlignments.Centered)]
     [SerializeField] float playerSpeed; 
-    private float playerOriginalSpeed;
-    public Vector3 cameraOriginalTransform;
-    public Vector3 cameraLookAtPosition;
     [SerializeField] float sprintMultiplier;
     [SerializeField] float minClampDistance;
     [SerializeField] float maxClampDistance;
     
-    PlayerSettings playerSettings;
-    public InputSystem_Actions inputActions;
-    public bool canMoveAndLook = true;
+    private float playerOriginalSpeed;
+    private PlayerSettings playerSettings;
+    [HideInInspector]public InputSystem_Actions inputActions;
+    [HideInInspector]public bool canMoveAndLook = true;
+    [HideInInspector] public Vector3 cameraOriginalTransform;
+    [HideInInspector] public Vector3 cameraLookAtPosition;
 
     #region Player Settings Variables
     private float mouseSensitivity;

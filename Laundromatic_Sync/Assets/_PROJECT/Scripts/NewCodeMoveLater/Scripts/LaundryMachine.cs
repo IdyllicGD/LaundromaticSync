@@ -38,7 +38,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     
     [Title("Enums", null, TitleAlignments.Centered)]
     [SerializeField] CurrentStage currentStage;
-    private Transform raycastPosition;
+    [Title("RaycastPositions", null, TitleAlignments.Centered)]
+    [SerializeField] Transform raycastPosition;
 
 
 
