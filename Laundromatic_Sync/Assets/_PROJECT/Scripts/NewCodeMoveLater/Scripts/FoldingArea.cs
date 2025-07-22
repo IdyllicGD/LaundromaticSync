@@ -15,9 +15,6 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
     private bool isBusy;
     private PlayerMovement currentPlayerMovement;
     [Title("Gameplay Vars", null, TitleAlignments.Centered)]
-    [Title("Random Amount of times the player will need to do the rythm game", null, TitleAlignments.Left, false, true)]
-    [SerializeField] int minAmount;
-    [SerializeField] int maxAmount;
     [SerializeField][ReadOnly] int clothingAmount;
     [SerializeField][ReadOnly] int stagesRun = 0;
     
@@ -71,7 +68,7 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
         //Get player interaction and player movement Script
         PlayerInteraction playerInteraction = camObject.transform.parent.GetComponentInParent<PlayerInteraction>();
         currentPlayerMovement = camObject.transform.parent.GetComponentInParent<PlayerMovement>();
-        clothingAmount = UnityEngine.Random.Range(minAmount, maxAmount);
+        clothingAmount = basket.amountOfClothing;
 
         currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
         if (!Physics.Raycast(camObject.transform.position, Vector3.forward, out RaycastHit hit, Mathf.Infinity, layerMask)) Debug.Log("[FoldingArea] raycast couldnt hit a position");

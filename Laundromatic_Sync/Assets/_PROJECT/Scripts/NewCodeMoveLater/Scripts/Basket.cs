@@ -9,6 +9,15 @@ namespace _PROJECT.Scripts.temp.Scripts
         public BasketType BasketType;
         public ItemsUsed ItemsUsed;
         public MachineUsableItemsType usableItemsType;
+        public int amountOfClothing;
+        public int maxAmount;
+        public int minAmount;
+
+        void Awake()
+        {
+            if (BasketType != BasketType.DryClean) return;
+            amountOfClothing = Random.Range(minAmount, maxAmount);
+        }
 
         public BasketType ReturnBasketType()
         {
@@ -22,7 +31,7 @@ namespace _PROJECT.Scripts.temp.Scripts
     }
     public enum BasketType
     {
-        Dirty, WetClean, DryClean, Folded,None
+        Dirty, WetClean, DryClean, Folded, None
     }
     public enum ItemsUsed
     {
