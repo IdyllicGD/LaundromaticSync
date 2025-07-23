@@ -65,8 +65,5 @@ public class DayNight : MonoBehaviour
 
     }
 
-    void ChangeMinutes()
-    {
-        
-    }
+    
 }

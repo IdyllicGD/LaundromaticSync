@@ -198,6 +198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!114 &19616521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,6 +594,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!114 &96044858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1001,6 +1005,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!114 &289026832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2424,6 +2430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!114 &596420430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2906,6 +2914,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!114 &754892784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3364,17 +3374,17 @@ MonoBehaviour:
   minutesText: {fileID: 45109840}
   hoursText: {fileID: 470523539}
   dayText: {fileID: 0}
-  minutes: 0
-  hours: 0
+  minutes: 55
+  hours: 5
   days: 0
-  sunriseTime: {x: 0, y: 0, z: 0}
-  eveningTime: {x: 0, y: 0, z: 0}
-  nightTime: {x: 0, y: 0, z: 0}
-  sunsetTime: {x: 0, y: 0, z: 0}
-  sunriseSkybox: {fileID: 0}
-  eveningSkybox: {fileID: 0}
-  nightSkybox: {fileID: 0}
-  sunsetSkybox: {fileID: 0}
+  sunriseTime: {x: 0, y: 6, z: 0}
+  eveningTime: {x: 0, y: 9, z: 0}
+  nightTime: {x: 0, y: 18, z: 0}
+  sunsetTime: {x: 0, y: 17, z: 0}
+  sunriseSkybox: {fileID: 2800000, guid: 99bb9346a54a1ef45b3d086ccba8cfad, type: 3}
+  eveningSkybox: {fileID: 2800000, guid: 97c83ef8555216848ba4f98a7496a917, type: 3}
+  nightSkybox: {fileID: 2800000, guid: 3cf4d52b14bd4254d9f4fd063f8d9bfd, type: 3}
+  sunsetSkybox: {fileID: 2800000, guid: c9c7d456c59dc784b93f9c65f163e63f, type: 3}
 --- !u!4 &903702986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9214546678518325257, guid: 116f7c6863442c14999108d88ed8314d, type: 3}
@@ -4402,6 +4412,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!114 &1188339320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5565,6 +5577,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!114 &1492356645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5954,6 +5968,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!114 &1676563043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6246,6 +6262,10 @@ PrefabInstance:
     - target: {fileID: 8309445432378126675, guid: c78f765129202ad49a7b2f2af3c8b0a7, type: 3}
       propertyPath: m_Name
       value: WashingMachine_new
+      objectReference: {fileID: 0}
+    - target: {fileID: 8322198550086817355, guid: c78f765129202ad49a7b2f2af3c8b0a7, type: 3}
+      propertyPath: machineTimeToComplete
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7244,6 +7264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!1 &2075760367
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 {
     MachineHead head;
     Animator animator;
+    GameObject currentObject;
     PlayerMovement currentPlayerMovement;
     [Title("Wash time", null, TitleAlignments.Centered)]
     [SerializeField] float machineTimeToComplete;
@@ -35,6 +36,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     [SerializeField] StudioEventEmitter doneSound;
     [SerializeField] StudioEventEmitter busySound;
     [SerializeField] StudioEventEmitter buttonSound;
+    [SerializeField] StudioEventEmitter doorOpenSound;
+    [SerializeField] StudioEventEmitter doorCloseSound;
     
     [Title("Enums", null, TitleAlignments.Centered)]
     [SerializeField] CurrentStage currentStage;
@@ -68,7 +71,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     {
         
         if (!isDone) return;
-        if (HasCleanBasket()) return;
+        if (HasObject()) return;
         animator.SetBool("isFinished", false);
         animator.SetBool("isIdle", true);
         isDone = false;
@@ -126,7 +129,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 buttonSound.Play();
                 animator.SetTrigger("StartCycle");
                 animator.SetBool("isIdle", false);
-                StartCoroutine(EndMachineFunc(machineTimeToComplete));
+                StartCoroutine(EndMachineFunc(machineTimeToComplete, currentObject));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(stage), stage, null);
@@ -142,19 +145,12 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 
     }
 
-    bool HasCleanBasket()
+    bool HasObject()
     {
         Debug.DrawRay(raycastPosition.position, Vector3.down, Color.blue, 1f);
-        if (Physics.Raycast(raycastPosition.position, Vector3.down, out RaycastHit hit, 1f))
+        if (basketPosition.childCount >= 1)
         {
-            if (hit.transform.TryGetComponent(out Basket basket))
-            {
-                if (basket.BasketType == BasketType.WetClean)
-                {
-                    return true;
-                }
-                
-            }
+            return true;
         }
         
         return false;
@@ -165,23 +161,51 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     #region Interact with machine and move cam and another object. Example: Basket
     public void Interact(Camera camObject, GameObject secondaryObject)
     {
-        if (HasCleanBasket()) return;
+        if (HasObject()) return;
+
+        currentObject = secondaryObject;
         PlayerInteraction playerInteraction = camObject.transform.parent.GetComponentInParent<PlayerInteraction>();
         currentPlayerMovement = camObject.transform.parent.GetComponentInParent<PlayerMovement>();
         
         Debug.Log($"[Laundry Machine] {ReturnItemType(secondaryObject)}");
+        animator.SetTrigger("DtFs");
+        doorOpenSound.Play();
+        //doorCloseSound.Play();
         switch (ReturnItemType(secondaryObject))
         {
             case MachineUsableItemsType.None:
-                Debug.Log($"[Laundry Machine] Item type set to NONE, change item type");
+                Debug.Log($"[Laundry Machine] You need Detergent first");
+            if (currentStage == CurrentStage.FillingUpStage && hasDetergent)
+                {
+                    currentStage++;
+                    currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
+                    playerInteraction.StopPlayerMovement();
+                    camObject.transform.DOMove(camPosition.position, baseSpeedCam);
+                    camObject.transform.DODynamicLookAt(camLookAtPosition.position, baseLookAtPositionSpeed);
+                    secondaryObject.transform.SetParent(basketPosition);
+                    secondaryObject.transform.DOLocalMove(Vector3.zero, baseSpeedSecondObject).OnComplete(() => StartStage(currentStage));
+                }
                 return;
             case MachineUsableItemsType.Basket:
                 //Checks if the basket type is dirty, is the machine has Detergent and if the machine is in the correct state
+                switch (hasDetergent)
+                {
+                    case true:
+                        if (ReturnBasketType(secondaryObject) != BasketType.Dirty)
+                        {
+                            Debug.Log($"[Laundry Machine] You a dirty basket!");
+                        }
+                        break;
+                    case false:
+                        Debug.Log($"[Laundry Machine] You need Detergent first!");
+                        break;
+                }
+                
                 if (ReturnBasketType(secondaryObject) == BasketType.Dirty && hasDetergent)
                 {
                     if (currentStage == CurrentStage.FillingUpStage)
                     {
-                        currentStage++;
+                        currentStage = CurrentStage.WashingStage;
                         currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
                         playerInteraction.StopPlayerMovement();
                         camObject.transform.DOMove(camPosition.position, baseSpeedCam);
@@ -252,16 +276,30 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 
 
 
-    IEnumerator EndMachineFunc(float waitTime)
+    IEnumerator EndMachineFunc(float waitTime, GameObject itemType)
     {
         yield return new WaitForSeconds(waitTime);
         currentStage = CurrentStage.FillingUpStage;
-        //Instantiate clean wet basket
-        GameObject _cleanBasket = Instantiate(cleanBasket, basketPosition);
-        if (hasFabricSoftener)
+        switch (ReturnItemType(itemType))
         {
-            _cleanBasket.GetComponent<Basket>().ItemsUsed = ItemsUsed.FabricSoftner;
+            case MachineUsableItemsType.None:
+                Destroy(transform.parent.GetChild(0).GetChild(0).gameObject);
+                GameObject _spawningItem = Instantiate(itemType, basketPosition);
+                _spawningItem.SetActive(true);
+                _spawningItem.GetComponent<PickupItem>().cleanOrDirty = CleanOrDirty.Clean;
+                _spawningItem.GetComponent<Collider>().enabled = true;
+                break;
+            case MachineUsableItemsType.Basket:
+                Destroy(transform.parent.GetChild(0).GetChild(0).gameObject);
+                GameObject _cleanBasket = Instantiate(cleanBasket, basketPosition);
+                _cleanBasket.SetActive(true);
+                if (hasFabricSoftener)
+                {
+                    _cleanBasket.GetComponent<Basket>().ItemsUsed = ItemsUsed.FabricSoftner;
+                }
+                break;
         }
+              
         hasDetergent = false;
         hasFabricSoftener = false;
         animator.SetBool("isFinished", true);
@@ -288,7 +326,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
             }
             
             currentPlayerMovement.ResetCamera();
-            Destroy(transform.parent.GetChild(0).GetChild(0).gameObject);
+            transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(false);
             //Exit focus mode
             return;
         }
