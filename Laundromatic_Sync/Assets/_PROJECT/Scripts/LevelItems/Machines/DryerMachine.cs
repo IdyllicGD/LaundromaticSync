@@ -29,22 +29,31 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, Iinteractable, 
 
     [Title("Prefabs", null, TitleAlignments.Centered)]
     [SerializeField] GameObject dryBasket;
+    [Title("Animation", null, TitleAlignments.Centered)]
+    [SerializeField] Animator animator;
 
     [Title("Sounds", null, TitleAlignments.Centered)]
     [SerializeField] StudioEventEmitter doneSound;
     [SerializeField] StudioEventEmitter busySound;
     [SerializeField] StudioEventEmitter buttonSound;
+    [SerializeField] StudioEventEmitter doorOpenCloseSound;
 
     [Title("Enums", null, TitleAlignments.Centered)]
     [SerializeField] ItemsUsed itemsUsed;
 
     [Title("Bools", "Only for debugging", TitleAlignments.Centered)]
     [ReadOnly] public bool isBusy;
+    [ReadOnly] public bool isDone;
 
 
     void Update()
     {
         //Remembet to use this to set the idle bool to true when the machine is done and doesnt have a dry basket on top
+        if (!isDone) return;
+        if (HasDryBasket()) return;
+        animator.SetBool("isFinished", false);
+        animator.SetBool("isIdle", true);
+        isDone = false;
     }
     bool HasDryBasket()
     {
@@ -87,6 +96,9 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, Iinteractable, 
 
         if (currentStage == CurrentStage.FillingUpStage)
         {
+            animator.SetBool("isIdle", false);
+            animator.SetTrigger("DtFs");
+            doorOpenCloseSound.Play();
             currentStage = CurrentStage.DryingStage;
             currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
             playerInteraction.StopPlayerMovement();
@@ -116,6 +128,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, Iinteractable, 
                 StartCoroutine(EndMachineFunc(machineTimeToComplete));
                 buttonSound.Play();
                 busySound.Play();
+                animator.SetBool("isWashing", true);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(stage), stage, null);
@@ -132,12 +145,14 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, Iinteractable, 
     IEnumerator EndMachineFunc(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        isDone = true;
         currentStage = CurrentStage.FillingUpStage;
         GameObject _basket = Instantiate(dryBasket, basketPosition);
         _basket.GetComponent<Basket>().ItemsUsed = itemsUsed;
         busySound.Stop();
         doneSound.Play();
-
+        animator.SetBool("isFinished", true);
+        animator.SetBool("isWashing", false);
     }
 
     public void Interact()
