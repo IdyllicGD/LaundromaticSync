@@ -115,7 +115,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: isBouncingLR
+    m_ConditionEvent: IsBouncingLR
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -308047057797470619}
@@ -219,7 +219,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isSpinning
+    m_ConditionEvent: IsSpinning
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2568225595632219987}
@@ -315,7 +315,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: isHopping
+    m_ConditionEvent: IsHopping
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -308047057797470619}
@@ -362,7 +362,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: isStS
+    m_ConditionEvent: IsStS
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -308047057797470619}
@@ -412,7 +412,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isHoppingRL
+    m_ConditionEvent: IsHoppingRL
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5105016696500078007}
@@ -511,7 +511,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: isLooped
+    m_ConditionEvent: IsLooped
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7366504694964222402}
@@ -599,7 +599,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isSpinning
+  - m_Name: IsSpinning
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -611,7 +611,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isHopping
+  - m_Name: IsHopping
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -629,7 +629,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isHoppingRL
+  - m_Name: IsHoppingRL
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -641,7 +641,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isBouncingLR
+  - m_Name: IsBouncingLR
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -653,19 +653,19 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isStS
+  - m_Name: IsStS
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isLooped
+  - m_Name: IsLooped
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isOneshot
+  - m_Name: IsOneshot
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -693,7 +693,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isBouncingLR
+    m_ConditionEvent: IsBouncingLR
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7179438241816146092}
@@ -718,7 +718,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: isSpinning
+    m_ConditionEvent: IsSpinning
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -308047057797470619}
@@ -817,7 +817,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: isHoppingRL
+    m_ConditionEvent: IsHoppingRL
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -308047057797470619}
@@ -902,7 +902,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isLooped
+    m_ConditionEvent: IsLooped
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -308047057797470619}
@@ -927,7 +927,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isHopping
+    m_ConditionEvent: IsHopping
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7426383179008232750}
@@ -1086,7 +1086,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isStS
+    m_ConditionEvent: IsStS
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2737600471481938823}
