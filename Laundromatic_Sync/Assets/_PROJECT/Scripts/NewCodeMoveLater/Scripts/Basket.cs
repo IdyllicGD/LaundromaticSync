@@ -12,11 +12,16 @@ namespace _PROJECT.Scripts.temp.Scripts
         public int amountOfClothing;
         public int maxAmount;
         public int minAmount;
+        public NpcOrderTypes orderType;
 
         void Awake()
         {
+
+
+
             if (BasketType != BasketType.DryClean) return;
             amountOfClothing = Random.Range(minAmount, maxAmount);
+            
         }
 
         public BasketType ReturnBasketType()

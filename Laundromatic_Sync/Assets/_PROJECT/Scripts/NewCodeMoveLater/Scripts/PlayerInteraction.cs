@@ -3,6 +3,7 @@ using _PROJECT._Jacques.Scripts.Interfaces;
 using _PROJECT.Scripts.temp.Scripts;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using Unity.Behavior;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
@@ -19,6 +20,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] float raycastDistance;
     [SerializeField] LayerMask interactionLayer;
     [SerializeField] LayerMask tableLayer;
+    [SerializeField] LayerMask npcLayer;
     
     Camera playerCam;
 
@@ -55,7 +57,15 @@ public class PlayerInteraction : MonoBehaviour
             handPosition.GetChild(0).transform.DOMove(hitTable.point, .5f);
             handPosition.GetChild(0).SetParent(hitTable.transform);
         }
+        //Interact With NPC
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitNPC, raycastDistance, npcLayer))
+        {
+            if (!hitNPC.transform.TryGetComponent(out BehaviorGraphAgent npcBehaviour)) return;
+            npcBehaviour.BlackboardReference.SetVariableValue("isBeingTalkedTo", true);
+            playerMovement.canMoveAndLook = false;
+        }
 
+        //Pick Up Action
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hit,
                 raycastDistance,
                 interactionLayer))

@@ -190,7 +190,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -213,6 +213,10 @@ MonoBehaviour:
   BasketType: 1
   ItemsUsed: 1
   usableItemsType: 2
+  amountOfClothing: 0
+  maxAmount: 0
+  minAmount: 0
+  orderType: 0
 --- !u!114 &-3751347742859182081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
 --- !u!1 &8105643424054649305
 GameObject:
   m_ObjectHideFlags: 0

@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 9095781751931797800}
   - component: {fileID: 2310663891139994166}
   - component: {fileID: -3751347742859182081}
+  - component: {fileID: 2912325553496750569}
   m_Layer: 6
   m_Name: BasketDirty
   m_TagString: Untagged
@@ -190,7 +191,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -211,7 +212,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BasketType: 0
+  ItemsUsed: 0
   usableItemsType: 2
+  amountOfClothing: 0
+  maxAmount: 0
+  minAmount: 0
+  orderType: 0
 --- !u!114 &-3751347742859182081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +230,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cleanOrDirty: 0
+  machineUsableItemsType: 0
+--- !u!114 &2912325553496750569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662443402454060199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 666b6cfd79bb74e418ef108f121b5275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orderType: 1
 --- !u!1 &8105643424054649305
 GameObject:
   m_ObjectHideFlags: 0

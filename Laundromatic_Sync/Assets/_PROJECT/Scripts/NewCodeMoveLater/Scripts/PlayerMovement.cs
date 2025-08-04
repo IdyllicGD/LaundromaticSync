@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -33,8 +35,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody playerRb;
     private float rotateX, rotateY;
     private Camera playerCam;
-    
+
     #endregion
+
 
     private void FixedUpdate()
     {
@@ -44,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(TimeToWait(0.1f));
         Cursor.lockState = CursorLockMode.Locked;
         #region Input Actions
 
@@ -80,12 +84,19 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
+    IEnumerator TimeToWait(float time)
+    {
+        yield return new WaitForSeconds(time);
+        NpcManager.instance.playerTransform = this.transform;
+    }
+
 
     #region Character Controller
 
-    public void OnMove (InputAction.CallbackContext obj) {
+    public void OnMove(InputAction.CallbackContext obj)
+    {
         if (!canMoveAndLook) return;
-        moveInput = obj.ReadValue<Vector2> ();
+        moveInput = obj.ReadValue<Vector2>();
     }
 
     public void OnLook (InputAction.CallbackContext obj) {
