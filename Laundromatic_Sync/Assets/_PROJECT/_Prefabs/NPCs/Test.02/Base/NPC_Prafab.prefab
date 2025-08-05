@@ -176,7 +176,7 @@ Transform:
   m_GameObject: {fileID: 2941381129157805305}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.78, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -227,7 +227,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -455,6 +455,7 @@ MonoBehaviour:
   - rid: 385138139587412614
   - rid: 385138139782971476
   - rid: 385138139782971967
+  - rid: 385138157628162383
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
@@ -500,6 +501,14 @@ MonoBehaviour:
           m_Value1: 17442120543897813818
         Name: DialogueSO
         m_Value: {fileID: 11400000, guid: f6f126ae16ec11e4faaec9558e36e41f, type: 2}
+    - rid: 385138157628162383
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 6391079188721332124
+          m_Value1: 8891530526338126829
+        Name: DeathAnimationTiming
+        m_Value: 5
 --- !u!195 &6677803388030918696
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -551,8 +560,9 @@ MonoBehaviour:
   dirtyBasket: {fileID: 5662443402454060199, guid: 90cb66c1fa8506b48bc98cabbf462801, type: 3}
   randomObject: {fileID: 0}
   objectSpawnPosition: {fileID: 3550303676100983482}
-  DialogieInOrder: []
+  npcDialogueSo: {fileID: 11400000, guid: f6f126ae16ec11e4faaec9558e36e41f, type: 2}
   orderType: 0
+  orderObject: {fileID: 0}
 --- !u!65 &5785929795606597419
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -563,13 +573,13 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 1}

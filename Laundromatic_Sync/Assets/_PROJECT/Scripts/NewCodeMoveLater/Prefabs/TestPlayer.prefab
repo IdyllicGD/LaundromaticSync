@@ -359,6 +359,7 @@ MonoBehaviour:
   npcLayer:
     serializedVersion: 2
     m_Bits: 8
+  dialogueCooldownTimer: 1
 --- !u!1 &7072479082921541872
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +369,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3507082673063258694}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TestPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}

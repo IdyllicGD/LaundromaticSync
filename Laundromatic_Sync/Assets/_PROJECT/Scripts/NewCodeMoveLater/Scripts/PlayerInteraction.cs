@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using _PROJECT._Jacques.Scripts.Interfaces;
 using _PROJECT.Scripts.temp.Scripts;
 using DG.Tweening;
@@ -21,12 +23,14 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] LayerMask interactionLayer;
     [SerializeField] LayerMask tableLayer;
     [SerializeField] LayerMask npcLayer;
+    [SerializeField] float dialogueCooldownTimer;
     
     Camera playerCam;
 
     #endregion
 
     InputSystem_Actions inputActions;
+    bool canIncreaseDialogue = true;
 
 
     private void Start()
@@ -58,11 +62,68 @@ public class PlayerInteraction : MonoBehaviour
             handPosition.GetChild(0).SetParent(hitTable.transform);
         }
         //Interact With NPC
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitNPC, raycastDistance, npcLayer))
+        if (canIncreaseDialogue && Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitNPC, raycastDistance, npcLayer))
         {
+            canIncreaseDialogue = false;
             if (!hitNPC.transform.TryGetComponent(out BehaviorGraphAgent npcBehaviour)) return;
-            npcBehaviour.BlackboardReference.SetVariableValue("isBeingTalkedTo", true);
-            playerMovement.canMoveAndLook = false;
+            npcBehaviour.BlackboardReference.GetVariable("canTalk", out BlackboardVariable<bool> _canTalk);
+            if (!_canTalk) return;
+            Debug.Log("NpcHit");
+            npcBehaviour.BlackboardReference.GetVariable("isDoneTalking", out BlackboardVariable<bool> _isDoneTalking);
+
+            #region NPC END CODE
+
+            if (handPosition.childCount != 0 && _isDoneTalking)
+            {
+                Debug.Log("Npc end code running");
+                GameObject currentObjectInHand = handPosition.GetChild(0).gameObject;
+                List<GameObject> npcList = NpcManager.instance.currentNpcs;
+                if (currentObjectInHand.TryGetComponent(out OrderInformation _orderInfo))
+                {
+                    int npcIndex = 1000;
+                    for (int i = 0; i < npcList.Count; i++)
+                    {
+                        if (npcList[i] == hitNPC.transform.gameObject)
+                        {
+                            npcIndex = i;
+                            Debug.Log($"Npc index is {i}");
+                        }
+                    }
+
+                    if (npcIndex == 1000) return;
+                    if (npcList[npcIndex].GetComponent<OrderInformation>().finalOrderType == _orderInfo.finalOrderType)
+                    {
+                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
+                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", true);
+                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
+                        Destroy(handPosition.GetChild(0));
+
+                    }
+                    else
+                    {
+                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
+                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", false);
+                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
+                        Destroy(handPosition.GetChild(0));
+                    }
+
+
+                }
+            }
+            
+
+            #endregion
+
+            npcBehaviour.BlackboardReference.GetVariable("canTalk", out BlackboardVariable<bool> _npcCanTalk);
+            Debug.Log($"Npc can talk is equal to {_npcCanTalk}");
+            if (!_npcCanTalk) return;
+            npcBehaviour.BlackboardReference.GetVariable("isBeingTalkedTo", out BlackboardVariable<bool> _isBeingTalkedTo);
+            _isBeingTalkedTo.Value = true;
+            npcBehaviour.BlackboardReference.GetVariable("hasPressedTalk", out BlackboardVariable<bool> _hasPressedTalk);
+            //SwitchBool
+            if (_hasPressedTalk.Value) _hasPressedTalk.Value = true; else if (!_hasPressedTalk.Value) _hasPressedTalk.Value = false;
+            StartCoroutine(DialogueCooldown(dialogueCooldownTimer));
+           
         }
 
         //Pick Up Action
@@ -102,6 +163,16 @@ public class PlayerInteraction : MonoBehaviour
 
 
     }
+
+    #region Cooldown Timers
+
+    IEnumerator DialogueCooldown(float cooldownTime)
+    {
+        yield return new WaitForSeconds(cooldownTime);
+        canIncreaseDialogue = true;
+    }
+
+    #endregion
 
     public void StopPlayerMovement()
     {

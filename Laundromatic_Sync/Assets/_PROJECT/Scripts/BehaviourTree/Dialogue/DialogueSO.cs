@@ -7,5 +7,7 @@ public class DialogueSO : ScriptableObject
 {
     [TextArea(3, 50)]
     public List<string> DialogieInOrder;
+    public string correctDialogue;
+    public string wrongDialogue;
     public GameObject basket;
 }

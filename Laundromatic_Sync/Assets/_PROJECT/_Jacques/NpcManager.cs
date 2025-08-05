@@ -8,11 +8,13 @@ public class NpcManager : MonoBehaviour
 {
     public static NpcManager instance;
     public Transform playerTransform;
+    public List<Transform> basketPlacePosition = new();
     [SerializeField] Transform spawnPosition;
     [SerializeField] List<GameObject> npcPrefabs = new();
+    [SerializeField] int maxNpcAmount;
+    public List<GameObject> currentNpcs;
     public Transform startLineUpPosition;
     public List<Transform> waitingPositions = new();
-    public UnityEvent whenToSpawnNpc = new();
 
     void Start()
     {
@@ -21,15 +23,15 @@ public class NpcManager : MonoBehaviour
             instance = this;
         }
 
-        Debug.Log("[NpcMan] Trying to spawn npc");
         SpawnNpc();
     }
 
     public void SpawnNpc()
     {
-        Instantiate(npcPrefabs[Random.Range(0, npcPrefabs.Count)], spawnPosition);
+        if (currentNpcs.Count >= maxNpcAmount) return;
+        currentNpcs.Add(Instantiate(npcPrefabs[Random.Range(0, npcPrefabs.Count)], spawnPosition));
     }
-        public Transform GetNextWaypoint(Transform agentTransform)
+    public Transform GetNextWaypoint(Transform agentTransform)
     {
         float _nearestDistance = float.MaxValue;
         Transform _nearestWaypointTransform = null;
@@ -53,6 +55,13 @@ public class NpcManager : MonoBehaviour
 
         return waitingPositions[_index];
     }
+
+    public void KillNpc(GameObject npcToKill)
+    {
+        Destroy(npcToKill);
+    }
+
+
 }
 
 
@@ -60,4 +69,9 @@ public class NpcManager : MonoBehaviour
 public enum NpcOrderTypes
 {
     OrderDirty, OrderClean, OrderRandom
+}
+
+public enum NpcFinalOrderTypes
+{
+    Clean, Dirty, Random
 }
