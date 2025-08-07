@@ -63,20 +63,27 @@ Material:
     m_Ints: []
     m_Floats:
     - _AO: 1
+    - _AO_Strength: 1
     - _Alpha: 1
     - _Ambient_Light_Strength: -1.18
+    - _Metalic_Strength: 1
     - _Metallic: 0
+    - _Normal_Def: 15
+    - _Normal_Deffinition: 1
+    - _Normal_Strength: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 0.03
+    - _Smoothness_Strength: 1
     - _useAO: 1
+    - _useDiff: 1
     - _useMetallic: 0
-    - _useNormal: 1
+    - _useNormal: 0
     - _useSmoothness: 0
     m_Colors:
     - _Base_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Texture_Scale: {r: 1, g: 1, b: 0, a: 0}
-    - _Cutoff_Thresholds: {r: 0, g: 0, b: 0, a: 0}
+    - _Base_Texture_Scale: {r: 5, g: 5, b: 0, a: 0}
+    - _Cutoff_Thresholds: {r: -0.05, g: 0, b: 0, a: 0}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _Normal: {r: 0, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []
