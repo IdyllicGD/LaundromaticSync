@@ -29,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f234fba304506c0478f07563ae09ba02, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Metallic_Tex:
@@ -63,19 +63,24 @@ Material:
     m_Ints: []
     m_Floats:
     - _AO: 1
+    - _AO_Strength: 1
     - _Alpha: 1
     - _Ambient_Light_Strength: -1.18
+    - _Metalic_Strength: 1
     - _Metallic: 0
+    - _Normal_Strength: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 0.21
+    - _Smoothness: 0.24
+    - _Smoothness_Strength: 1
     - _useAO: 0
+    - _useDiff: 1
     - _useMetallic: 0
     - _useNormal: 0
     - _useSmoothness: 1
     m_Colors:
     - _Base_Color: {r: 0.3764706, g: 0.39607844, b: 0.5058824, a: 1}
-    - _Base_Texture_Scale: {r: 3, g: 3, b: 0, a: 0}
+    - _Base_Texture_Scale: {r: 10, g: 10, b: 0, a: 0}
     - _Cutoff_Thresholds: {r: 0, g: 0, b: 0, a: 0}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _Normal: {r: 0, g: 0, b: 1, a: 0}
