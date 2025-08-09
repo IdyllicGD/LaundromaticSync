@@ -25,8 +25,8 @@ public class CurtainBehaviour : MonoBehaviour
         UnityEngine.Debug.Log("Player Enter");
         if (other.CompareTag("Player"))
         {
-            Curtain01.DOMove(curtain01StartPos + new Vector3(0.8f, 0, 0), 1f).SetEase(Ease.InOutSine);
-            Curtain02.DOMove(curtain02StartPos + new Vector3(-0.8f, 0, 0), 1f).SetEase(Ease.InOutSine);
+            Curtain01.DOMove(curtain01StartPos + new Vector3(0, 0, 0.8f), 1f).SetEase(Ease.InOutSine);
+            Curtain02.DOMove(curtain02StartPos + new Vector3(0, 0, -0.8f), 1f).SetEase(Ease.InOutSine);
         }
     }
 
