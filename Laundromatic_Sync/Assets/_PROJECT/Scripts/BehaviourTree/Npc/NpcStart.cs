@@ -24,49 +24,10 @@ public class NpcStart : MonoBehaviour
 
     void Start()
     {
-        if (canHaveCleanClothes && canHaveDirtyClothes && canHaveRandomObject)
-        {
-            orderObject = orderObjectsCombined[Random.Range(0, orderObjectsCombined.Count)];
-            orderType = orderObject.GetComponent<OrderInformation>().finalOrderType;
-            Debug.Log("1");
-        }
-        else if (canHaveCleanClothes && canHaveDirtyClothes && !canHaveRandomObject)
-        {
-            orderObject = OrderCleanAndDirty[Random.Range(0, OrderCleanAndDirty.Count)];
-            orderType = orderObject.GetComponent<OrderInformation>().finalOrderType;
-            Debug.Log("2");
-        }
-        else if (canHaveCleanClothes && !canHaveDirtyClothes && canHaveRandomObject)
-        {
-            orderObject = orderCleanAndRandom[Random.Range(0, orderCleanAndRandom.Count)];
-            orderType = orderObject.GetComponent<OrderInformation>().finalOrderType;
-            Debug.Log("3");
-        }
-        else if (!canHaveCleanClothes && canHaveDirtyClothes && canHaveRandomObject)
-        {
-            orderObject = orderDirtyAndRandom[Random.Range(0, orderDirtyAndRandom.Count)];
-            orderType = orderObject.GetComponent<OrderInformation>().finalOrderType;
-            Debug.Log("4");
-        }
-        else if (canHaveCleanClothes && !canHaveDirtyClothes && !canHaveRandomObject)
-        {
-            orderObject = cleanBasket;
-            orderType = orderObject.GetComponent<OrderInformation>().finalOrderType;
-            Debug.Log("5");
-        }
-        else if (!canHaveCleanClothes && canHaveDirtyClothes && !canHaveRandomObject)
-        {
-            orderObject = dirtyBasket;
-            orderType = orderObject.GetComponent<OrderInformation>().finalOrderType;
-            Debug.Log("6");
 
-        }
-        else if (!canHaveCleanClothes && !canHaveDirtyClothes && canHaveRandomObject)
-        {
-            orderObject = randomObject;
-            orderType = orderObject.GetComponent<OrderInformation>().finalOrderType;
-            Debug.Log("7");
-        }
+        orderObject = dirtyBasket;
+        orderObject.GetComponent<OrderInformation>().isCleanOrder = true;
+
 
         ChangeDialogueText();
         SpawnObject(orderObject);
@@ -81,8 +42,8 @@ public class NpcStart : MonoBehaviour
 
     void ChangeDialogueText()
     {
-        npcDialogueSo.DialogieInOrder[0] = $"Can you pwease take this and give me back {orderType}";
-        npcDialogueSo.DialogieInOrder[npcDialogueSo.DialogieInOrder.Count - 1] = $"Remember I want {orderType}, UwU";
+        npcDialogueSo.DialogieInOrder[0] += $"{orderType}";
+        npcDialogueSo.DialogieInOrder[npcDialogueSo.DialogieInOrder.Count - 1] += $"{orderType}";
     }
 
 

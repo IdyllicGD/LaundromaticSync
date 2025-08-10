@@ -5,4 +5,6 @@ public class OrderInformation : MonoBehaviour
 {
     public NpcOrderTypes orderType;
     public NpcFinalOrderTypes finalOrderType;
+
+    public bool isCleanOrder;
 }

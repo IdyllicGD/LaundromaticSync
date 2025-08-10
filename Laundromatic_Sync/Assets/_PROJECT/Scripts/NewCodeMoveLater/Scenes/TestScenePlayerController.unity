@@ -640,6 +640,11 @@ MonoBehaviour:
   spawnPosition: {fileID: 895720222}
   npcPrefabs:
   - {fileID: 1724543156595427589, guid: eb8101de61c18164bbcda7c744b1c8c8, type: 3}
+  - {fileID: 1196844966340127928, guid: 28339cb87dd2d70459cfd11eff2f9df2, type: 3}
+  - {fileID: 7078545325670588233, guid: 75f814cec17021d4d9f906b76ef1b83b, type: 3}
+  - {fileID: 990178235583818218, guid: 93f30a82ba1151241bba58ac62a1d924, type: 3}
+  - {fileID: 5545422649037046806, guid: 8bbe1518b470e1b4390ccbf732b0ae85, type: 3}
+  - {fileID: 493688901392850380, guid: c3554dba0ed503f42a8036f54bed9589, type: 3}
   maxNpcAmount: 5
   currentNpcs: []
   startLineUpPosition: {fileID: 61309274}
@@ -8287,6 +8292,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8564702218650961142, guid: ba5a09dc71949ca49bbfe0df4d3e2dba, type: 3}
+      propertyPath: machineTimeToComplete
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8632,7 +8641,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7269248381002934313, guid: a32a32c63a74392448ed5e44b45234da, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.6820867
+      value: 2.173
       objectReference: {fileID: 0}
     - target: {fileID: 7269248381002934313, guid: a32a32c63a74392448ed5e44b45234da, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9482,7 +9491,7 @@ GameObject:
   - component: {fileID: 7954467779295428181}
   - component: {fileID: 4503166988137494110}
   - component: {fileID: 7954467779295428182}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Folding Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}

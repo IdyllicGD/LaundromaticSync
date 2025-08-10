@@ -69,16 +69,25 @@ public class PlayerInteraction : MonoBehaviour
             npcBehaviour.BlackboardReference.GetVariable("canTalk", out BlackboardVariable<bool> _canTalk);
             if (!_canTalk) return;
             Debug.Log("NpcHit");
-            npcBehaviour.BlackboardReference.GetVariable("isDoneTalking", out BlackboardVariable<bool> _isDoneTalking);
+            npcBehaviour.BlackboardReference.GetVariable("IsDoneTalking", out BlackboardVariable<bool> _isDoneTalking);
+            Debug.Log($"Is done talking got");
+            if (_isDoneTalking)
+            {
+                Debug.Log("true");
+            }
+            else
+            {
+                Debug.Log("false");
+            }
 
             #region NPC END CODE
 
-            if (handPosition.childCount != 0 && _isDoneTalking)
+            if (handPosition.childCount > 0 && _isDoneTalking)
             {
                 Debug.Log("Npc end code running");
                 GameObject currentObjectInHand = handPosition.GetChild(0).gameObject;
                 List<GameObject> npcList = NpcManager.instance.currentNpcs;
-                if (currentObjectInHand.TryGetComponent(out OrderInformation _orderInfo))
+                if (currentObjectInHand.TryGetComponent(out Basket _basketInfo))
                 {
                     int npcIndex = 1000;
                     for (int i = 0; i < npcList.Count; i++)
@@ -91,12 +100,12 @@ public class PlayerInteraction : MonoBehaviour
                     }
 
                     if (npcIndex == 1000) return;
-                    if (npcList[npcIndex].GetComponent<OrderInformation>().finalOrderType == _orderInfo.finalOrderType)
+                    if (_basketInfo.isCleanOrder)
                     {
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", true);
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
-                        Destroy(handPosition.GetChild(0));
+                        Destroy(handPosition.GetChild(0).gameObject);
 
                     }
                     else
@@ -104,7 +113,7 @@ public class PlayerInteraction : MonoBehaviour
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", false);
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
-                        Destroy(handPosition.GetChild(0));
+                        Destroy(handPosition.GetChild(0).gameObject);
                     }
 
 

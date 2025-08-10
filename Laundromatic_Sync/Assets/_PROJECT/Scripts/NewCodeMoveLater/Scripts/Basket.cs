@@ -14,6 +14,10 @@ namespace _PROJECT.Scripts.temp.Scripts
         public int minAmount;
         public NpcOrderTypes orderType;
 
+        public bool isCleanOrder;
+        public bool isDirtyOrder;
+        public bool isRandomOrder;
+
         void Awake()
         {
 

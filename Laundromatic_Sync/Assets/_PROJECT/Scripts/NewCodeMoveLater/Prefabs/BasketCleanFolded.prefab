@@ -217,7 +217,10 @@ MonoBehaviour:
   amountOfClothing: 0
   maxAmount: 0
   minAmount: 0
-  orderType: 0
+  orderType: 1
+  isCleanOrder: 1
+  isDirtyOrder: 0
+  isRandomOrder: 0
 --- !u!114 &-3751347742859182081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +248,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orderType: 1
-  finalOrderType: 1
+  finalOrderType: 0
+  isCleanOrder: 0
 --- !u!1 &8105643424054649305
 GameObject:
   m_ObjectHideFlags: 0
