@@ -23,11 +23,11 @@ public class CurtainBehaviour : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         UnityEngine.Debug.Log("Player Enter");
-        if (other.CompareTag("Player"))
-        {
+        // if (other.CompareTag("Player"))
+        // {
             Curtain01.DOMove(curtain01StartPos + new Vector3(0, 0, 0.8f), 1f).SetEase(Ease.InOutSine);
             Curtain02.DOMove(curtain02StartPos + new Vector3(0, 0, -0.8f), 1f).SetEase(Ease.InOutSine);
-        }
+        //}
     }
 
     public void OnTriggerExit(Collider other)

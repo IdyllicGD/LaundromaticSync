@@ -3,15 +3,15 @@ using _PROJECT._Jacques.Scripts.Interfaces;
 using DG.Tweening;
 using UnityEngine;
 
-public class PickupItem : MonoBehaviour, IPickupable, IMachineUsableItems
+public class PickupItem : MonoBehaviour, IPickupable
 {
     Collider collider;
     public CleanOrDirty cleanOrDirty;
-    public MachineUsableItemsType machineUsableItemsType;
+    //public MachineUsableItemsType machineUsableItemsType;
 
     private void Awake()
     {
-        machineUsableItemsType = MachineUsableItemsType.None;
+        //machineUsableItemsType = MachineUsableItemsType.None;
         collider = GetComponent<Collider>();
     }
 
@@ -23,10 +23,10 @@ public class PickupItem : MonoBehaviour, IPickupable, IMachineUsableItems
         transform.DOLocalMove(Vector3.zero, 0.2f);
     }
 
-    public MachineUsableItemsType ReturnMachineUsableItemsType()
-    {
-        return machineUsableItemsType;
-    }
+    // public MachineUsableItemsType ReturnMachineUsableItemsType()
+    // {
+    //     return machineUsableItemsType;
+    // }
 }
 
 

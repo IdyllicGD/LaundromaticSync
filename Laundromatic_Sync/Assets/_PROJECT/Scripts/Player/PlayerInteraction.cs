@@ -51,16 +51,6 @@ public class PlayerInteraction : MonoBehaviour
 
     private void InteractWithObject()
     {
-        //Place object on Table
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitTable, raycastDistance,
-                tableLayer))
-        {
-            if (handPosition.childCount == 0) return;
-            
-            handPosition.GetChild(0).GetComponent<Collider>().enabled = true;
-            handPosition.GetChild(0).transform.DOMove(hitTable.point, .5f);
-            handPosition.GetChild(0).SetParent(hitTable.transform);
-        }
         //Interact With NPC
         if (canIncreaseDialogue && Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitNPC, raycastDistance, npcLayer))
         {
@@ -119,7 +109,7 @@ public class PlayerInteraction : MonoBehaviour
 
                 }
             }
-            
+
 
             #endregion
 
@@ -132,7 +122,7 @@ public class PlayerInteraction : MonoBehaviour
             //SwitchBool
             if (_hasPressedTalk.Value) _hasPressedTalk.Value = true; else if (!_hasPressedTalk.Value) _hasPressedTalk.Value = false;
             StartCoroutine(DialogueCooldown(dialogueCooldownTimer));
-           
+
         }
 
         //Pick Up Action
@@ -147,7 +137,7 @@ public class PlayerInteraction : MonoBehaviour
                 return;
             }
         }
-        
+
 
         //check if the player is holding an item
         if (handPosition.childCount == 0) return;
@@ -168,6 +158,23 @@ public class PlayerInteraction : MonoBehaviour
         {
             interactableObject.Interact();
             return;
+        }
+        
+                //Place object on Table
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitTable, raycastDistance,
+                tableLayer))
+        {
+            if (handPosition.childCount == 0) return;
+            Transform hitObject = hitTable.transform;
+            for (int i = 0; hitObject.childCount < i; i++)
+            {
+                if (hitObject.GetChild(i).childCount == 0)
+                {
+                    handPosition.GetChild(0).SetParent(hitObject.GetChild(i));
+                    handPosition.GetChild(0).transform.DOLocalMove(Vector3.zero, 0.5f);
+                    break;
+                }
+            }
         }
 
 

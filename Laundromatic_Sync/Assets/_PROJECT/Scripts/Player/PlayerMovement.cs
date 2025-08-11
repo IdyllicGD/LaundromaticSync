@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        
         StartCoroutine(TimeToWait(0.1f));
         Cursor.lockState = CursorLockMode.Locked;
         #region Input Actions
