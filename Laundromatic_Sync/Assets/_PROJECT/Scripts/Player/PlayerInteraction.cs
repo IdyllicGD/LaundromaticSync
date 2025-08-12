@@ -52,14 +52,13 @@ public class PlayerInteraction : MonoBehaviour
     private void InteractWithObject()
     {
         //Interact With NPC
-        if (canIncreaseDialogue && Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitNPC, raycastDistance, npcLayer))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitNPC, raycastDistance, npcLayer))
         {
-            canIncreaseDialogue = false;
             if (!hitNPC.transform.TryGetComponent(out BehaviorGraphAgent npcBehaviour)) return;
-            npcBehaviour.BlackboardReference.GetVariable("canTalk", out BlackboardVariable<bool> _canTalk);
-            if (!_canTalk) return;
+            npcBehaviour.BlackboardReference.SetVariableValue("isBeingTalkedTo", true);
+
             Debug.Log("NpcHit");
-            npcBehaviour.BlackboardReference.GetVariable("IsDoneTalking", out BlackboardVariable<bool> _isDoneTalking);
+            npcBehaviour.BlackboardReference.GetVariableValue("IsDoneTalking", out BlackboardVariable<bool> _isDoneTalking);
             Debug.Log($"Is done talking got");
             if (_isDoneTalking)
             {
@@ -113,16 +112,6 @@ public class PlayerInteraction : MonoBehaviour
 
             #endregion
 
-            npcBehaviour.BlackboardReference.GetVariable("canTalk", out BlackboardVariable<bool> _npcCanTalk);
-            Debug.Log($"Npc can talk is equal to {_npcCanTalk}");
-            if (!_npcCanTalk) return;
-            npcBehaviour.BlackboardReference.GetVariable("isBeingTalkedTo", out BlackboardVariable<bool> _isBeingTalkedTo);
-            _isBeingTalkedTo.Value = true;
-            npcBehaviour.BlackboardReference.GetVariable("hasPressedTalk", out BlackboardVariable<bool> _hasPressedTalk);
-            //SwitchBool
-            if (_hasPressedTalk.Value) _hasPressedTalk.Value = true; else if (!_hasPressedTalk.Value) _hasPressedTalk.Value = false;
-            StartCoroutine(DialogueCooldown(dialogueCooldownTimer));
-
         }
 
         //Pick Up Action
@@ -135,6 +124,28 @@ public class PlayerInteraction : MonoBehaviour
             {
                 objectPickup.Pickup(handPosition, handPosition.childCount != 0);
                 return;
+            }
+        }
+
+                        //Place object on Table
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitTable, raycastDistance,
+                tableLayer))
+        {
+            Debug.Log($"Table Hit");
+            if (handPosition.childCount == 0) return;
+            Transform hitObject = hitTable.transform;
+            Transform handObject = handPosition.GetChild(0);
+            for (int i = 0; hitObject.childCount > i; i++)
+            {
+                if (hitObject.GetChild(i).childCount == 0)
+                {
+                    handObject.SetParent(hitObject.GetChild(i));
+                    handObject.transform.DOLocalMove(Vector3.zero, 0.5f);
+                    handObject.GetComponent<Collider>().enabled = true;
+                    
+
+                    break;
+                }
             }
         }
 
@@ -160,22 +171,7 @@ public class PlayerInteraction : MonoBehaviour
             return;
         }
         
-                //Place object on Table
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitTable, raycastDistance,
-                tableLayer))
-        {
-            if (handPosition.childCount == 0) return;
-            Transform hitObject = hitTable.transform;
-            for (int i = 0; hitObject.childCount < i; i++)
-            {
-                if (hitObject.GetChild(i).childCount == 0)
-                {
-                    handPosition.GetChild(0).SetParent(hitObject.GetChild(i));
-                    handPosition.GetChild(0).transform.DOLocalMove(Vector3.zero, 0.5f);
-                    break;
-                }
-            }
-        }
+
 
 
     }

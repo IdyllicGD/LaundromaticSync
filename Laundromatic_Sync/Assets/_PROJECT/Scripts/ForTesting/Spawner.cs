@@ -14,8 +14,8 @@ public class Spawner : MonoBehaviour
     void SpawnItem(GameObject itemToSpawn)
     {
         StartCoroutine(TimeToWait(spawnCheckDelayTime));
-        if (gameObject.transform.childCount == 0) return;
-        Instantiate(itemToSpawn);
+        if (gameObject.transform.childCount != 0) return;
+        Instantiate(itemToSpawn, transform);
     }
 
     IEnumerator TimeToWait(float time)

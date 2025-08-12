@@ -42,8 +42,8 @@ public class NpcStart : MonoBehaviour
 
     void ChangeDialogueText()
     {
-        npcDialogueSo.DialogieInOrder[0] += $"{orderType}";
-        npcDialogueSo.DialogieInOrder[npcDialogueSo.DialogieInOrder.Count - 1] += $"{orderType}";
+        npcDialogueSo.DialogieInOrder[0] =  $"{orderType}";
+        npcDialogueSo.DialogieInOrder[npcDialogueSo.DialogieInOrder.Count - 1] = $"{orderType}";
     }
 
 
