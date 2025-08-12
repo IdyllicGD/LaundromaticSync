@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 2310663891139994166}
   - component: {fileID: -3751347742859182081}
   - component: {fileID: -7649656381484603901}
+  - component: {fileID: 6845737907772521031}
   m_Layer: 6
   m_Name: BasketCleanFolded
   m_TagString: Untagged
@@ -234,7 +235,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cleanOrDirty: 0
-  machineUsableItemsType: 0
 --- !u!114 &-7649656381484603901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +250,19 @@ MonoBehaviour:
   orderType: 1
   finalOrderType: 0
   isCleanOrder: 0
+--- !u!114 &6845737907772521031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662443402454060199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709d485478b7ee646b209dcbb30d9cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Clean Laundry (Folded)
 --- !u!1 &8105643424054649305
 GameObject:
   m_ObjectHideFlags: 0

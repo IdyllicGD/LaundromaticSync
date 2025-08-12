@@ -427,6 +427,7 @@ GameObject:
   - component: {fileID: 1022693731763380058}
   - component: {fileID: 3532823745754078860}
   - component: {fileID: 2827522872184981024}
+  - component: {fileID: -1306707852430077601}
   m_Layer: 6
   m_Name: DryingMachine
   m_TagString: Untagged
@@ -551,11 +552,27 @@ MonoBehaviour:
   basketPosition: {fileID: 4970738388877087555}
   buttonSpawner: {fileID: 1503124218452317320}
   dryBasket: {fileID: 5662443402454060199, guid: a2249a9f9258b3b42a08840a0294825b, type: 3}
+  animator: {fileID: 0}
   doneSound: {fileID: 8445136217868492296}
   busySound: {fileID: 2861843357517856507}
   buttonSound: {fileID: 6289921689936280163}
+  doorOpenCloseSound: {fileID: 0}
   itemsUsed: 1
   isBusy: 0
+  isDone: 0
+--- !u!114 &-1306707852430077601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3434850954871775718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709d485478b7ee646b209dcbb30d9cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Dryer
 --- !u!1 &3672471298653249820
 GameObject:
   m_ObjectHideFlags: 0

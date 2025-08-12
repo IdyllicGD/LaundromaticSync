@@ -5,7 +5,9 @@ using _PROJECT._Jacques.Scripts.Interfaces;
 using _PROJECT.Scripts.temp.Scripts;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using TMPro;
 using Unity.Behavior;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
@@ -24,6 +26,11 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] LayerMask tableLayer;
     [SerializeField] LayerMask npcLayer;
     [SerializeField] float dialogueCooldownTimer;
+
+    [Title("User UI", null, TitleAlignments.Centered)]
+    [SerializeField]TextMeshProUGUI objectDitectedString;
+    [SerializeField] GameObject objectDitectedCanvas;
+    [SerializeField] LayerMask nameInteractionLayers;
     
     Camera playerCam;
 
@@ -49,6 +56,28 @@ public class PlayerInteraction : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
     }
 
+    void Update()
+    {
+        ShowItemNameWhenRayHit();
+    }
+
+    void ShowItemNameWhenRayHit()
+    {
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hit, raycastDistance, nameInteractionLayers))
+        {
+            if (hit.transform.TryGetComponent(out InteractionNameData _useableItem))
+            {
+                objectDitectedString.text = _useableItem.itemName;
+                objectDitectedCanvas.SetActive(true);
+            }
+        }
+        else
+        {
+            objectDitectedString.text = "";
+            objectDitectedCanvas.SetActive(false);
+        }
+    }
+
     private void InteractWithObject()
     {
         //Interact With NPC
@@ -58,9 +87,9 @@ public class PlayerInteraction : MonoBehaviour
             npcBehaviour.BlackboardReference.SetVariableValue("isBeingTalkedTo", true);
 
             Debug.Log("NpcHit");
-            npcBehaviour.BlackboardReference.GetVariableValue("IsDoneTalking", out BlackboardVariable<bool> _isDoneTalking);
+            npcBehaviour.BlackboardReference.GetVariableValue("IsDoneTalking", out bool _isDoneTalking);
             Debug.Log($"Is done talking got");
-            if (_isDoneTalking)
+            if (npcBehaviour.BlackboardReference.GetVariableValue("IsDoneTalking", out bool _done))
             {
                 Debug.Log("true");
             }
@@ -127,7 +156,7 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-                        //Place object on Table
+        //Place object on Table
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitTable, raycastDistance,
                 tableLayer))
         {
@@ -142,7 +171,7 @@ public class PlayerInteraction : MonoBehaviour
                     handObject.SetParent(hitObject.GetChild(i));
                     handObject.transform.DOLocalMove(Vector3.zero, 0.5f);
                     handObject.GetComponent<Collider>().enabled = true;
-                    
+
 
                     break;
                 }
@@ -170,7 +199,7 @@ public class PlayerInteraction : MonoBehaviour
             interactableObject.Interact();
             return;
         }
-        
+
 
 
 
