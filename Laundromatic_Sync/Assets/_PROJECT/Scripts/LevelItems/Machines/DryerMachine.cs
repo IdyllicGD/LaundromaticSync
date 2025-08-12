@@ -101,7 +101,8 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, Iinteractable, 
             doorOpenCloseSound.Play();
             currentStage = CurrentStage.DryingStage;
             currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
-            playerInteraction.StopPlayerMovement();
+            currentPlayerMovement.cameraOriginalRotation = Camera.main.transform.rotation;
+            playerInteraction.StopAndStartPlayerMovement();
             camObject.transform.DOMove(camPosition.position, 0.5f);
             camObject.transform.DODynamicLookAt(camLookAtPosition.position, 0.5f);
             secondaryObject.transform.SetParent(basketPosition);

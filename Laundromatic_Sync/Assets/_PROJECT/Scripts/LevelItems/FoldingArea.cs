@@ -72,9 +72,9 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
 
         currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
         if (!Physics.Raycast(camObject.transform.position, Vector3.forward, out RaycastHit hit, Mathf.Infinity, layerMask)) Debug.Log("[FoldingArea] raycast couldnt hit a position");
-        currentPlayerMovement.cameraLookAtPosition = hit.point;
+        currentPlayerMovement.cameraOriginalRotation = camObject.transform.rotation;
 
-        playerInteraction.StopPlayerMovement();
+        playerInteraction.StopAndStartPlayerMovement();
         camObject.transform.DOMove(camPosition.position, 0.5f);
         camObject.transform.DODynamicLookAt(lookAtPosition.position, 0.5f);
         secondaryObject.transform.SetParent(basketNotFoldedPosition);

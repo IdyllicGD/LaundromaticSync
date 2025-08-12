@@ -17,10 +17,10 @@ public class PlayerMovement : MonoBehaviour
     
     private float playerOriginalSpeed;
     private PlayerSettings playerSettings;
-    [HideInInspector]public InputSystem_Actions inputActions;
-    [HideInInspector]public bool canMoveAndLook = true;
+    [HideInInspector] public InputSystem_Actions inputActions;
+    [HideInInspector] public bool canMoveAndLook = true;
     [HideInInspector] public Vector3 cameraOriginalTransform;
-    [HideInInspector] public Vector3 cameraLookAtPosition;
+    [HideInInspector] public Quaternion cameraOriginalRotation;
 
     #region Player Settings Variables
     private float mouseSensitivity;
@@ -156,7 +156,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetCamera()
     {
-        playerCam.transform.DOMove(cameraOriginalTransform, 0.5f).OnComplete(() => inputActions.Enable());
+        playerCam.transform.DOMove(cameraOriginalTransform, 0.5f);
+        playerCam.transform.DORotateQuaternion(cameraOriginalRotation, 0.5f).OnComplete(() => inputActions.Enable());
         canMoveAndLook = true;
     }
 

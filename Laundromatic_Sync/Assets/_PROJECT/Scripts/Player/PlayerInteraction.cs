@@ -25,6 +25,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] LayerMask interactionLayer;
     [SerializeField] LayerMask tableLayer;
     [SerializeField] LayerMask npcLayer;
+    [SerializeField] LayerMask laptopLayer;
     [SerializeField] float dialogueCooldownTimer;
 
     [Title("User UI", null, TitleAlignments.Centered)]
@@ -191,6 +192,15 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitLaptop, raycastDistance,
+                laptopLayer)) {
+            //InteractWithCamOnly
+            if (hitLaptop.transform.TryGetComponent(out IMachineInteractable machineInteractable))
+            {
+                machineInteractable.Interact(playerCam);
+            }
+        }
+
 
         //check if the player is holding an item
         if (handPosition.childCount == 0) return;
@@ -205,6 +215,7 @@ public class PlayerInteraction : MonoBehaviour
             interactable.Interact(playerCam, itemInHand);
             return;
         }
+        
 
         //normal interaction
         if (machineHit.transform.TryGetComponent(out Iinteractable interactableObject))
@@ -235,10 +246,19 @@ public class PlayerInteraction : MonoBehaviour
 
     }
 
-    public void StopPlayerMovement()
+    public void StopAndStartPlayerMovement()
     {
-        playerMovement.canMoveAndLook = false;
-        playerMovement.inputActions.Disable();
+        if (!playerMovement.canMoveAndLook)
+        {
+            playerMovement.canMoveAndLook = true;
+            playerMovement.inputActions.Enable();
+        }
+        else
+        {
+            playerMovement.canMoveAndLook = false;
+            playerMovement.inputActions.Disable();
+        }
+        
     }
 
     public MachineType CheckMachineType(IMachineInteractable interactableMachine)

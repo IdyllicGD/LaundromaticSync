@@ -1,18 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
 public class DayNight : MonoBehaviour
 {
+    public static DayNight instance;
     [Title("Time UI Refrences", null, TitleAlignments.Centered)]
     [SerializeField] TextMeshProUGUI minutesText;
     [SerializeField] TextMeshProUGUI hoursText;
     [SerializeField] TextMeshProUGUI dayText;
 
-    [Title("Current Day Time",null, TitleAlignments.Centered)]
+    [Title("Current Day Time", null, TitleAlignments.Centered)]
     [SerializeField] int minutes;
-    [SerializeField]int hours;
-    [SerializeField]int days;
+    [SerializeField] int hours;
+    [SerializeField] int days;
 
     [Title("SkyBox", "Time skybox will change and to what it will change", TitleAlignments.Centered)]
     [SuffixLabel("Minutes, Hours, Days")]
@@ -28,13 +31,26 @@ public class DayNight : MonoBehaviour
     [SerializeField] Texture2D eveningSkybox;
     [SerializeField] Texture2D nightSkybox;
     [SerializeField] Texture2D sunsetSkybox;
+    [Title("Delivery", null, TitleAlignments.Centered)]
+    [SerializeField] GameObject deliveryArea;
+    public int delivryAreaMaxAmount;
 
 
     float tempSeconds;
 
     bool endOfDayPause = false;
 
+    void Start()
+    {
+        instance = this;
+        delivryAreaMaxAmount = ReturnAvailableSpaceOnDeliveryTable();
+        StartOfNewDay();
+    }
 
+    public void StartOfNewDay()
+    {
+        StartCoroutine(TimeToWaitForStart(1f));
+    }
     public void CheckForMail()
     {
 
@@ -63,6 +79,59 @@ public class DayNight : MonoBehaviour
         }
 
 
+    }
+
+    void StartOfDayDelivery()
+    {
+
+        for (int i = 0; i <= ShopManager.instance.orderList.Capacity - 1; i++)
+        {
+            if (!CheckIfObjectHasChild(deliveryArea.transform.GetChild(i)))
+            {
+                Instantiate(ShopManager.instance.orderList[i], deliveryArea.transform.GetChild(i));
+            }
+
+
+        }
+        StartCoroutine(TimeToWait(5f));
+
+    }
+
+    public int ReturnAvailableSpaceOnDeliveryTable()
+    {
+        int amountAvailable = 0;
+        Debug.Log(deliveryArea.transform.childCount);
+        for (int i = 0; i <= deliveryArea.transform.childCount - 2; i++)
+        {
+            if (!CheckIfObjectHasChild(deliveryArea.transform.GetChild(i)))
+            {
+                amountAvailable++;
+                Debug.Log(amountAvailable);
+            }
+        }
+        return amountAvailable;
+    }
+
+    bool CheckIfObjectHasChild(Transform objectToCheck)
+    {
+        if (objectToCheck.childCount != 0)
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    IEnumerator TimeToWait(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ShopManager.instance.orderList.Clear();
+
+    }
+    IEnumerator TimeToWaitForStart(float time)
+    {
+        yield return new WaitForSeconds(time);
+        StartOfDayDelivery();
+        
     }
 
     

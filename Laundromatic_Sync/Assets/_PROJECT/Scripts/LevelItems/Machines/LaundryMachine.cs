@@ -44,6 +44,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 
 
 
+
+
     public MachineType machineType;
 
 
@@ -170,6 +172,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         //doorCloseSound.Play();
         switch (ReturnItemType(secondaryObject))
         {
+            //Washing Any Type
             case MachineUsableItemsType.None:
                 Debug.Log($"[Laundry Machine] You need Detergent first");
                 playerInteraction.UpdatePlayerPopupMessage("You need Detergent first before you can wash this");
@@ -177,13 +180,15 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 {
                     currentStage++;
                     currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
-                    playerInteraction.StopPlayerMovement();
+                    currentPlayerMovement.cameraOriginalRotation = Camera.main.transform.rotation;
+                    playerInteraction.StopAndStartPlayerMovement();
                     camObject.transform.DOMove(camPosition.position, baseSpeedCam);
                     camObject.transform.DODynamicLookAt(camLookAtPosition.position, baseLookAtPositionSpeed);
                     secondaryObject.transform.SetParent(basketPosition);
                     secondaryObject.transform.DOLocalMove(Vector3.zero, baseSpeedSecondObject).OnComplete(() => StartStage(currentStage));
                 }
                 return;
+                //Washing Baskets
             case MachineUsableItemsType.Basket:
                 //Checks if the basket type is dirty, is the machine has Detergent and if the machine is in the correct state
                 switch (hasDetergent)
@@ -205,8 +210,9 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                     if (currentStage == CurrentStage.FillingUpStage)
                     {
                         currentStage = CurrentStage.WashingStage;
+                        currentPlayerMovement.cameraOriginalRotation = Camera.main.transform.rotation;
                         currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
-                        playerInteraction.StopPlayerMovement();
+                        playerInteraction.StopAndStartPlayerMovement();
                         camObject.transform.DOMove(camPosition.position, baseSpeedCam);
                         camObject.transform.DODynamicLookAt(camLookAtPosition.position, baseLookAtPositionSpeed);
                         secondaryObject.transform.SetParent(basketPosition);
