@@ -28,10 +28,12 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] float dialogueCooldownTimer;
 
     [Title("User UI", null, TitleAlignments.Centered)]
-    [SerializeField]TextMeshProUGUI objectDitectedString;
+    [SerializeField] TextMeshProUGUI objectDitectedString;
     [SerializeField] GameObject objectDitectedCanvas;
     [SerializeField] LayerMask nameInteractionLayers;
-    
+    [SerializeField] TextMeshProUGUI popupMessageText;
+    [SerializeField] TextMeshProUGUI petableInfo;
+
     Camera playerCam;
 
     #endregion
@@ -47,6 +49,7 @@ public class PlayerInteraction : MonoBehaviour
         inputActions = new InputSystem_Actions();
         inputActions.Enable();
         inputActions.Player.Interact.performed += x => InteractWithObject();
+        inputActions.Player.Pet.performed += x => PetAnimal();
         //TODO: Implement a way for the player to cancel the action
         //inputActions.Player.Back.performed += x => BackPressed();
 
@@ -70,12 +73,22 @@ public class PlayerInteraction : MonoBehaviour
                 objectDitectedString.text = _useableItem.itemName;
                 objectDitectedCanvas.SetActive(true);
             }
+            if (hit.transform.TryGetComponent(out PetableThing petableThing))
+            {
+                petableInfo.text = "Press F to pet";
+            }
         }
         else
         {
+            petableInfo.text = "";
             objectDitectedString.text = "";
             objectDitectedCanvas.SetActive(false);
         }
+    }
+
+    void PetAnimal()
+    {
+        UpdatePlayerPopupMessage("Doggo says thank you for the pets!");
     }
 
     private void InteractWithObject()
@@ -215,6 +228,13 @@ public class PlayerInteraction : MonoBehaviour
 
     #endregion
 
+    public void UpdatePlayerPopupMessage(string messageInfo)
+    {
+        popupMessageText.text = messageInfo;
+        StartCoroutine(TimeToWaitToDisablePopupText(3f));
+
+    }
+
     public void StopPlayerMovement()
     {
         playerMovement.canMoveAndLook = false;
@@ -248,6 +268,12 @@ public class PlayerInteraction : MonoBehaviour
     private void OnDestroy()
     {
         inputActions.Disable();
+    }
+
+    IEnumerator TimeToWaitToDisablePopupText(float time)
+    {
+        yield return new WaitForSeconds(time);
+        popupMessageText.text = "";
     }
     
     

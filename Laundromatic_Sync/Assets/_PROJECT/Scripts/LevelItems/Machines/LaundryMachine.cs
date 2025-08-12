@@ -172,6 +172,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         {
             case MachineUsableItemsType.None:
                 Debug.Log($"[Laundry Machine] You need Detergent first");
+                playerInteraction.UpdatePlayerPopupMessage("You need Detergent first before you can wash this");
             if (currentStage == CurrentStage.FillingUpStage && hasDetergent)
                 {
                     currentStage++;
@@ -195,6 +196,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                         break;
                     case false:
                         Debug.Log($"[Laundry Machine] You need Detergent first!");
+                        playerInteraction.UpdatePlayerPopupMessage("You need detergent first");
                         break;
                 }
                 
@@ -218,6 +220,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 if (hasDetergent)
                 {
                     Debug.Log($"[Laundry Machine] Machine already has detergent");
+                    playerInteraction.UpdatePlayerPopupMessage("This machine already has detergent");
                     break;
                 }
                 if (currentStage == CurrentStage.FillingUpStage)
@@ -230,6 +233,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 if (hasFabricSoftener)
                 {
                     Debug.Log($"[Laundry Machine] Machine already has fabric softner");
+                    playerInteraction.UpdatePlayerPopupMessage("This machine already has fabric softener");
                     break;
                 }
                 if (currentStage == CurrentStage.FillingUpStage)
@@ -240,6 +244,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 break;
             default:
                 Debug.Log($"[Laundry Machine] This item cannot be used on this machine");
+                playerInteraction.UpdatePlayerPopupMessage("This item cannot be used with this machine");
                 break;
         }
 

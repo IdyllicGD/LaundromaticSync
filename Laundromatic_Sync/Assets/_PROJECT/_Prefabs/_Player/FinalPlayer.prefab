@@ -56,7 +56,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4678097731848511701}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.86, z: 3.508}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b34fddb726a0b4dbdfe70a29d46693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 125
+  playerSpeed: 3
   sprintMultiplier: 2
   minClampDistance: -75
   maxClampDistance: 75
@@ -264,8 +264,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   dialogueCooldownTimer: 0
-  objectDitectedString: 
+  objectDitectedString: {fileID: 0}
   objectDitectedCanvas: {fileID: 0}
+  nameInteractionLayers:
+    serializedVersion: 2
+    m_Bits: 1224
 --- !u!1 &8347081167702068328
 GameObject:
   m_ObjectHideFlags: 0
