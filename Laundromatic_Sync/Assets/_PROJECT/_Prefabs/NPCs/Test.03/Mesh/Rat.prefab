@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8914747879618775866, guid: b12c7fe737d3724418c33e256f9507c5, type: 3}
+  - {fileID: 2100000, guid: 11816d2eea98f1c439ad7f27835ba42d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 4140032834861378320}
   - component: {fileID: 6876986286721499834}
   - component: {fileID: 3168555633195140843}
+  - component: {fileID: 6212844227591136950}
   m_Layer: 0
   m_Name: Rat
   m_TagString: Untagged
@@ -151,7 +152,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8914747879618775866, guid: b12c7fe737d3724418c33e256f9507c5, type: 3}
+  - {fileID: 2100000, guid: 11816d2eea98f1c439ad7f27835ba42d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -173,3 +174,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6212844227591136950
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7047741334512428129}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.526892, y: 0.03150592, z: 0.526892}
+  m_Center: {x: 9.389464e-10, y: -0.015752906, z: -0.0000000023473659}
