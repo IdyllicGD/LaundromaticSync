@@ -137,6 +137,14 @@ public class PlayerInteraction : MonoBehaviour
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", true);
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
+                        if (_basketInfo.ItemsUsed == ItemsUsed.FabricSoftner)
+                        {
+                            PlayerSettings.instance.AddMoney(50);
+                        }
+                        else
+                        {
+                            PlayerSettings.instance.AddMoney(20);
+                        }
                         Destroy(handPosition.GetChild(0).gameObject);
 
                     }
@@ -145,6 +153,7 @@ public class PlayerInteraction : MonoBehaviour
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", false);
                         npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
+                        PlayerSettings.instance.AddMoney(10);
                         Destroy(handPosition.GetChild(0).gameObject);
                     }
 
@@ -167,6 +176,11 @@ public class PlayerInteraction : MonoBehaviour
             {
                 objectPickup.Pickup(handPosition, handPosition.childCount != 0);
                 return;
+            }
+            //normal interaction
+            if (hit.transform.TryGetComponent(out Iinteractable interactableObject))
+            {
+                interactableObject.Interact();
             }
         }
 
@@ -200,6 +214,7 @@ public class PlayerInteraction : MonoBehaviour
                 machineInteractable.Interact(playerCam);
             }
         }
+        
 
 
         //check if the player is holding an item
@@ -208,6 +223,7 @@ public class PlayerInteraction : MonoBehaviour
         if (!Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit machineHit,
                 raycastDistance,
                 interactionLayer)) return;
+        
 
         //Machine interaction
         if (machineHit.transform.TryGetComponent(out IMachineInteractable interactable))
@@ -217,12 +233,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         
 
-        //normal interaction
-        if (machineHit.transform.TryGetComponent(out Iinteractable interactableObject))
-        {
-            interactableObject.Interact();
-            return;
-        }
+
 
 
 
@@ -249,6 +260,21 @@ public class PlayerInteraction : MonoBehaviour
     public void StopAndStartPlayerMovement()
     {
         if (!playerMovement.canMoveAndLook)
+        {
+            playerMovement.canMoveAndLook = true;
+            playerMovement.inputActions.Enable();
+        }
+        else
+        {
+            playerMovement.canMoveAndLook = false;
+            playerMovement.inputActions.Disable();
+        }
+        
+    }
+
+        public void StopAndStartPlayerMovement(bool setToThis)
+    {
+        if (setToThis)
         {
             playerMovement.canMoveAndLook = true;
             playerMovement.inputActions.Enable();

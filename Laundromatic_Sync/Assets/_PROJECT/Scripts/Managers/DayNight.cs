@@ -13,9 +13,9 @@ public class DayNight : MonoBehaviour
     [SerializeField] TextMeshProUGUI dayText;
 
     [Title("Current Day Time", null, TitleAlignments.Centered)]
-    [SerializeField] int minutes;
-    [SerializeField] int hours;
-    [SerializeField] int days;
+    public int minutes;
+    public int hours;
+    public int days;
 
     [Title("SkyBox", "Time skybox will change and to what it will change", TitleAlignments.Centered)]
     [SuffixLabel("Minutes, Hours, Days")]
@@ -43,8 +43,20 @@ public class DayNight : MonoBehaviour
     void Start()
     {
         instance = this;
+        UpdateTimeData();
         delivryAreaMaxAmount = ReturnAvailableSpaceOnDeliveryTable();
         StartOfNewDay();
+
+        minutesText.text = minutes.ToString("00");
+        hoursText.text = hours.ToString("00");
+        dayText.text = days.ToString("00");
+    }
+
+    void UpdateTimeData()
+    {
+        minutesText.text = minutes.ToString("00");
+        hoursText.text = hours.ToString("00");
+        dayText.text = days.ToString("00");
     }
 
     public void StartOfNewDay()
@@ -70,6 +82,7 @@ public class DayNight : MonoBehaviour
                 {
                     hours = 0;
                     endOfDayPause = true;
+                    PauseTimeAndCloseStore();
                 }
                 hoursText.text = hours.ToString("00");
                 minutes = 0;
@@ -81,19 +94,51 @@ public class DayNight : MonoBehaviour
 
     }
 
+    public void PauseTimeAndCloseStore()
+    {
+        NpcManager.instance.canSpawnNpc = false;
+    }
+
+    public void EndDay()
+    {
+        int currentNpcCount = NpcManager.instance.currentNpcs.Count;
+        Debug.Log(currentNpcCount);
+        for (int i = 0; i < currentNpcCount; i++)
+        {
+            Destroy(NpcManager.instance.currentNpcs[i].gameObject);
+        }
+
+
+        NpcManager.instance.currentNpcs.Clear();
+        hours = 6;
+        minutes = 0;
+        days++;
+        PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement(true);
+        UpdateTimeData();
+        NpcManager.instance.SpawnNpc();
+        StartOfDayDelivery();
+    }
+
     void StartOfDayDelivery()
     {
-
-        for (int i = 0; i <= ShopManager.instance.orderList.Capacity - 1; i++)
+        int spawnerOrders = 0;
+        for (int i = 0; i < deliveryArea.transform.childCount; i++)
         {
-            if (!CheckIfObjectHasChild(deliveryArea.transform.GetChild(i)))
+            if (spawnerOrders < ShopManager.instance.orderList.Count && !CheckIfObjectHasChild(deliveryArea.transform.GetChild(i)))
             {
-                Instantiate(ShopManager.instance.orderList[i], deliveryArea.transform.GetChild(i));
+                Instantiate(ShopManager.instance.orderList[spawnerOrders], deliveryArea.transform.GetChild(i));
+                spawnerOrders++;
             }
+            Debug.Log($"[DayNight] {i}");
+
+            
+            
+            
 
 
         }
         StartCoroutine(TimeToWait(5f));
+        ShopManager.instance.orderList.Clear();
 
     }
 

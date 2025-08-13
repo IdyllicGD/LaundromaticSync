@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 1657108080972361984}
   - component: {fileID: 1731183565874556949}
   - component: {fileID: 268625662127405467}
+  - component: {fileID: 3040776711476381126}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -400,6 +401,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!65 &3040776711476381126
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2153244518893826106}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 23.16, y: 27.62, z: 10.91}
+  m_Center: {x: 12.68, y: -12.14, z: 0}
 --- !u!1 &4020925042168608047
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,14 +662,13 @@ GameObject:
   - component: {fileID: 8680607377040920011}
   - component: {fileID: 4475228041776742304}
   - component: {fileID: 3745046499837269714}
-  - component: {fileID: 4701363155469919961}
   m_Layer: 6
   m_Name: ShopMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8680607377040920011
 RectTransform:
   m_ObjectHideFlags: 0
@@ -710,23 +731,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4701363155469919961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5589687390308667381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3a03fcd388572a41acd0814e95c2de7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orderList: []
-  laundryMachine: {fileID: 0}
-  dryerMachine: {fileID: 0}
-  detergent: {fileID: 3562707004481180120, guid: ef33a66b9db587c44be9c0bb38d6e082, type: 3}
-  softener: {fileID: 8656457897783618777, guid: 798ca22d03e3caf409a43a6c6fd0e450, type: 3}
 --- !u!1 &6195114778941941233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1095,6 +1099,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8680607377040920011}
     m_Modifications:
+    - target: {fileID: 792027219154817607, guid: f678c92003f340b41b1f8023a21e18e5, type: 3}
+      propertyPath: m_text
+      value: 'Laundry Machine
+
+        Coming Soon'
+      objectReference: {fileID: 0}
     - target: {fileID: 941077106671632767, guid: f678c92003f340b41b1f8023a21e18e5, type: 3}
       propertyPath: m_Name
       value: LaundryMachine
@@ -1214,7 +1224,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 49.62, y: 48, z: 10.91}
   m_Center: {x: 0.2, y: -24.8, z: 0}
@@ -1234,6 +1244,10 @@ PrefabInstance:
     - target: {fileID: 4147602671801988756, guid: 0fec48712ea656b448758c42002ece6c, type: 3}
       propertyPath: m_Name
       value: Detergent
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219820158168701036, guid: 0fec48712ea656b448758c42002ece6c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8410033319162236466, guid: 0fec48712ea656b448758c42002ece6c, type: 3}
       propertyPath: m_Pivot.x
@@ -1323,6 +1337,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4147602671801988756, guid: 0fec48712ea656b448758c42002ece6c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5799640793343269305}
+    - targetCorrespondingSourceObject: {fileID: 4147602671801988756, guid: 0fec48712ea656b448758c42002ece6c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5016852819030599458}
   m_SourcePrefab: {fileID: 100100000, guid: 0fec48712ea656b448758c42002ece6c, type: 3}
 --- !u!224 &237154638930456998 stripped
 RectTransform:
@@ -1355,6 +1372,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 49.62, y: 48, z: 10.91}
   m_Center: {x: 0.2, y: -24.8, z: 0}
+--- !u!114 &5016852819030599458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5653078536670644480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60280ba44b2e7bb4e9cccc86a6d89b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orderItem: 2
+  price: 10
 --- !u!1001 &9109467256092844582
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1366,6 +1397,12 @@ PrefabInstance:
     - target: {fileID: 3639157171061128676, guid: 903b7f8bf8ec1d84a966e150a6858f0b, type: 3}
       propertyPath: m_Name
       value: DryingMachine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3851239592731242204, guid: 903b7f8bf8ec1d84a966e150a6858f0b, type: 3}
+      propertyPath: m_text
+      value: 'Dryer
+
+        Coming Soon'
       objectReference: {fileID: 0}
     - target: {fileID: 9203576648904164674, guid: 903b7f8bf8ec1d84a966e150a6858f0b, type: 3}
       propertyPath: m_Pivot.x
@@ -1483,7 +1520,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 49.62, y: 48, z: 10.91}
   m_Center: {x: 0.2, y: -24.8, z: 0}

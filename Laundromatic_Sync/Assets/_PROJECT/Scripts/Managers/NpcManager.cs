@@ -14,6 +14,7 @@ public class NpcManager : MonoBehaviour
     [SerializeField] int maxNpcAmount;
     public List<GameObject> currentNpcs;
     public Transform startLineUpPosition;
+    public bool canSpawnNpc = true;
     public List<Transform> waitingPositions = new();
 
     void Start()
@@ -28,6 +29,7 @@ public class NpcManager : MonoBehaviour
 
     public void SpawnNpc()
     {
+        if (!canSpawnNpc) return;
         if (currentNpcs.Count >= maxNpcAmount) return;
         currentNpcs.Add(Instantiate(npcPrefabs[Random.Range(0, npcPrefabs.Count)], spawnPosition));
     }

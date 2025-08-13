@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class DryerMachine : MonoBehaviour, IMachineInteractable, Iinteractable, RythmStages
+public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
 {
     //When a basket is placed in, store what items have been used on it to set it again when the new one is spawned
     CurrentStage currentStage;
@@ -156,10 +156,6 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, Iinteractable, 
         animator.SetBool("isWashing", false);
     }
 
-    public void Interact()
-    {
-        throw new NotImplementedException();
-    }
 
     public bool IsBusy()
     {
