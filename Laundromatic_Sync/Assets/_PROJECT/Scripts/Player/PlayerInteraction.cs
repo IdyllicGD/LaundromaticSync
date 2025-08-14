@@ -7,6 +7,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.Behavior;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -89,7 +90,15 @@ public class PlayerInteraction : MonoBehaviour
 
     void PetAnimal()
     {
-        UpdatePlayerPopupMessage("Doggo says thank you for the pets!");
+        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hit, raycastDistance);
+        string nameOfObject = hit.transform.name;
+        if (hit.transform.TryGetComponent(out InteractionNameData nameData))
+        {
+            nameOfObject = nameData.name;
+        }
+
+        if (nameOfObject == null) return;
+        UpdatePlayerPopupMessage($"{nameOfObject} says thank you for the pets!");
     }
 
     private void InteractWithObject()

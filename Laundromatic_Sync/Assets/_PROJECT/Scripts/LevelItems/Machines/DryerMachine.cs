@@ -31,6 +31,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
     [SerializeField] GameObject dryBasket;
     [Title("Animation", null, TitleAlignments.Centered)]
     [SerializeField] Animator animator;
+    [SerializeField] ParticleSystem bubbles;
 
     [Title("Sounds", null, TitleAlignments.Centered)]
     [SerializeField] StudioEventEmitter doneSound;
@@ -65,7 +66,6 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
                 return true;
             }
         }
-        
         return false;
         
     }
@@ -129,6 +129,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
                 StartCoroutine(EndMachineFunc(machineTimeToComplete));
                 buttonSound.Play();
                 busySound.Play();
+                bubbles.Play();
                 animator.SetBool("isWashing", true);
                 break;
             default:
@@ -146,6 +147,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
     IEnumerator EndMachineFunc(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        bubbles.Stop();
         isDone = true;
         currentStage = CurrentStage.FillingUpStage;
         GameObject _basket = Instantiate(dryBasket, basketPosition);

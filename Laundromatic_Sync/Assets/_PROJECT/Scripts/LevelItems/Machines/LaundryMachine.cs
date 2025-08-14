@@ -41,6 +41,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     [SerializeField] CurrentStage currentStage;
     [Title("RaycastPositions", null, TitleAlignments.Centered)]
     [SerializeField] Transform raycastPosition;
+    [Title("Animatiom", null, TitleAlignments.Centered)]
+    [SerializeField] ParticleSystem bubbles;
 
 
 
@@ -126,6 +128,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 //exit to normal view
                 busySound.Play();
                 buttonSound.Play();
+                bubbles.Play();
                 animator.SetTrigger("StartCycle");
                 animator.SetBool("isIdle", false);
                 StartCoroutine(EndMachineFunc(machineTimeToComplete, currentObject));
@@ -287,6 +290,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     IEnumerator EndMachineFunc(float waitTime, GameObject itemType)
     {
         yield return new WaitForSeconds(waitTime);
+        bubbles.Stop();
         currentStage = CurrentStage.FillingUpStage;
         switch (ReturnItemType(itemType))
         {
