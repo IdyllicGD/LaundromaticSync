@@ -24,7 +24,8 @@ namespace _PROJECT.Scripts.temp.Scripts
 
 
             if (BasketType != BasketType.DryClean) return;
-            amountOfClothing = Random.Range(minAmount, maxAmount);
+            //amountOfClothing = Random.Range(minAmount, maxAmount);
+            amountOfClothing = 4;
             
         }
 

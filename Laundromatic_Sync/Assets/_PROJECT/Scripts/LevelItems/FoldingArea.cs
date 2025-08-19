@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using _PROJECT._Jacques.Scripts.Interfaces;
 using _PROJECT.Scripts.Rhythm;
 using _PROJECT.Scripts.temp.Scripts;
@@ -40,9 +41,14 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
 
 
     #endregion
+    [Title("Positions", null, TitleAlignments.Centered, bold: true)]
+    [SerializeField] List<GameObject> foldingAnimPieces = new();
+
     [Title("LayerMask", null, TitleAlignments.Centered, bold: true)]
     [SerializeField] LayerMask layerMask;
     #endregion
+
+    int currentFoldingCount;
 
     #region Interactions
 
@@ -91,7 +97,19 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
     {
         buttonSpawner.currentStage = 0;
         buttonSpawner.SpawnButton();
+        FoldingAnimation();
         
+    }
+
+    void FoldingAnimation()
+    {
+        if (currentFoldingCount >= foldingAnimPieces.Count)
+        {
+            currentFoldingCount = 0;
+        }
+        DisableAllObjectsInAnimList();
+        foldingAnimPieces[currentFoldingCount].SetActive(true);
+        currentFoldingCount++;
     }
 
     void EndMachineActions()
@@ -101,7 +119,17 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
         _finalBasket.GetComponent<Basket>().ItemsUsed = itemsUsed;
         currentPlayerMovement.ResetCamera();
         Destroy(basketNotFoldedPosition.GetChild(0).gameObject);
+        DisableAllObjectsInAnimList();
+        currentFoldingCount = 0;
 
+    }
+
+    void DisableAllObjectsInAnimList()
+    {
+        foreach (GameObject gameObject in foldingAnimPieces)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public bool IsBusy()
