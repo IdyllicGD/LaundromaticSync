@@ -108,6 +108,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (!hitNPC.transform.TryGetComponent(out BehaviorGraphAgent npcBehaviour)) return;
             npcBehaviour.BlackboardReference.SetVariableValue("isBeingTalkedTo", true);
+            npcBehaviour.BlackboardReference.SetVariableValue<Transform>("Player", this.transform);
 
             Debug.Log("NpcHit");
             npcBehaviour.BlackboardReference.GetVariableValue("IsDoneTalking", out bool _isDoneTalking);
