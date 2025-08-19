@@ -54,6 +54,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 50
+--- !u!114 &-7921866201042037544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MUSIC/Chiptoon/MainMusic
+  m_EditorClassIdentifier: 
+  Path: event:/MUSIC/Chiptoon/MainMusic
+  Guid:
+    Data1: -900679072
+    Data2: 1293631799
+    Data3: -967463520
+    Data4: -1963642320
+  Banks:
+  - {fileID: 8082484439715718555}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 93000
 --- !u!114 &-7905140173239117327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +352,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638912357646529981
+  lastModified: 638912366940418829
   FileSizes:
   - Name: Desktop
     Value: 2620
@@ -426,7 +453,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638912357646483130
+  lastModified: 638912366940358662
   FileSizes:
   - Name: Desktop
     Value: 1632
@@ -473,7 +500,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638912359591388597
+  lastModified: 638912366942765000
   FileSizes:
   - Name: Desktop
     Value: 1392992
@@ -581,16 +608,16 @@ MonoBehaviour:
   - {fileID: 6547905064578497832}
   - {fileID: -5789162574870310547}
   - {fileID: 555755883639678961}
-  - {fileID: 3074419566559392690}
-  - {fileID: 4081258357817257830}
-  - {fileID: 7552322932622883012}
   - {fileID: -3762373638685200593}
+  - {fileID: 8367833874797039882}
+  - {fileID: -7921866201042037544}
+  - {fileID: 533469193760543631}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2125593146152450226}
   StringsBanks:
   - {fileID: -3629877894166248456}
-  cacheTime: 638912359591388597
+  cacheTime: 638912374209545356
   cacheVersion: 131624
 --- !u!114 &68791234730322443
 MonoBehaviour:
@@ -619,6 +646,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1000
+--- !u!114 &533469193760543631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MUSIC/Chiptoon/ShopMusic
+  m_EditorClassIdentifier: 
+  Path: event:/MUSIC/Chiptoon/ShopMusic
+  Guid:
+    Data1: 1829388991
+    Data2: 1265920867
+    Data3: -1215254370
+    Data4: 1791728502
+  Banks:
+  - {fileID: 8082484439715718555}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 90857
 --- !u!114 &555755883639678961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,33 +754,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 153652
---- !u!114 &3074419566559392690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MUSIC/Chiptoon/LaundromatMusic
-  m_EditorClassIdentifier: 
-  Path: event:/MUSIC/Chiptoon/LaundromatMusic
-  Guid:
-    Data1: 423129134
-    Data2: 1105880793
-    Data3: 185023929
-    Data4: -1213536757
-  Banks:
-  - {fileID: 8082484439715718555}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 461736
 --- !u!114 &3843167400022428867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,33 +781,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1510
---- !u!114 &4081258357817257830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MUSIC/Chiptoon/MainMusic
-  m_EditorClassIdentifier: 
-  Path: event:/MUSIC/Chiptoon/MainMusic
-  Guid:
-    Data1: -900679072
-    Data2: 1293631799
-    Data3: -967463520
-    Data4: -1963642320
-  Banks:
-  - {fileID: 8082484439715718555}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 93000
 --- !u!114 &4090754809782151960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,33 +943,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 380
---- !u!114 &7552322932622883012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MUSIC/Chiptoon/ShopMusic
-  m_EditorClassIdentifier: 
-  Path: event:/MUSIC/Chiptoon/ShopMusic
-  Guid:
-    Data1: 1829388991
-    Data2: 1265920867
-    Data3: -1215254370
-    Data4: 1791728502
-  Banks:
-  - {fileID: 8082484439715718555}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 90857
 --- !u!114 &7859350958166673944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1039,11 +1012,38 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Chiptune.bank
   Name: Chiptune
   StudioPath: bank:/Chiptune/Chiptune
-  lastModified: 638912354681740723
+  lastModified: 638912374209545356
   FileSizes:
   - Name: Desktop
     Value: 8900416
   Exists: 1
+--- !u!114 &8367833874797039882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MUSIC/Chiptoon/LaundromatMusic
+  m_EditorClassIdentifier: 
+  Path: event:/MUSIC/Chiptoon/LaundromatMusic
+  Guid:
+    Data1: 423129134
+    Data2: 1105880793
+    Data3: 185023929
+    Data4: -1213536757
+  Banks:
+  - {fileID: 8082484439715718555}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 461736
 --- !u!114 &8449242862010042690
 MonoBehaviour:
   m_ObjectHideFlags: 0
