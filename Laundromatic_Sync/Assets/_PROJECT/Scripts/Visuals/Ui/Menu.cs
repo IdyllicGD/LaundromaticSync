@@ -54,6 +54,11 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
     }
+    public void StartUpTime()
+    {
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     public void ToggleCanvas()
     {

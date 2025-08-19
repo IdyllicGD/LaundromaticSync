@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float sprintMultiplier;
     [SerializeField] float minClampDistance;
     [SerializeField] float maxClampDistance;
+    [Title("Menu", null, TitleAlignments.Centered)]
+    [SerializeField] GameObject pauseCanvas;
     
     private float playerOriginalSpeed;
     private PlayerSettings playerSettings;
@@ -62,10 +64,12 @@ public class PlayerMovement : MonoBehaviour
 
         inputActions.Player.Sprint.performed += x => PlayerSprint();
         inputActions.Player.Sprint.canceled += x => playerSpeed = playerOriginalSpeed;
+
+        inputActions.Player.Pause.performed += x => PauseGame();
         #endregion
 
         #region Get Components
-        
+
         playerRb = GetComponent<Rigidbody>();
         playerSettings = GetComponent<PlayerSettings>();
         playerCam = Camera.main;
@@ -83,6 +87,14 @@ public class PlayerMovement : MonoBehaviour
         playerOriginalSpeed = playerSpeed;
         
         #endregion
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0;
+        pauseCanvas.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+
     }
 
     IEnumerator TimeToWait(float time)

@@ -12,6 +12,8 @@ using UnityEngine.InputSystem;
 public class ShopInteraction : MonoBehaviour, IMachineInteractable
 {
     MachineType machineType = _PROJECT._Jacques.Scripts.Interfaces.MachineType.Shop;
+    [Title("Outside Refrences", null, TitleAlignments.Centered)]
+    [SerializeField] BuyLMDM lmDm;
 
     [Title("Camera Variables", null, TitleAlignments.Centered)]
     [SerializeField] Transform lookAtPosition;
@@ -26,6 +28,7 @@ public class ShopInteraction : MonoBehaviour, IMachineInteractable
     [SerializeField] float maxClampDistanceX;
     [SerializeField] float minClampDistanceY;
     [SerializeField] float maxClampDistanceY;
+
     Vector2 lookInput;
     bool canLookAround;
     float rotateX;
@@ -64,7 +67,18 @@ public class ShopInteraction : MonoBehaviour, IMachineInteractable
             return; }
         if (hit.transform.TryGetComponent(out ButtonInfoShop button))
         {
-            if (button.price <= PlayerSettings.instance.playerMoney)
+            if (button.orderItem == ItemsThatCanBeOrdered.LaundryMachine || button.orderItem == ItemsThatCanBeOrdered.DryerMachine)
+            {
+                if (button.price <= PlayerSettings.instance.playerMoney)
+                {
+                    lmDm.SpawnInMachine(button.orderItem, button.price);
+                }
+                else
+                {
+                    playerInteraction.UpdatePlayerPopupMessage("You are too broke");
+                }
+                
+            }else if (button.price <= PlayerSettings.instance.playerMoney)
             {
                 Debug.Log(DayNight.instance.ReturnAvailableSpaceOnDeliveryTable());
                 if (DayNight.instance.ReturnAvailableSpaceOnDeliveryTable() - newOrdersCount <= 0)
@@ -78,7 +92,7 @@ public class ShopInteraction : MonoBehaviour, IMachineInteractable
                     ShopManager.instance.OrderItem(button.orderItem);
                     newOrdersCount++;
                 }
-                
+
             }
             else
             {

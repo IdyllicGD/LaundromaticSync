@@ -27,10 +27,10 @@ public class DayNight : MonoBehaviour
     [SuffixLabel("Minutes, Hours, Days")]
     [SerializeField] Vector3 sunsetTime;
     [Title("Skybox textures", null, TitleAlignments.Left, false, true)]
-    [SerializeField] Texture2D sunriseSkybox;
-    [SerializeField] Texture2D eveningSkybox;
-    [SerializeField] Texture2D nightSkybox;
-    [SerializeField] Texture2D sunsetSkybox;
+    [SerializeField] Material sunriseSkybox;
+    [SerializeField] Material eveningSkybox;
+    [SerializeField] Material nightSkybox;
+    [SerializeField] Material sunsetSkybox;
     [Title("Delivery", null, TitleAlignments.Centered)]
     [SerializeField] GameObject deliveryArea;
     public int delivryAreaMaxAmount;
@@ -62,6 +62,7 @@ public class DayNight : MonoBehaviour
     public void StartOfNewDay()
     {
         StartCoroutine(TimeToWaitForStart(1f));
+        RenderSettings.skybox = sunriseSkybox;
     }
     public void CheckForMail()
     {
@@ -71,6 +72,7 @@ public class DayNight : MonoBehaviour
     void Update()
     {
         if (endOfDayPause) return;
+        ChangeSkybox();
         tempSeconds += Time.deltaTime;
         if (tempSeconds >= 1)
         {
@@ -92,6 +94,21 @@ public class DayNight : MonoBehaviour
         }
 
 
+    }
+    void ChangeSkybox()
+    {
+        if (hours == eveningTime.y)
+        {
+            RenderSettings.skybox = eveningSkybox;
+        }
+        else if (hours == sunsetTime.y)
+        {
+            RenderSettings.skybox = sunsetSkybox;
+        }
+        else if (hours == nightTime.y)
+        {
+            RenderSettings.skybox = nightSkybox;
+        }
     }
 
     public void PauseTimeAndCloseStore()
@@ -116,6 +133,7 @@ public class DayNight : MonoBehaviour
         PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement(true);
         UpdateTimeData();
         NpcManager.instance.SpawnNpc();
+        RenderSettings.skybox = sunriseSkybox;
         StartOfDayDelivery();
     }
 

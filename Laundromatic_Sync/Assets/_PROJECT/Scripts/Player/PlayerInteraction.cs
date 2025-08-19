@@ -22,7 +22,7 @@ public class PlayerInteraction : MonoBehaviour
 
     [Title("Interaction Vars", null, TitleAlignments.Centered)]
     [Range(0f, 10f)]
-    [SerializeField] float raycastDistance;
+    public float raycastDistance;
     [SerializeField] LayerMask interactionLayer;
     [SerializeField] LayerMask tableLayer;
     [SerializeField] LayerMask npcLayer;
