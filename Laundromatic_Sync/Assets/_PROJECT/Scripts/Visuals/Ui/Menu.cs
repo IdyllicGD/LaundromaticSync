@@ -5,6 +5,7 @@ using FMOD;
 using FMODUnity;
 using DG.Tweening;
 using System.Data;
+using Unity.VisualScripting;
 
 public class Menu : MonoBehaviour
 {
@@ -24,6 +25,11 @@ public class Menu : MonoBehaviour
     private RectTransform CanvasTransform;
     private Tween currentTween;
 
+    //BG Scrolling
+    public float scrollspeed = 0.1f;
+    public RawImage rawImage;
+    private Vector2 uvoffset = Vector2.zero;
+
     //FMOD Event References
     public FMODUnity.EventReference SoundClick; //button click sound
     
@@ -37,6 +43,13 @@ public class Menu : MonoBehaviour
         { 
             menuSlider.onValueChanged.AddListener(OnSliderValueChanged);
         }
+        
+    }
+    private void Update()
+    {
+        uvoffset.x += scrollspeed * Time.deltaTime;
+        uvoffset.y += scrollspeed * Time.deltaTime; //scroll image
+        rawImage.uvRect = new Rect(uvoffset, rawImage.uvRect.size);
     }
     public void PlayGame ()
     {
