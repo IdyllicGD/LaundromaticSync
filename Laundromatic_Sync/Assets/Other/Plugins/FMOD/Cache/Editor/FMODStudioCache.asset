@@ -352,10 +352,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638912366940418829
+  lastModified: 638912776547890519
   FileSizes:
   - Name: Desktop
-    Value: 2620
+    Value: 2670
   Exists: 1
 --- !u!114 &-3333710545849025258
 MonoBehaviour:
@@ -500,10 +500,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638912366942765000
+  lastModified: 638912776548048910
   FileSizes:
   - Name: Desktop
-    Value: 1392992
+    Value: 1500224
   Exists: 1
 --- !u!114 &-1229173979382293316
 MonoBehaviour:
@@ -612,12 +612,13 @@ MonoBehaviour:
   - {fileID: 8367833874797039882}
   - {fileID: -7921866201042037544}
   - {fileID: 533469193760543631}
+  - {fileID: 4134547056190918753}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2125593146152450226}
   StringsBanks:
   - {fileID: -3629877894166248456}
-  cacheTime: 638912374209545356
+  cacheTime: 638912776548048910
   cacheVersion: 131624
 --- !u!114 &68791234730322443
 MonoBehaviour:
@@ -808,6 +809,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 35
+--- !u!114 &4134547056190918753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Clock/CLock_Ringing
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Clock/CLock_Ringing
+  Guid:
+    Data1: -1765898008
+    Data2: 1099872406
+    Data3: -1589561452
+    Data4: 2104916348
+  Banks:
+  - {fileID: -1373889764487742976}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5200
 --- !u!114 &4306143067652809338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,7 +1040,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Chiptune.bank
   Name: Chiptune
   StudioPath: bank:/Chiptune/Chiptune
-  lastModified: 638912374209545356
+  lastModified: 638912776547890519
   FileSizes:
   - Name: Desktop
     Value: 8900416
