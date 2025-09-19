@@ -25,13 +25,6 @@ public class Shop : MonoBehaviour
 
 
 
-    private void Start()
-    {
-       
-
-    }
-
-
     private void Awake()
     {
         
