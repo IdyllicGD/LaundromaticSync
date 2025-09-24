@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -11,11 +12,14 @@ public class NpcManager : MonoBehaviour
     public List<Transform> basketPlacePosition = new();
     [SerializeField] Transform spawnPosition;
     [SerializeField] List<GameObject> npcPrefabs = new();
+    [SerializeField]List<GameObject> originalNpcPrefabs = new();
     [SerializeField] int maxNpcAmount;
     public List<GameObject> currentNpcs;
+    public List<GameObject> currentBaskets;
     public Transform startLineUpPosition;
     public bool canSpawnNpc = true;
     public List<Transform> waitingPositions = new();
+    bool cantSpawnNpc;
 
     void Start()
     {
@@ -29,9 +33,12 @@ public class NpcManager : MonoBehaviour
 
     public void SpawnNpc()
     {
+        int indexToSpawnAt;
+        indexToSpawnAt = Random.Range(0, npcPrefabs.Count);
         if (!canSpawnNpc) return;
         if (currentNpcs.Count >= maxNpcAmount) return;
-        currentNpcs.Add(Instantiate(npcPrefabs[Random.Range(0, npcPrefabs.Count)], spawnPosition));
+        currentNpcs.Add(Instantiate(npcPrefabs[indexToSpawnAt], spawnPosition));
+        npcPrefabs.RemoveAt(indexToSpawnAt);
     }
     public Transform GetNextWaypoint(Transform agentTransform)
     {
@@ -61,6 +68,24 @@ public class NpcManager : MonoBehaviour
     public void KillNpc(GameObject npcToKill)
     {
         Destroy(npcToKill);
+    }
+
+    public void AddNpcBack(NpcID npcToReAdd)
+    {
+        Debug.Log("Ran");
+        for (int i = 0; i < originalNpcPrefabs.Count; i++)
+        {
+            if (originalNpcPrefabs[i].GetComponent<NpcOrderData>().npcID == npcToReAdd)
+            {
+                Debug.Log($"[NpcManager] Prefab added");
+                npcPrefabs.Add(originalNpcPrefabs[i]);
+                return;
+            }
+            else
+            {
+                Debug.Log("Loser Idiot");
+            }
+        }
     }
 
 

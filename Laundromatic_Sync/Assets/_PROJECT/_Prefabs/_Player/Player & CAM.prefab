@@ -220,7 +220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -48.7, y: 0}
+  m_AnchoredPosition: {x: -48.69995, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6823696863609755965
@@ -665,7 +665,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 284, y: 885}
+  m_AnchoredPosition: {x: 50, y: 885}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6354908486096503954
@@ -771,7 +771,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 49.3, y: 0}
+  m_AnchoredPosition: {x: 49.30005, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7587958050233152887
@@ -908,7 +908,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1440, y: 1080}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4030159484803775816
 CanvasRenderer:
@@ -1572,7 +1572,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 284, y: 721.16455}
+  m_AnchoredPosition: {x: 50, y: 721.16455}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6434971426552189106
@@ -1648,11 +1648,11 @@ RectTransform:
   - {fileID: 5408831778949292715}
   m_Father: {fileID: 2919575279339351718}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1372, y: 885}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -50, y: 885}
   m_SizeDelta: {x: 200, y: 100}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &5450743605801099615
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1991,6 +1991,26 @@ PrefabInstance:
       propertyPath: playerInteraction
       value: 
       objectReference: {fileID: 4335610247919563810}
+    - target: {fileID: 2501311173260525406, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
+      propertyPath: fpsSetting.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2501311173260525406, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
+      propertyPath: 'fpsSetting.Array.data[0]'
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2501311173260525406, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
+      propertyPath: 'fpsSetting.Array.data[1]'
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2501311173260525406, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
+      propertyPath: 'fpsSetting.Array.data[2]'
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2501311173260525406, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
+      propertyPath: 'fpsSetting.Array.data[3]'
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 3368421718795498931, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.383
@@ -2029,15 +2049,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980566995137310426, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.99
+      value: 10.24
       objectReference: {fileID: 0}
     - target: {fileID: 8980566995137310426, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.14
+      value: 3.85
       objectReference: {fileID: 0}
     - target: {fileID: 8980566995137310426, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -25.69
+      value: -25.71
       objectReference: {fileID: 0}
     - target: {fileID: 8980566995137310426, guid: 7d1125573333ae1469c1cc1a3c02eaf2, type: 3}
       propertyPath: m_LocalRotation.w

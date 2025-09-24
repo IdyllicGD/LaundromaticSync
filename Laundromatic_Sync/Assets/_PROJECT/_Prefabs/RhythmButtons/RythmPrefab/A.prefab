@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 3358282677310530091}
   - component: {fileID: 4298994171054616153}
   - component: {fileID: 8956305527956212398}
+  - component: {fileID: 9089490919664538113}
   m_Layer: 6
   m_Name: A
   m_TagString: Untagged
@@ -168,3 +169,37 @@ MonoBehaviour:
   rectTransform: {fileID: 3550118058633424967}
   rhythmButtons: 0
   bpm: 30
+  canBeImpacted: 0
+  errorSound: {fileID: 9089490919664538113}
+  mistakeTimeAdd: 1
+--- !u!114 &9089490919664538113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7642042893050090390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2145886840
+      Data2: 1100948036
+      Data3: 332556445
+      Data4: 1005754628
+    Path: event:/SFX/Rythm/ButtonError
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

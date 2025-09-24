@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class PlayerSettings : MonoBehaviour
     public float mouseSensitivity;
     public int playerMoney;
     [SerializeField] TextMeshProUGUI moneyText;
+    public List<int> fpsSetting = new();
     //Display size
     //Volume
     //Accessibility settings
@@ -18,6 +20,8 @@ public class PlayerSettings : MonoBehaviour
         instance = this;
         Time.timeScale = 1f;
         UpdateMoneyText();
+
+        UpdateFps(fpsSetting[2]);
     }
 
     public void ReduceMoney(int amount)
@@ -35,5 +39,10 @@ public class PlayerSettings : MonoBehaviour
     void UpdateMoneyText()
     {
         moneyText.text = playerMoney.ToString("000");
+    }
+
+    public void UpdateFps(int updatedAmount)
+    {
+        Application.targetFrameRate = updatedAmount;
     }
 }

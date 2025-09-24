@@ -19,6 +19,7 @@ public class ShopInteraction : MonoBehaviour, IMachineInteractable
     [SerializeField] Transform lookAtPosition;
     [SerializeField] Transform camPosition;
     [SerializeField] float baseSpeedCam;
+    [SerializeField] GameObject realCan;
 
     [Title("Ui Vars", null, TitleAlignments.Centered)]
     [SerializeField] LayerMask uiLayer;
@@ -47,89 +48,72 @@ public class ShopInteraction : MonoBehaviour, IMachineInteractable
     void Start()
     {
         inputActions = new InputSystem_Actions();
-        inputActions.UI.Click.performed += x => MousePressed();
-        inputActions.Player.Look.performed += LookAround;
+        //inputActions.UI.Click.performed += x => MousePressed();
+        //inputActions.Player.Look.performed += LookAround;
     }
 
     void Update()
     {
-        if (!canLookAround) return;
-        CamLook();
+
     }
 
-    void MousePressed()
-    {   
-        Debug.Log("[ShopInteraction] MousePressed");
-        Debug.DrawRay(currentPlayerCam.transform.position, currentPlayerCam.transform.forward, Color.red);
-        if (!Physics.Raycast(currentPlayerCam.transform.position, currentPlayerCam.transform.forward, out RaycastHit hit, uiLayer))
-        {
-            Debug.Log("[ShopInteraction] Nothing was Hit");
-            return; }
-        if (hit.transform.TryGetComponent(out ButtonInfoShop button))
-        {
-            if (button.orderItem == ItemsThatCanBeOrdered.LaundryMachine || button.orderItem == ItemsThatCanBeOrdered.DryerMachine)
-            {
-                if (button.price <= PlayerSettings.instance.playerMoney)
-                {
-                    lmDm.SpawnInMachine(button.orderItem, button.price);
-                }
-                else
-                {
-                    playerInteraction.UpdatePlayerPopupMessage("You are too broke");
-                }
+    // void MousePressed()
+    // {   
+    //     Debug.Log("[ShopInteraction] MousePressed");
+    //     Debug.DrawRay(currentPlayerCam.transform.position, currentPlayerCam.transform.forward, Color.red);
+    //     if (!Physics.Raycast(currentPlayerCam.transform.position, currentPlayerCam.transform.forward, out RaycastHit hit, uiLayer))
+    //     {
+    //         Debug.Log("[ShopInteraction] Nothing was Hit");
+    //         return; }
+    //     if (hit.transform.TryGetComponent(out ButtonInfoShop button))
+    //     {
+    //         if (button.orderItem == ItemsThatCanBeOrdered.LaundryMachine || button.orderItem == ItemsThatCanBeOrdered.DryerMachine)
+    //         {
+    //             if (button.price <= PlayerSettings.instance.playerMoney)
+    //             {
+    //                 lmDm.SpawnInMachine(button.orderItem, button.price);
+    //             }
+    //             else
+    //             {
+    //                 playerInteraction.UpdatePlayerPopupMessage("You are too broke");
+    //             }
                 
-            }else if (button.price <= PlayerSettings.instance.playerMoney)
-            {
-                Debug.Log(DayNight.instance.ReturnAvailableSpaceOnDeliveryTable());
-                if (DayNight.instance.ReturnAvailableSpaceOnDeliveryTable() - newOrdersCount <= 0)
-                {
-                    playerInteraction.UpdatePlayerPopupMessage("There is not enough space in the delivery area to order this item");
-                    return;
-                }
-                else
-                {
-                    PlayerSettings.instance.ReduceMoney(button.price);
-                    ShopManager.instance.OrderItem(button.orderItem);
-                    newOrdersCount++;
-                }
+    //         }else if (button.price <= PlayerSettings.instance.playerMoney)
+    //         {
+    //             Debug.Log(DayNight.instance.ReturnAvailableSpaceOnDeliveryTable());
+    //             if (DayNight.instance.ReturnAvailableSpaceOnDeliveryTable() - newOrdersCount <= 0)
+    //             {
+    //                 playerInteraction.UpdatePlayerPopupMessage("There is not enough space in the delivery area to order this item");
+    //                 return;
+    //             }
+    //             else
+    //             {
+    //                 PlayerSettings.instance.ReduceMoney(button.price);
+    //                 ShopManager.instance.OrderItem(button.orderItem);
+    //                 newOrdersCount++;
+    //             }
 
-            }
-            else
-            {
-                //play ERROR sound
-                playerInteraction.UpdatePlayerPopupMessage("You are too broke");
-            }
+    //         }
+    //         else
+    //         {
+    //             //play ERROR sound
+    //             playerInteraction.UpdatePlayerPopupMessage("You are too broke");
+    //         }
             
-        }else if (hit.transform.TryGetComponent(out Button unityEvent))
-        {
-            unityEvent.onClick.Invoke();
-        }
+    //     }else if (hit.transform.TryGetComponent(out Button unityEvent))
+    //     {
+    //         unityEvent.onClick.Invoke();
+    //     }
 
 
-    }
-
-    void LookAround(InputAction.CallbackContext obj)
-    {
-        lookInput = obj.ReadValue<Vector2>();
-    }
-
-    void CamLook()
-    {
-        if (!inputActions.Player.Look.inProgress) return;
-        float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime;
-        rotateX = Mathf.Clamp(rotateX, minClampDistanceX, maxClampDistanceX);
-        rotateX -= mouseY;
-        rotateY = Mathf.Clamp(rotateY, minClampDistanceY, maxClampDistanceY);
-        rotateY -= mouseX;
-        
-        currentPlayerCam.transform.localRotation = Quaternion.Euler(rotateX, -rotateY, 0f);
-        currentPlayerCam.transform.Rotate (Vector3.up * mouseX);
-    }
+    // }
 
 
     public void Interact(Camera camObject)
     {
+        Cursor.lockState = CursorLockMode.None;
+
+
         lookInput = Vector2.zero;
         canLookAround = true;
         camOriginalRotateAngle = camObject.transform.rotation;
@@ -156,11 +140,13 @@ public class ShopInteraction : MonoBehaviour, IMachineInteractable
     void SecondaryActions()
     {
         inputActions.Enable();
+        realCan.SetActive(true);
         
     }
 
     public void LeaveShop()
     {
+        realCan.SetActive(false);
         camLastRotateAngle = currentPlayerCam.transform.rotation;
         hasPreviouslyUsed = true;
         canLookAround = false;
@@ -174,6 +160,7 @@ public class ShopInteraction : MonoBehaviour, IMachineInteractable
     {
         //NOT USED
         Interact(camObject);
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public bool IsBusy()

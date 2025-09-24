@@ -142,11 +142,13 @@ public class PlayerInteraction : MonoBehaviour
                     }
 
                     if (npcIndex == 1000) return;
-                    if (_basketInfo.isCleanOrder)
+                    if (hitNPC.transform.TryGetComponent(out NpcOrderData npcOrderIndfo))
                     {
-                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
-                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", true);
-                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
+                        if (_basketInfo.npcID == npcOrderIndfo.npcID && _basketInfo.BasketType == BasketType.Folded)
+                        {
+                            npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
+                            npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", true);
+                            npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
                         if (_basketInfo.ItemsUsed == ItemsUsed.FabricSoftner)
                         {
                             PlayerSettings.instance.AddMoney(50);
@@ -155,7 +157,9 @@ public class PlayerInteraction : MonoBehaviour
                         {
                             PlayerSettings.instance.AddMoney(20);
                         }
-                        Destroy(handPosition.GetChild(0).gameObject);
+                        Destroy(handPosition.GetChild(0).gameObject);                        
+                        }
+
 
                     }
                     else

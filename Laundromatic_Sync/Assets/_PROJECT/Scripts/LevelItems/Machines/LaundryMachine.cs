@@ -10,6 +10,7 @@ using _PROJECT.Scripts.Rhythm;
 using UnityEngine.UIElements;
 using FMODUnity;
 using Sirenix.OdinInspector;
+using TMPro;
 
 public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable, RythmStages
 {
@@ -18,6 +19,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     PlayerMovement currentPlayerMovement;
     [Title("Wash time", null, TitleAlignments.Centered)]
     [SerializeField] float machineTimeToComplete;
+    [SerializeField] float maxMachineTimeToComplete;
+    float originalMachineTimeToComplete;
 
     [Title("Transforms", null, TitleAlignments.Centered)]
     [SerializeField] Transform camPosition;
@@ -36,13 +39,16 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     [SerializeField] StudioEventEmitter buttonSound;
     [SerializeField] StudioEventEmitter doorOpenSound;
     [SerializeField] StudioEventEmitter doorCloseSound;
-    
+
     [Title("Enums", null, TitleAlignments.Centered)]
     [SerializeField] CurrentStage currentStage;
     [Title("RaycastPositions", null, TitleAlignments.Centered)]
     [SerializeField] Transform raycastPosition;
     [Title("Animatiom", null, TitleAlignments.Centered)]
     [SerializeField] ParticleSystem bubbles;
+    [Title("Canvas", null, TitleAlignments.Centered)]
+    [SerializeField] TextMeshProUGUI TimeText;
+    [SerializeField] GameObject mainCan;
 
 
 
@@ -71,7 +77,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 
     void Update()
     {
-        
+
         if (!isDone) return;
         if (HasObject()) return;
         animator.SetBool("isFinished", false);
@@ -86,6 +92,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     private void Awake()
     {
         currentStage = CurrentStage.FillingUpStage;
+        originalMachineTimeToComplete = machineTimeToComplete;
+        TimeText.text = machineTimeToComplete.ToString();
 
         #region Machine Head
 
@@ -120,8 +128,9 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
             case CurrentStage.FillingUpStage:
                 break;
             case CurrentStage.WashingStage:
+                mainCan.SetActive(true);
                 StartButtonSpawning();
-                
+
                 //Start beeps and boops
                 break;
             case CurrentStage.FinishedStage:
@@ -132,6 +141,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 animator.SetTrigger("StartCycle");
                 animator.SetBool("isIdle", false);
                 StartCoroutine(EndMachineFunc(machineTimeToComplete, currentObject));
+                mainCan.SetActive(false);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(stage), stage, null);
@@ -140,9 +150,10 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 
     void StartButtonSpawning()
     {
+        
         buttonSpawner.currentStage = 0;
         buttonSpawner.SpawnButton();
-        
+
 
 
     }
@@ -154,9 +165,9 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         {
             return true;
         }
-        
+
         return false;
-        
+
     }
 
 
@@ -168,8 +179,9 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         currentObject = secondaryObject;
         PlayerInteraction playerInteraction = camObject.transform.parent.GetComponentInParent<PlayerInteraction>();
         currentPlayerMovement = camObject.transform.parent.GetComponentInParent<PlayerMovement>();
-        
+
         Debug.Log($"[Laundry Machine] {ReturnItemType(secondaryObject)}");
+        Debug.Log("[LaundryMachine] Trying to setTrigger");
         animator.SetTrigger("DtFs");
         doorOpenSound.Play();
         //doorCloseSound.Play();
@@ -179,7 +191,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
             case MachineUsableItemsType.None:
                 Debug.Log($"[Laundry Machine] You need Detergent first");
                 playerInteraction.UpdatePlayerPopupMessage("You need Detergent first before you can wash this");
-            if (currentStage == CurrentStage.FillingUpStage && hasDetergent)
+                if (currentStage == CurrentStage.FillingUpStage && hasDetergent)
                 {
                     currentStage++;
                     currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
@@ -191,7 +203,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                     secondaryObject.transform.DOLocalMove(Vector3.zero, baseSpeedSecondObject).OnComplete(() => StartStage(currentStage));
                 }
                 return;
-                //Washing Baskets
+            //Washing Baskets
             case MachineUsableItemsType.Basket:
                 //Checks if the basket type is dirty, is the machine has Detergent and if the machine is in the correct state
                 switch (hasDetergent)
@@ -207,7 +219,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                         playerInteraction.UpdatePlayerPopupMessage("You need detergent first");
                         break;
                 }
-                
+
                 if (ReturnBasketType(secondaryObject) == BasketType.Dirty && hasDetergent)
                 {
                     if (currentStage == CurrentStage.FillingUpStage)
@@ -302,22 +314,25 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 _spawningItem.GetComponent<Collider>().enabled = true;
                 break;
             case MachineUsableItemsType.Basket:
-                Destroy(transform.parent.GetChild(0).GetChild(0).gameObject);
-                GameObject _cleanBasket = Instantiate(cleanBasket, basketPosition);
-                _cleanBasket.SetActive(true);
+                Basket currentBasket;
+                currentBasket = transform.parent.GetChild(0).GetChild(0).gameObject.GetComponent<Basket>();
+                currentBasket.UpdateBasketInfoWet();
+                currentBasket.gameObject.SetActive(true);
                 if (hasFabricSoftener)
                 {
-                    _cleanBasket.GetComponent<Basket>().ItemsUsed = ItemsUsed.FabricSoftner;
+                    currentBasket.GetComponent<Basket>().ItemsUsed = ItemsUsed.FabricSoftner;
                 }
                 break;
         }
-              
+
         hasDetergent = false;
         hasFabricSoftener = false;
         animator.SetBool("isFinished", true);
         isDone = true;
         busySound.Stop();
         doneSound.Play();
+        machineTimeToComplete = originalMachineTimeToComplete;
+        
 
     }
 
@@ -336,7 +351,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
             {
                 Debug.Log("Current player movement is not null");
             }
-            
+
             currentPlayerMovement.ResetCamera();
             transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(false);
             //Exit focus mode
@@ -345,6 +360,14 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         buttonSpawner.SpawnButton();
         //Play current animation where needed
 
+    }
+
+    public void AddTimeToTimer(float amountToAdd)
+    {
+        Debug.Log($"[LaundryMachine] Add to timer timer is now: {machineTimeToComplete}");
+        if (machineTimeToComplete >= maxMachineTimeToComplete) return;
+        machineTimeToComplete += amountToAdd;
+        TimeText.text = machineTimeToComplete.ToString();
     }
 
 }

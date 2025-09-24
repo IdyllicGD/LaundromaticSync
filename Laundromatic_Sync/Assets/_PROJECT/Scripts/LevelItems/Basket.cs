@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace _PROJECT.Scripts.temp.Scripts
 {
+    [RequireComponent(typeof(Renderer))]
     public class Basket : MonoBehaviour, IMachineUsableItems
     {
 
@@ -17,16 +18,25 @@ namespace _PROJECT.Scripts.temp.Scripts
         public bool isCleanOrder;
         public bool isDirtyOrder;
         public bool isRandomOrder;
+        public NpcID npcID;
+        public ParticleSystem dirtySystem;
+        public ParticleSystem cleanSystem;
+        public Color wetCleanColour;
+        public Color dryCleanColour;
+        public Color foldedCleanColour;
+        public InteractionNameData interactionNameData;
+        Renderer rend;
 
         void Awake()
         {
 
-
-
-            if (BasketType != BasketType.DryClean) return;
-            //amountOfClothing = Random.Range(minAmount, maxAmount);
+            rend = GetComponent<Renderer>();
+            npcID = transform.parent.parent.GetComponent<NpcOrderData>().npcID;
             amountOfClothing = 4;
+            NpcManager.instance.currentBaskets.Add(gameObject);
+            dirtySystem.Play();
             
+
         }
 
         public BasketType ReturnBasketType()
@@ -37,6 +47,32 @@ namespace _PROJECT.Scripts.temp.Scripts
         public MachineUsableItemsType ReturnMachineUsableItemsType()
         {
             return usableItemsType;
+        }
+
+        public void UpdateBasketInfoWet()
+        {
+            BasketType = BasketType.WetClean;
+            dirtySystem.Stop();
+            cleanSystem.Play();
+            gameObject.SetActive(true);
+            gameObject.GetComponent<Collider>().enabled = true;
+            rend.material.color = wetCleanColour;
+            interactionNameData.itemName = $"Clean Wet Basket";
+        }
+
+        public void UpdateBasketInfoDry()
+        {
+            BasketType = BasketType.DryClean;
+            rend.material.color = dryCleanColour;
+            interactionNameData.itemName = $"Clean Dry Basket Unfolded";
+            gameObject.GetComponent<Collider>().enabled = true;
+        }
+        public void UpdateBasketInfoFolded()
+        {
+            BasketType = BasketType.Folded;
+            interactionNameData.itemName = $"Clean Folded Basket";
+            gameObject.GetComponent<Collider>().enabled = true;
+            rend.material.color = foldedCleanColour;
         }
     }
     public enum BasketType

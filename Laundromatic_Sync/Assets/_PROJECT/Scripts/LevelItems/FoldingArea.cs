@@ -115,10 +115,12 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
     void EndMachineActions()
     {
         stagesRun = 0;
-        GameObject _finalBasket = Instantiate(foldedBasketPrefab, basketFoldedPosition);
+        Basket _finalBasket = basketNotFoldedPosition.GetChild(0).gameObject.GetComponent<Basket>();
         _finalBasket.GetComponent<Basket>().ItemsUsed = itemsUsed;
         currentPlayerMovement.ResetCamera();
-        Destroy(basketNotFoldedPosition.GetChild(0).gameObject);
+        //CODE CHNAGE HERE
+        _finalBasket.transform.position = foldingPosition.position;
+        _finalBasket.UpdateBasketInfoFolded();
         DisableAllObjectsInAnimList();
         currentFoldingCount = 0;
 

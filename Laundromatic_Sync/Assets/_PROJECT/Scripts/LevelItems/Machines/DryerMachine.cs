@@ -7,6 +7,7 @@ using _PROJECT.Scripts.temp.Scripts;
 using DG.Tweening;
 using FMODUnity;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,6 +18,8 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
     PlayerMovement currentPlayerMovement;
     [Title("Wash time", null, TitleAlignments.Centered)]
     [SerializeField] float machineTimeToComplete;
+    [SerializeField] float maxMachineTimeToComplete;
+    float originalMachineTimeToComplete;
 
     [Title("Transforms", null, TitleAlignments.Centered)]
     [SerializeField] Transform raycastPosition;
@@ -38,6 +41,9 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
     [SerializeField] StudioEventEmitter busySound;
     [SerializeField] StudioEventEmitter buttonSound;
     [SerializeField] StudioEventEmitter doorOpenCloseSound;
+    [Title("Canvas Vars", null, TitleAlignments.Centered)]
+    [SerializeField] TextMeshProUGUI TimeText;
+    [SerializeField] GameObject mainCan;
 
     [Title("Enums", null, TitleAlignments.Centered)]
     [SerializeField] ItemsUsed itemsUsed;
@@ -55,6 +61,12 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
         animator.SetBool("isFinished", false);
         animator.SetBool("isIdle", true);
         isDone = false;
+    }
+
+    void Start()
+    {
+        originalMachineTimeToComplete = machineTimeToComplete;
+        TimeText.text = machineTimeToComplete.ToString();
     }
     bool HasDryBasket()
     {
@@ -127,10 +139,13 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
             case CurrentStage.FinishedStage:
                 //exit to normal view
                 StartCoroutine(EndMachineFunc(machineTimeToComplete));
+
                 buttonSound.Play();
                 busySound.Play();
                 bubbles.Play();
                 animator.SetBool("isWashing", true);
+                transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+                mainCan.SetActive(false);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(stage), stage, null);
@@ -139,6 +154,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
 
         void StartButtonSpawning()
     {
+        mainCan.SetActive(true);
         buttonSpawner.currentStage = 0;
         buttonSpawner.SpawnButton();
 
@@ -150,12 +166,16 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
         bubbles.Stop();
         isDone = true;
         currentStage = CurrentStage.FillingUpStage;
-        GameObject _basket = Instantiate(dryBasket, basketPosition);
+        Basket _basket = transform.GetChild(0).GetChild(0).gameObject.GetComponent<Basket>();
+        _basket.UpdateBasketInfoDry();
         _basket.GetComponent<Basket>().ItemsUsed = itemsUsed;
+        _basket.gameObject.SetActive(true);
         busySound.Stop();
         doneSound.Play();
         animator.SetBool("isFinished", true);
         animator.SetBool("isWashing", false);
+        machineTimeToComplete = originalMachineTimeToComplete;
+        
     }
 
 
@@ -179,13 +199,21 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
             currentStage = CurrentStage.FinishedStage;
             StartStage(currentStage);
             currentPlayerMovement.ResetCamera();
-            Destroy(transform.GetChild(0).GetChild(0).gameObject);
             //Exit focus mode
             return;
         }
         buttonSpawner.SpawnButton();
         //Play current animation where needed
     }
+
+        public void AddTimeToTimer(float amountToAdd)
+    {
+        if (machineTimeToComplete >= maxMachineTimeToComplete) return;
+        machineTimeToComplete += amountToAdd;
+        TimeText.text = machineTimeToComplete.ToString();
+    }
+
+
     
     BasketType ReturnBasketType(GameObject basket)
     {

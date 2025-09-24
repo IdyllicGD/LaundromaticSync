@@ -5,7 +5,4 @@ public class NpcLookAtPlayer : MonoBehaviour
 {
 
 
-
-    // Update is called once per frame
-
 }

@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         PlayerMove();
         PlayerLook();
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         inputActions.Player.Move.performed += OnMove; 
         inputActions.Player.Move.canceled += x => moveInput = Vector2.zero; 
         
-        //inputActions.Player.Look.performed += OnLook;
+        inputActions.Player.Look.performed += OnLook;
 
         inputActions.Player.Sprint.performed += x => PlayerSprint();
         inputActions.Player.Sprint.canceled += x => playerSpeed = playerOriginalSpeed;

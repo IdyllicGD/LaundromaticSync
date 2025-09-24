@@ -49,7 +49,7 @@ public class Menu : MonoBehaviour
     {
         uvoffset.x += scrollspeed * Time.deltaTime;
         uvoffset.y += scrollspeed * Time.deltaTime; //scroll image
-        rawImage.uvRect = new Rect(uvoffset, rawImage.uvRect.size);
+        //rawImage.uvRect = new Rect(uvoffset, rawImage.uvRect.size);
     }
     public void PlayGame ()
     {

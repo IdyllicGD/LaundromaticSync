@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 3957408148056048422}
   - component: {fileID: 122210893702970285}
   - component: {fileID: -7805536964967790729}
+  - component: {fileID: 1919505374478996264}
   m_Layer: 3
   m_Name: NPC_BASE
   m_TagString: Untagged
@@ -210,6 +211,7 @@ MonoBehaviour:
   - rid: 385138139782971967
   - rid: 385138157628162383
   - rid: 385138480422060247
+  - rid: 2739360110379270418
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
@@ -271,6 +273,14 @@ MonoBehaviour:
           m_Value1: 8842595160821533184
         Name: Player
         m_Value: {fileID: 0}
+    - rid: 2739360110379270418
+      type: {class: 'BlackboardVariable`1[[NpcOrderData, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 2456126000900854463
+          m_Value1: 8983614559632975554
+        Name: ThisNpcOrderData
+        m_Value: {fileID: 1919505374478996264}
 --- !u!195 &9031057184976568876
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -388,6 +398,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1919505374478996264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8603529158690051069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1d9dc10d7ac941901dee4beb478a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcID: 9
 --- !u!1 &8929914737520856936
 GameObject:
   m_ObjectHideFlags: 0

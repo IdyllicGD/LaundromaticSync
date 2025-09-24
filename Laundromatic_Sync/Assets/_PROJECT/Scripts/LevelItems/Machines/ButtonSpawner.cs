@@ -7,6 +7,9 @@ public class ButtonSpawner : MonoBehaviour
     [SerializeField] List<GameObject> buttons = new List<GameObject>();
     [SerializeField] public List<Transform> spawnPoints = new List<Transform>();
     [SerializeField] StudioEventEmitter buttonSound;
+    public LaundryMachine lm;
+    public DryerMachine dm;
+    public bool isForLm;
     public int currentStage;
 
     public void SpawnButton()

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using _PROJECT.Scripts.Rhythm;
 using DG.Tweening;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,11 +13,14 @@ public class RhythmButtonInfo : MonoBehaviour
     [SerializeField] RectTransform rectTransform;
     [SerializeField] RhythmButtons rhythmButtons = new RhythmButtons();
     [SerializeField] private float bpm;
+    [SerializeField] bool canBeImpacted;
+    [SerializeField] StudioEventEmitter errorSound;
+    [SerializeField] float mistakeTimeAdd;
     MachineFocusMode_Actions rhythmActions;
 
     private void Awake()
     {
-        
+
         rhythmActions = new MachineFocusMode_Actions();
         rhythmActions.Enable();
         rhythmActions.Rhythm.XAXbox.performed += x => ButtonPressed(RhythmButtons.A);
@@ -37,6 +41,14 @@ public class RhythmButtonInfo : MonoBehaviour
                     //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
+                else
+                {
+                    errorSound.Play();
+                    GetParentScript();
+                    if (!canBeImpacted) return;
+
+                    //Minus Points
+                }
                 break;
             case RhythmButtons.B:
                 if (rhythmButtons == RhythmButtons.B)
@@ -44,6 +56,11 @@ public class RhythmButtonInfo : MonoBehaviour
                     transform.parent.parent.parent.GetComponentInChildren<RythmStages>().StageCheck();
                     //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
+                }
+                else
+                {
+                    GetParentScript();
+                    errorSound.Play();
                 }
                 break;
             case RhythmButtons.X:
@@ -53,6 +70,11 @@ public class RhythmButtonInfo : MonoBehaviour
                     //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
+                else
+                {
+                    GetParentScript();
+                    errorSound.Play();
+                }
                 break;
             case RhythmButtons.Y:
                 if (rhythmButtons == RhythmButtons.Y)
@@ -61,10 +83,15 @@ public class RhythmButtonInfo : MonoBehaviour
                     //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
+                else
+                {
+                    GetParentScript();
+                    errorSound.Play();
+                }
                 break;
         }
     }
-    
+
     void StartButtonAnimation()
     {
         float timeInSeconds = bpm / 60;
@@ -81,6 +108,26 @@ public class RhythmButtonInfo : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         Destroy(objectToDestroy);
+    }
+
+    void GetParentScript()
+    {
+        // Debug.Log($"[RythmButtonInfo] GetParentScript ran");
+        // Debug.Log($"[RythmButtonInfo] {transform.parent.parent.parent.GetChild(1).name} Lm Name");
+        // Debug.Log($"[RythmButtonInfo] {transform.parent.parent.parent.name} Dm name");
+        //Laundry Machine
+        if (transform.parent.parent.parent.GetChild(1).TryGetComponent(out LaundryMachine lm))
+        {
+            lm.AddTimeToTimer(mistakeTimeAdd);
+        }//Dryer Machine
+        else if (transform.parent.parent.parent.TryGetComponent(out DryerMachine dm))
+        {
+            dm.AddTimeToTimer(mistakeTimeAdd);
+        }
+        else
+        {
+            Debug.Log($"[RythButtonInfo] No Mistake Timer");
+        }
     }
 }
 
