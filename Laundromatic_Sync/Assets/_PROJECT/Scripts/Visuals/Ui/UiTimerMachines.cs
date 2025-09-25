@@ -1,3 +1,4 @@
+using System.Collections;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -6,7 +7,7 @@ public class UiTimerMachines : MonoBehaviour
 {
     [Title("Outside Inward Refrences")]
     public float timerTime;
-    public bool hasDetergent, hasFabricSoftener, hasBasket;
+    public bool hasDetergent, hasFabricSoftener, hasBasket, isDm;
 
     [Title("Local Refrences")]
     [SerializeField] TextMeshProUGUI timeText;
@@ -17,15 +18,30 @@ public class UiTimerMachines : MonoBehaviour
 
     public void StartTimerTime(float time)
     {
+
         timerTime = time;
         timeText.text = timerTime.ToString("00");
         canvasGroup.SetActive(false);
         canvasTimer.SetActive(true);
+        StartCoroutine(TimeToWait(1f));
         
+
+    }
+
+    IEnumerator TimeToWait(float time)
+    {
+
         while (timerTime > 0)
         {
+            Debug.Log($"[UiTimerMachines] timerTime = {timerTime}");
+            yield return new WaitForSeconds(time);
+            timerTime--;
             timeText.text = timerTime.ToString("00");
-            timerTime -= Time.deltaTime;
+
+        }
+        if (timerTime <= 0)
+        {
+            canvasTimer.SetActive(false);
         }
     }
 
@@ -46,13 +62,18 @@ public class UiTimerMachines : MonoBehaviour
     }
     public void ResetUiTimer()
     {
+        if (!isDm)
+        {
+            detergent.SetActive(true);
+            fabricSoftener.SetActive(true);
+            basket.SetActive(true);
+        }
+        
         hasDetergent = false;
         hasFabricSoftener = false;
         hasBasket = false;
         timerTime = 0;
-        detergent.SetActive(true);
-        fabricSoftener.SetActive(true);
-        basket.SetActive(true);
+
         canvasGroup.SetActive(true);
         canvasTimer.SetActive(false);
     }

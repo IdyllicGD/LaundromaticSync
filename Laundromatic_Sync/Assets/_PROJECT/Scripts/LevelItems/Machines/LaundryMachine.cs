@@ -131,6 +131,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 break;
             case CurrentStage.WashingStage:
                 mainCan.SetActive(true);
+                uiTimer.hasBasket = true;
+                uiTimer.UpdateImages();
                 StartButtonSpawning();
 
                 //Start beeps and boops
@@ -142,8 +144,9 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 bubbles.Play();
                 animator.SetTrigger("StartCycle");
                 animator.SetBool("isIdle", false);
-                StartCoroutine(EndMachineFunc(machineTimeToComplete, currentObject));
                 uiTimer.StartTimerTime(machineTimeToComplete);
+                StartCoroutine(EndMachineFunc(machineTimeToComplete, currentObject));
+                
                 mainCan.SetActive(false);
                 break;
             default:

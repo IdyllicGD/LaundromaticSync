@@ -19,6 +19,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
     [Title("Wash time", null, TitleAlignments.Centered)]
     [SerializeField] float machineTimeToComplete;
     [SerializeField] float maxMachineTimeToComplete;
+    [SerializeField] UiTimerMachines uiTimer;
     float originalMachineTimeToComplete;
 
     [Title("Transforms", null, TitleAlignments.Centered)]
@@ -67,6 +68,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
     {
         originalMachineTimeToComplete = machineTimeToComplete;
         TimeText.text = machineTimeToComplete.ToString();
+        uiTimer.isDm = true;
     }
     bool HasDryBasket()
     {
@@ -139,7 +141,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
             case CurrentStage.FinishedStage:
                 //exit to normal view
                 StartCoroutine(EndMachineFunc(machineTimeToComplete));
-
+                uiTimer.StartTimerTime(machineTimeToComplete);
                 buttonSound.Play();
                 busySound.Play();
                 bubbles.Play();
