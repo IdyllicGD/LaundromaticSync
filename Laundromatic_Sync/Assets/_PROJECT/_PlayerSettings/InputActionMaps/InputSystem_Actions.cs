@@ -113,7 +113,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""6c2ab1b8-8984-453a-af3d-a3c78ae1679a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -207,20 +207,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ControllerMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""038e1ee5-db33-4e3a-b08e-84937f4f4b62"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ControllerLook"",
+                    ""type"": ""Value"",
+                    ""id"": ""c7ef776a-db3e-4bec-8aad-0590157f16c6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""978bfe49-cc26-4a3d-ab7b-7d7a29327403"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""WASD"",
                     ""id"": ""00ca640b-d935-4593-8157-c05846ea39b3"",
@@ -322,55 +329,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8"",
-                    ""path"": ""<XRController>/{Primary2DAxis}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3ea4d645-4504-4529-b061-ab81934c3752"",
-                    ""path"": ""<Joystick>/stick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""8c8e490b-c610-4785-884f-f04217b23ca4"",
                     ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse;Touch"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3e5f5442-8668-4b27-a940-df99bad7e831"",
-                    ""path"": ""<Joystick>/{Hatswitch}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -669,6 +632,39 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pet"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""abcbd334-db3c-4bd0-8be4-b3a20f235d5d"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ControllerMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15b09e0c-6acb-4b5a-a7d0-4e44a59fc091"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ControllerMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6b694144-7121-453d-a041-487876df3cc8"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ControllerLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1269,6 +1265,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_NextScene = m_Player.FindAction("NextScene", throwIfNotFound: true);
         m_Player_Back = m_Player.FindAction("Back", throwIfNotFound: true);
         m_Player_Pet = m_Player.FindAction("Pet", throwIfNotFound: true);
+        m_Player_ControllerMove = m_Player.FindAction("ControllerMove", throwIfNotFound: true);
+        m_Player_ControllerLook = m_Player.FindAction("ControllerLook", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1375,6 +1373,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_NextScene;
     private readonly InputAction m_Player_Back;
     private readonly InputAction m_Player_Pet;
+    private readonly InputAction m_Player_ControllerMove;
+    private readonly InputAction m_Player_ControllerLook;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1438,6 +1438,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Pet".
         /// </summary>
         public InputAction @Pet => m_Wrapper.m_Player_Pet;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ControllerMove".
+        /// </summary>
+        public InputAction @ControllerMove => m_Wrapper.m_Player_ControllerMove;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ControllerLook".
+        /// </summary>
+        public InputAction @ControllerLook => m_Wrapper.m_Player_ControllerLook;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1503,6 +1511,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Pet.started += instance.OnPet;
             @Pet.performed += instance.OnPet;
             @Pet.canceled += instance.OnPet;
+            @ControllerMove.started += instance.OnControllerMove;
+            @ControllerMove.performed += instance.OnControllerMove;
+            @ControllerMove.canceled += instance.OnControllerMove;
+            @ControllerLook.started += instance.OnControllerLook;
+            @ControllerLook.performed += instance.OnControllerLook;
+            @ControllerLook.canceled += instance.OnControllerLook;
         }
 
         /// <summary>
@@ -1553,6 +1567,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Pet.started -= instance.OnPet;
             @Pet.performed -= instance.OnPet;
             @Pet.canceled -= instance.OnPet;
+            @ControllerMove.started -= instance.OnControllerMove;
+            @ControllerMove.performed -= instance.OnControllerMove;
+            @ControllerMove.canceled -= instance.OnControllerMove;
+            @ControllerLook.started -= instance.OnControllerLook;
+            @ControllerLook.performed -= instance.OnControllerLook;
+            @ControllerLook.canceled -= instance.OnControllerLook;
         }
 
         /// <summary>
@@ -1944,6 +1964,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPet(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ControllerMove" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnControllerMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ControllerLook" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnControllerLook(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

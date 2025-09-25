@@ -158,17 +158,17 @@ public class PlayerInteraction : MonoBehaviour
                             PlayerSettings.instance.AddMoney(20);
                         }
                         Destroy(handPosition.GetChild(0).gameObject);                        
+                        }else
+                        {
+                            npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
+                            npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", false);
+                            npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
+                            PlayerSettings.instance.AddMoney(10);
+                            //Destroy(handPosition.GetChild(0).gameObject);
+                    
+
+
                         }
-
-
-                    }
-                    else
-                    {
-                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
-                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", false);
-                        npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
-                        PlayerSettings.instance.AddMoney(10);
-                        Destroy(handPosition.GetChild(0).gameObject);
                     }
 
 

@@ -49,6 +49,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     [Title("Canvas", null, TitleAlignments.Centered)]
     [SerializeField] TextMeshProUGUI TimeText;
     [SerializeField] GameObject mainCan;
+    [SerializeField] UiTimerMachines uiTimer;
 
 
 
@@ -82,6 +83,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         if (HasObject()) return;
         animator.SetBool("isFinished", false);
         animator.SetBool("isIdle", true);
+        uiTimer.ResetUiTimer();
         isDone = false;
     }
 
@@ -141,6 +143,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 animator.SetTrigger("StartCycle");
                 animator.SetBool("isIdle", false);
                 StartCoroutine(EndMachineFunc(machineTimeToComplete, currentObject));
+                uiTimer.StartTimerTime(machineTimeToComplete);
                 mainCan.SetActive(false);
                 break;
             default:
@@ -150,7 +153,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 
     void StartButtonSpawning()
     {
-        
+
         buttonSpawner.currentStage = 0;
         buttonSpawner.SpawnButton();
 
@@ -248,6 +251,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 {
                     Destroy(secondaryObject);
                     hasDetergent = true;
+                    uiTimer.hasDetergent = true;
+                    UpdateInfoCards();
                 }
                 break;
             case MachineUsableItemsType.FabricSoftener:
@@ -261,6 +266,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 {
                     Destroy(secondaryObject);
                     hasFabricSoftener = true;
+                    uiTimer.hasFabricSoftener = true;
+                    UpdateInfoCards();
                 }
                 break;
             default:
@@ -332,7 +339,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         busySound.Stop();
         doneSound.Play();
         machineTimeToComplete = originalMachineTimeToComplete;
-        
+
 
     }
 
@@ -368,6 +375,11 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         if (machineTimeToComplete >= maxMachineTimeToComplete) return;
         machineTimeToComplete += amountToAdd;
         TimeText.text = machineTimeToComplete.ToString();
+    }
+
+    void UpdateInfoCards()
+    {
+        uiTimer.UpdateImages();
     }
 
 }

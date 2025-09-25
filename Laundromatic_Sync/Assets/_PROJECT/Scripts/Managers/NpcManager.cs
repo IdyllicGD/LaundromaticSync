@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,6 +20,10 @@ public class NpcManager : MonoBehaviour
     public Transform startLineUpPosition;
     public bool canSpawnNpc = true;
     public List<Transform> waitingPositions = new();
+
+    [Title("Special Npc Stuff", null, TitleAlignments.Centered)]
+    public List<GameObject> detergentsInWorld = new();
+    public List<GameObject> softenerInWorld = new();
     bool cantSpawnNpc;
 
     void Start()

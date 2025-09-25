@@ -119,14 +119,55 @@ public class DayNight : MonoBehaviour
     public void EndDay()
     {
         int currentNpcCount = NpcManager.instance.currentNpcs.Count;
+        int basketCount = NpcManager.instance.currentBaskets.Count;
+        int nullCountBasket = 0;
+        int nullCountNpc = 0;
         Debug.Log(currentNpcCount);
+
         for (int i = 0; i < currentNpcCount; i++)
         {
-            Destroy(NpcManager.instance.currentNpcs[i].gameObject);
+            if (NpcManager.instance.currentNpcs[i].gameObject == null)
+            {
+                nullCountNpc++;
+            }
+            else
+            {
+                Destroy(NpcManager.instance.currentNpcs[i].gameObject);
+            }
+            
+        }
+        for (int i = 0; i < basketCount; i++)
+        {
+            if (NpcManager.instance.currentBaskets[i].gameObject == null)
+            {
+                nullCountBasket++;
+            }
+            else
+            {
+                Destroy(NpcManager.instance.currentBaskets[i].gameObject);
+            }
+            
+
+        }
+        if (nullCountBasket != 0)
+        {
+            for (int i = 0; i < nullCountBasket; i++)
+            {
+                NpcManager.instance.currentBaskets.RemoveAt(0);
+            }
+        }
+        if (nullCountNpc != 0)
+        {
+            for (int i = 0; i < nullCountNpc; i++)      
+            {
+                NpcManager.instance.currentNpcs.RemoveAt(0);
+            }
         }
 
 
+
         NpcManager.instance.currentNpcs.Clear();
+        NpcManager.instance.currentBaskets.Clear();
         hours = 6;
         minutes = 0;
         days++;

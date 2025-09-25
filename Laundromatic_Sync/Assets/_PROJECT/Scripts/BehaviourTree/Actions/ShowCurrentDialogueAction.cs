@@ -28,7 +28,7 @@ public partial class ShowCurrentDialogueAction : Action
             return Status.Success;
         }
         
-        DialogueText.Value.text = $"can you please {DialogueFromScriptableObject.Value.DialogieInOrder[This.Value]}, Dry and fold?";
+        DialogueText.Value.text = DialogueFromScriptableObject.Value.DialogieInOrder[This.Value];
         Canvas.Value.SetActive(true);
         This.Value++;
 
