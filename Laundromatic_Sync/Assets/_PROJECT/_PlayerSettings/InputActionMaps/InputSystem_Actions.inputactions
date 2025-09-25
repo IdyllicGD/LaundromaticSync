@@ -1123,9 +1123,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Enter",
+                    "name": "E",
                     "type": "Button",
                     "id": "a4f46dfa-624e-4568-8982-b91ec310f53c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Exit",
+                    "type": "Button",
+                    "id": "8e981c4f-ab8e-477a-8b25-ba73926ad8a0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -1202,11 +1211,11 @@
                 {
                     "name": "",
                     "id": "ed6074f9-261f-4931-8518-e51e3faf7cc0",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Enter",
+                    "action": "E",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1217,7 +1226,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Enter",
+                    "action": "E",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d37bc174-3186-447f-9e37-d5bb629d2bee",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "efd981c5-5b11-44ad-9a2b-916b2f329c6f",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

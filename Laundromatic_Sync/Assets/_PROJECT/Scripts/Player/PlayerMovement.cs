@@ -171,6 +171,8 @@ public class PlayerMovement : MonoBehaviour
         playerCam.transform.DOMove(cameraOriginalTransform, 0.5f);
         playerCam.transform.DORotateQuaternion(cameraOriginalRotation, 0.5f).OnComplete(() => inputActions.Enable());
         canMoveAndLook = true;
+        PlayerInteraction playerInteraction = transform.GetComponent<PlayerInteraction>();
+        playerInteraction.canInteract = true;
     }
 
     public void ResetMouseSensitivity()

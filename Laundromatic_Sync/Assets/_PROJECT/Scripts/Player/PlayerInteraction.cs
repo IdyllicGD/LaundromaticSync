@@ -42,6 +42,7 @@ public class PlayerInteraction : MonoBehaviour
 
     InputSystem_Actions inputActions;
     bool canIncreaseDialogue = true;
+    public bool canInteract = true;
 
 
     private void Start()
@@ -51,7 +52,7 @@ public class PlayerInteraction : MonoBehaviour
         inputActions = new InputSystem_Actions();
         inputActions.Enable();
         inputActions.Player.Interact.performed += x => InteractWithObject();
-        inputActions.Player.Pet.performed += x => PetAnimal();
+        //inputActions.Player.Pet.performed += x => PetAnimal();
         //TODO: Implement a way for the player to cancel the action
         //inputActions.Player.Back.performed += x => BackPressed();
 
@@ -103,6 +104,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void InteractWithObject()
     {
+        if (!canInteract) return;
         //Interact With NPC
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitNPC, raycastDistance, npcLayer))
         {
@@ -149,23 +151,24 @@ public class PlayerInteraction : MonoBehaviour
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", true);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
-                        if (_basketInfo.ItemsUsed == ItemsUsed.FabricSoftner)
-                        {
-                            PlayerSettings.instance.AddMoney(50);
+                            if (_basketInfo.ItemsUsed == ItemsUsed.FabricSoftner)
+                            {
+                                PlayerSettings.instance.AddMoney(50);
+                            }
+                            else
+                            {
+                                PlayerSettings.instance.AddMoney(20);
+                            }
+                            Destroy(handPosition.GetChild(0).gameObject);
                         }
                         else
-                        {
-                            PlayerSettings.instance.AddMoney(20);
-                        }
-                        Destroy(handPosition.GetChild(0).gameObject);                        
-                        }else
                         {
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", false);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
                             PlayerSettings.instance.AddMoney(10);
                             //Destroy(handPosition.GetChild(0).gameObject);
-                    
+
 
 
                         }

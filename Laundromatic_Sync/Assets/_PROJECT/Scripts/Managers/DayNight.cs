@@ -180,24 +180,24 @@ public class DayNight : MonoBehaviour
 
     void StartOfDayDelivery()
     {
-        int spawnerOrders = 0;
-        for (int i = 0; i < deliveryArea.transform.childCount; i++)
-        {
-            if (spawnerOrders < ShopManager.instance.orderList.Count && !CheckIfObjectHasChild(deliveryArea.transform.GetChild(i)))
-            {
-                Instantiate(ShopManager.instance.orderList[spawnerOrders], deliveryArea.transform.GetChild(i));
-                spawnerOrders++;
-            }
-            Debug.Log($"[DayNight] {i}");
+        // int spawnerOrders = 0;
+        // for (int i = 0; i < deliveryArea.transform.childCount; i++)
+        // {
+        //     if (spawnerOrders < ShopManager.instance.orderList.Count && !CheckIfObjectHasChild(deliveryArea.transform.GetChild(i)))
+        //     {
+        //         Instantiate(ShopManager.instance.orderList[spawnerOrders], deliveryArea.transform.GetChild(i));
+        //         spawnerOrders++;
+        //     }
+        //     Debug.Log($"[DayNight] {i}");
 
             
             
             
 
 
-        }
-        StartCoroutine(TimeToWait(5f));
-        ShopManager.instance.orderList.Clear();
+        // }
+        // StartCoroutine(TimeToWait(5f));
+        // ShopManager.instance.orderList.Clear();
 
     }
 

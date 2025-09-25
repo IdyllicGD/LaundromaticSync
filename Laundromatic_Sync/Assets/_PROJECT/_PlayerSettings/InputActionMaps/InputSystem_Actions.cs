@@ -1209,9 +1209,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Enter"",
+                    ""name"": ""E"",
                     ""type"": ""Button"",
                     ""id"": ""a4f46dfa-624e-4568-8982-b91ec310f53c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""8e981c4f-ab8e-477a-8b25-ba73926ad8a0"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1288,11 +1297,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ed6074f9-261f-4931-8518-e51e3faf7cc0"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Enter"",
+                    ""action"": ""E"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1303,7 +1312,29 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Enter"",
+                    ""action"": ""E"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d37bc174-3186-447f-9e37-d5bb629d2bee"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""efd981c5-5b11-44ad-9a2b-916b2f329c6f"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1406,7 +1437,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_VendingMachine = asset.FindActionMap("VendingMachine", throwIfNotFound: true);
         m_VendingMachine_Up = m_VendingMachine.FindAction("Up", throwIfNotFound: true);
         m_VendingMachine_Down = m_VendingMachine.FindAction("Down", throwIfNotFound: true);
-        m_VendingMachine_Enter = m_VendingMachine.FindAction("Enter", throwIfNotFound: true);
+        m_VendingMachine_E = m_VendingMachine.FindAction("E", throwIfNotFound: true);
+        m_VendingMachine_Exit = m_VendingMachine.FindAction("Exit", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1936,7 +1968,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private List<IVendingMachineActions> m_VendingMachineActionsCallbackInterfaces = new List<IVendingMachineActions>();
     private readonly InputAction m_VendingMachine_Up;
     private readonly InputAction m_VendingMachine_Down;
-    private readonly InputAction m_VendingMachine_Enter;
+    private readonly InputAction m_VendingMachine_E;
+    private readonly InputAction m_VendingMachine_Exit;
     /// <summary>
     /// Provides access to input actions defined in input action map "VendingMachine".
     /// </summary>
@@ -1957,9 +1990,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Down => m_Wrapper.m_VendingMachine_Down;
         /// <summary>
-        /// Provides access to the underlying input action "VendingMachine/Enter".
+        /// Provides access to the underlying input action "VendingMachine/E".
         /// </summary>
-        public InputAction @Enter => m_Wrapper.m_VendingMachine_Enter;
+        public InputAction @E => m_Wrapper.m_VendingMachine_E;
+        /// <summary>
+        /// Provides access to the underlying input action "VendingMachine/Exit".
+        /// </summary>
+        public InputAction @Exit => m_Wrapper.m_VendingMachine_Exit;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1992,9 +2029,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Down.started += instance.OnDown;
             @Down.performed += instance.OnDown;
             @Down.canceled += instance.OnDown;
-            @Enter.started += instance.OnEnter;
-            @Enter.performed += instance.OnEnter;
-            @Enter.canceled += instance.OnEnter;
+            @E.started += instance.OnE;
+            @E.performed += instance.OnE;
+            @E.canceled += instance.OnE;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
         }
 
         /// <summary>
@@ -2012,9 +2052,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Down.started -= instance.OnDown;
             @Down.performed -= instance.OnDown;
             @Down.canceled -= instance.OnDown;
-            @Enter.started -= instance.OnEnter;
-            @Enter.performed -= instance.OnEnter;
-            @Enter.canceled -= instance.OnEnter;
+            @E.started -= instance.OnE;
+            @E.performed -= instance.OnE;
+            @E.canceled -= instance.OnE;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
         }
 
         /// <summary>
@@ -2326,11 +2369,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDown(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Enter" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "E" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnEnter(InputAction.CallbackContext context);
+        void OnE(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Exit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnExit(InputAction.CallbackContext context);
     }
 }

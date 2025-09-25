@@ -23,7 +23,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
 
     [Title("UI", null, TitleAlignments.Centered)]
     [SerializeField] GameObject buyCanvas;
-
+    [SerializeField] GameObject tipCanvas;
 
     [Title("Sounds", null, TitleAlignments.Centered)]
     [SerializeField] StudioEventEmitter CamMoveSound;
@@ -69,7 +69,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         playerMovement.cameraOriginalRotation = Camera.main.transform.rotation;
         playerMovement.cameraOriginalTransform = Camera.main.transform.position;
 
-        camObject.transform.DOLocalMove(camPositions[0].position, camMoveTime);
+        camObject.transform.DOMove(camPositions[0].position, camMoveTime);
         camObject.transform.DODynamicLookAt(camLookAtPositions[0].position, camMoveTime).OnComplete(StartVendingMechanics);
         currentCamInt = 0;
     }
@@ -77,16 +77,21 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     void StartVendingMechanics()
     {
         //Enable new interactions
+        playerInteraction.StopAndStartPlayerMovement();
+        playerInteraction.canInteract = false;
+        playerMovement.canMoveAndLook = false;
         vendingActions.Enable();
+        tipCanvas.SetActive(true);
         #region Interactions
 
         vendingActions.VendingMachine.Up.performed += x => OnUp();
         vendingActions.VendingMachine.Down.performed += x => OnDown();
-        vendingActions.VendingMachine.Enter.performed += x => OnEnterPressed();
+        vendingActions.VendingMachine.E.performed += x => OnEnterPressed();
+        vendingActions.VendingMachine.Exit.performed += x => OnExitPressed();
 
         #endregion
         //Disable Player Movement
-        playerInteraction.StopAndStartPlayerMovement();
+        
     }
 
     #region  Actions
@@ -101,7 +106,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         } 
         CamMoveSound.Play();
         currentCamInt--;
-        currentCam.transform.DOLocalMove(camPositions[currentCamInt].position, camMoveTime);
+        currentCam.transform.DOMove(camPositions[currentCamInt].position, camMoveTime);
 
         //moveCamUpIfAble
     }
@@ -109,30 +114,42 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     void OnDown()
     {
 
-        if (currentCamInt >= camPositions.Count)
+        if (currentCamInt == camPositions.Count - 1)
         {
             cantMoveSound.Play();
             return;
         }
         CamMoveSound.Play();
         currentCamInt++;
-        currentCam.transform.DOLocalMove(camPositions[currentCamInt].position, camMoveTime);
+        currentCam.transform.DOMove(camPositions[currentCamInt].position, camMoveTime);
         //moveCamDownIfAble
     }
 
     void OnEnterPressed()
     {
         //Ask to buy
+        if (currentCamInt == 0) return;
         buyCanvas.SetActive(true);
+        vendingActions.Disable();
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    void OnExitPressed()
+    {
+        ExitMachine();
     }
 
     #endregion
 
     public void ExitMachine()
     {
+        buyCanvas.SetActive(false);
+        tipCanvas.SetActive(false);
+        vendingActions.Disable();
         playerMovement.ResetCamera();
-
+        playerMovement.canMoveAndLook = true;
+        SetCursorOff();
+        
     }
 
     public bool IsBusy()
@@ -155,7 +172,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                 PlayerSettings.instance.ReduceMoney(price);
                 BuySmallItem();
             }
-            else if(currentCamInt <= 3 && SpacesLeftOnTable() != 0)
+            else if(currentCamInt >= 3 && SpacesLeftOnTable() != 0)
             {
                 //Washing Machine
                 if (currentCamInt == 3)
@@ -164,6 +181,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                     {
                         PlayerSettings.instance.ReduceMoney(price);
                         BuyBigItem();
+                        amountOfWashingMachinesBought++;
                     }
                     else
                     {
@@ -172,12 +190,13 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                     }
                 }
                 //Dryers
-                else if (currentCamInt == 4)
+                if (currentCamInt == 4)
                 {
                     if (amountOfDryersBought != maxAmountOfDryers)
                     {
                         PlayerSettings.instance.ReduceMoney(price);
                         BuyBigItem();
+                        amountOfDryersBought++;
                     }
                     else
                     {
@@ -206,6 +225,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
             return;
         }
         Instantiate(itemsToBuy[currentCamInt], deliveryArea.transform.GetChild(nextAvailableSpaceIndex));
+        OnExitPressed();
 
     }
 
@@ -214,10 +234,12 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         if (currentCamInt == 3)
         {
             washingMashineList[amountOfWashingMachinesBought].SetActive(true);
+            OnExitPressed();
         }
         else if (currentCamInt == 4)
         {
             dryerMachineList[amountOfDryersBought].SetActive(true);
+            OnExitPressed();
         }
         
     }
@@ -242,6 +264,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         {
             if (deliveryArea.transform.GetChild(i).childCount == 0)
             {
+                Debug.Log($"[Vending Machine] Next available space index {i}");
                 return i;
             }
         }
@@ -265,6 +288,16 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         }
 
         return 0;
+    }
+
+    public void SetCursorOff()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void EnableActions()
+    {
+        vendingActions.Enable();
     }
 
     #region Unused
