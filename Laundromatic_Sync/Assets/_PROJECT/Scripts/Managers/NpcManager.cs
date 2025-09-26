@@ -13,7 +13,7 @@ public class NpcManager : MonoBehaviour
     public List<Transform> basketPlacePosition = new();
     [SerializeField] Transform spawnPosition;
     [SerializeField] List<GameObject> npcPrefabs = new();
-    [SerializeField]List<GameObject> originalNpcPrefabs = new();
+    [SerializeField] List<GameObject> originalNpcPrefabs = new();
     [SerializeField] int maxNpcAmount;
     public List<GameObject> currentNpcs;
     public List<GameObject> currentBaskets;
@@ -90,6 +90,16 @@ public class NpcManager : MonoBehaviour
             {
                 Debug.Log("Loser Idiot");
             }
+        }
+    }
+
+    public void ResetNpcList()
+    {
+        npcPrefabs.Clear();
+        for (int i = 0; i < originalNpcPrefabs.Count; i++)
+        {
+            npcPrefabs.Add(originalNpcPrefabs[i]);
+
         }
     }
 

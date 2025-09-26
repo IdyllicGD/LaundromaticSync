@@ -6,6 +6,7 @@ using UnityEngine;
 public class NpcOrderData : MonoBehaviour
 {
     public NpcID npcID;
+    public Sprite characterImage;
 
     public void AddMeToList(NpcID iD)
     {

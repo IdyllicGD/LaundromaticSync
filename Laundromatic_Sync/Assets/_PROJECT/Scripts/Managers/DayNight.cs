@@ -118,6 +118,7 @@ public class DayNight : MonoBehaviour
 
     public void EndDay()
     {
+        
         int currentNpcCount = NpcManager.instance.currentNpcs.Count;
         int basketCount = NpcManager.instance.currentBaskets.Count;
         int nullCountBasket = 0;
@@ -168,6 +169,7 @@ public class DayNight : MonoBehaviour
 
         NpcManager.instance.currentNpcs.Clear();
         NpcManager.instance.currentBaskets.Clear();
+        NpcManager.instance.ResetNpcList();
         hours = 6;
         minutes = 0;
         days++;

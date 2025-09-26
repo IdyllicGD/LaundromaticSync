@@ -1,5 +1,6 @@
 using _PROJECT._Jacques.Scripts.Interfaces;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _PROJECT.Scripts.temp.Scripts
 {
@@ -25,6 +26,7 @@ namespace _PROJECT.Scripts.temp.Scripts
         public Color dryCleanColour;
         public Color foldedCleanColour;
         public InteractionNameData interactionNameData;
+        [SerializeField] Image imageToChange;
         Renderer rend;
 
         void Awake()
@@ -32,6 +34,7 @@ namespace _PROJECT.Scripts.temp.Scripts
 
             rend = GetComponent<Renderer>();
             npcID = transform.parent.parent.GetComponent<NpcOrderData>().npcID;
+            imageToChange.sprite = transform.parent.parent.GetComponent<NpcOrderData>().characterImage; 
             amountOfClothing = 4;
             NpcManager.instance.currentBaskets.Add(gameObject);
             dirtySystem.Play();
