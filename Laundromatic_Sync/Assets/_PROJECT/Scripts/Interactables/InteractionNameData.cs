@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class InteractionNameData : MonoBehaviour
 {
+    public bool canBeKicked;
     
     public string itemName;
 

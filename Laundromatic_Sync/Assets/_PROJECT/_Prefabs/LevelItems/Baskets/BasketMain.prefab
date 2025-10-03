@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 2912325553496750569}
   - component: {fileID: -479990152655745306}
   - component: {fileID: -5477068936261349067}
+  - component: {fileID: 8714662093043380859}
   m_Layer: 6
   m_Name: BasketMain
   m_TagString: Untagged
@@ -199,7 +200,7 @@ BoxCollider:
     m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.5148847, y: 0.30099985, z: 0.5148847}
@@ -274,6 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709d485478b7ee646b209dcbb30d9cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canBeKicked: 0
   itemName: Dirty Laundry
 --- !u!114 &-5477068936261349067
 MonoBehaviour:
@@ -287,6 +289,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ef603d458d39246b8f8e76d733b9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &8714662093043380859
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662443402454060199}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8105643424054649305
 GameObject:
   m_ObjectHideFlags: 0

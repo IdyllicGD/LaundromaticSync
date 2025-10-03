@@ -10,6 +10,7 @@ using Unity.Behavior;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] Transform handPosition;
     private PlayerMovement playerMovement;
     private InteractionType interactionType;
+    [SerializeField] float throwBaseForce;
+    float heldAmount = 0;
+    float shootAmount = 0;
 
     #region Interaction Variables
 
@@ -55,6 +59,8 @@ public class PlayerInteraction : MonoBehaviour
         //inputActions.Player.Pet.performed += x => PetAnimal();
         //TODO: Implement a way for the player to cancel the action
         //inputActions.Player.Back.performed += x => BackPressed();
+        inputActions.Player.DropItem.performed += DropItem;
+        inputActions.Player.DropItem.canceled += x => ThrowItem();
 
         #endregion
 
@@ -255,6 +261,24 @@ public class PlayerInteraction : MonoBehaviour
 
 
 
+    }
+
+    void DropItem(InputAction.CallbackContext obj)
+    {
+        heldAmount += Time.deltaTime;
+    }
+
+    void ThrowItem()
+    {
+            GameObject objectInHand = handPosition.GetChild(0).gameObject;
+            Rigidbody objectRigidbody = objectInHand.GetComponent<Rigidbody>();
+            Collider collier = objectInHand.GetComponent<Collider>();
+
+            objectInHand.transform.parent = null;
+            objectRigidbody.useGravity = true;
+            collier.enabled = true;
+
+            objectRigidbody.AddForce(Camera.main.transform.forward * (shootAmount + throwBaseForce), ForceMode.Force);
     }
 
     #region Cooldown Timers

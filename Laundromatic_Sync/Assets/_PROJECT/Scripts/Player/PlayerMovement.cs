@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float sprintMultiplier;
     [SerializeField] float minClampDistance;
     [SerializeField] float maxClampDistance;
+    [Title("Kicking Vars", null, TitleAlignments.Centered)]
+    [SerializeField] LayerMask kickLayer;
+    [SerializeField] float kickAcelerationAmount;
     [Title("Menu", null, TitleAlignments.Centered)]
     [SerializeField] GameObject pauseCanvas;
     
@@ -64,6 +68,8 @@ public class PlayerMovement : MonoBehaviour
 
         inputActions.Player.Sprint.performed += x => PlayerSprint();
         inputActions.Player.Sprint.canceled += x => playerSpeed = playerOriginalSpeed;
+
+        inputActions.Player.Kick.performed += x => Kick();
 
         inputActions.Player.Pause.performed += x => PauseGame();
         #endregion
@@ -157,6 +163,26 @@ public class PlayerMovement : MonoBehaviour
         if(!Mathf.Approximately(playerSpeed, playerOriginalSpeed)) return;
         playerSpeed *= sprintMultiplier;
     }
+
+    void Kick()
+    {
+        GameObject objectToKick;
+        Ray ray;
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit itemHit, kickLayer))
+        {
+            if (!itemHit.transform.TryGetComponent(out Rigidbody rigidbodyToKick)) return;
+            rigidbodyToKick.AddRelativeForce(Vector3.forward * kickAcelerationAmount , ForceMode.Force);
+            Debug.Log($"[PlayerMovement] Kick Object");
+            //play kick sound
+
+
+
+            //play kick sound
+            //kick object   
+        }
+    }
+
+
 
     #endregion
 

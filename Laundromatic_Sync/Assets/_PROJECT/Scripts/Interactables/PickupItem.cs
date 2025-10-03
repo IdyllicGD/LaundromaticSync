@@ -6,6 +6,7 @@ using UnityEngine;
 public class PickupItem : MonoBehaviour, IPickupable
 {
     Collider collider;
+    Rigidbody rigidbody;
     public CleanOrDirty cleanOrDirty;
     //public MachineUsableItemsType machineUsableItemsType;
 
@@ -13,6 +14,7 @@ public class PickupItem : MonoBehaviour, IPickupable
     {
         //machineUsableItemsType = MachineUsableItemsType.None;
         collider = GetComponent<Collider>();
+        rigidbody.useGravity = false;
     }
 
     public void Pickup(Transform placePosition, bool isHoldingObject)
