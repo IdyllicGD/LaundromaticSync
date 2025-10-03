@@ -19,6 +19,7 @@ public class PlayerInteraction : MonoBehaviour
     private PlayerMovement playerMovement;
     private InteractionType interactionType;
     [SerializeField] float throwBaseForce;
+    [SerializeField] float maxHoldAmount;
     float heldAmount = 0;
     float shootAmount = 0;
 
@@ -265,20 +266,29 @@ public class PlayerInteraction : MonoBehaviour
 
     void DropItem(InputAction.CallbackContext obj)
     {
-        heldAmount += Time.deltaTime;
+        heldAmount = Time.time;
+        GameObject objectInHand = handPosition.GetChild(0).gameObject;
+        Rigidbody objectRigidbody = objectInHand.GetComponent<Rigidbody>();
+        objectRigidbody.constraints = RigidbodyConstraints.None;
+        objectRigidbody.isKinematic = false;
+        Debug.Log($"[PlayerInteraction] {heldAmount}");
     }
 
     void ThrowItem()
     {
-            GameObject objectInHand = handPosition.GetChild(0).gameObject;
-            Rigidbody objectRigidbody = objectInHand.GetComponent<Rigidbody>();
-            Collider collier = objectInHand.GetComponent<Collider>();
+        GameObject objectInHand = handPosition.GetChild(0).gameObject;
+        Rigidbody objectRigidbody = objectInHand.GetComponent<Rigidbody>();
+        Collider collier = objectInHand.GetComponent<Collider>();
+        float finalTime = Mathf.Clamp(Time.time - heldAmount, 0f, maxHoldAmount);
+        //Clamp Later!!!
+        
+        collier.enabled = true;
+        objectInHand.transform.parent = null;
+        objectRigidbody.useGravity = true;
+        
 
-            objectInHand.transform.parent = null;
-            objectRigidbody.useGravity = true;
-            collier.enabled = true;
-
-            objectRigidbody.AddForce(Camera.main.transform.forward * (shootAmount + throwBaseForce), ForceMode.Force);
+        objectRigidbody.AddForce(Camera.main.transform.forward * (finalTime * throwBaseForce), ForceMode.Force);
+        Debug.Log($"[PlayerInteraction] {finalTime}");
     }
 
     #region Cooldown Timers

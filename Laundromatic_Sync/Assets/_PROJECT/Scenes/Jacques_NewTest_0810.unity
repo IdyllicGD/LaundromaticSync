@@ -7232,6 +7232,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3648379398999629037, guid: 798ca22d03e3caf409a43a6c6fd0e450, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8656457897783618777, guid: 798ca22d03e3caf409a43a6c6fd0e450, type: 3}
       propertyPath: m_Name
       value: Softener
@@ -8744,6 +8748,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1415318552}
     m_Modifications:
+    - target: {fileID: -2125099198054107671, guid: ef33a66b9db587c44be9c0bb38d6e082, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2125099198054107671, guid: ef33a66b9db587c44be9c0bb38d6e082, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3562707004481180120, guid: ef33a66b9db587c44be9c0bb38d6e082, type: 3}
       propertyPath: m_Name
       value: Detergent
@@ -22609,6 +22621,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5250937525471719096, guid: 1a513b9e99061184fb54c737e7e3a196, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034181956922265338, guid: 1a513b9e99061184fb54c737e7e3a196, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7899784589129400695, guid: 1a513b9e99061184fb54c737e7e3a196, type: 3}
@@ -51961,6 +51977,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1441355658}
     m_Modifications:
+    - target: {fileID: -2125099198054107671, guid: ef33a66b9db587c44be9c0bb38d6e082, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3562707004481180120, guid: ef33a66b9db587c44be9c0bb38d6e082, type: 3}
       propertyPath: m_Name
       value: Detergent
@@ -54097,6 +54117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709d485478b7ee646b209dcbb30d9cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canBeKicked: 0
   itemName: Shop
 --- !u!1001 &1326162190
 PrefabInstance:
@@ -72617,6 +72638,18 @@ PrefabInstance:
     - target: {fileID: 2784614093259880989, guid: 798ca22d03e3caf409a43a6c6fd0e450, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3648379398999629037, guid: 798ca22d03e3caf409a43a6c6fd0e450, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3648379398999629037, guid: 798ca22d03e3caf409a43a6c6fd0e450, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3648379398999629037, guid: 798ca22d03e3caf409a43a6c6fd0e450, type: 3}
+      propertyPath: m_ImplicitTensor
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8656457897783618777, guid: 798ca22d03e3caf409a43a6c6fd0e450, type: 3}
       propertyPath: m_Name
@@ -95314,6 +95347,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2059175194}
     m_Modifications:
+    - target: {fileID: -2125099198054107671, guid: ef33a66b9db587c44be9c0bb38d6e082, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3562707004481180120, guid: ef33a66b9db587c44be9c0bb38d6e082, type: 3}
       propertyPath: m_Name
       value: Detergent
@@ -114072,6 +114109,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4335610247919563810, guid: a0f72bb84c96c004f9bd4ebf50111445, type: 3}
+      propertyPath: maxHoldAmount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335610247919563810, guid: a0f72bb84c96c004f9bd4ebf50111445, type: 3}
+      propertyPath: throwBaseForce
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 4581245461661491085, guid: a0f72bb84c96c004f9bd4ebf50111445, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -114080,6 +114125,10 @@ PrefabInstance:
       propertyPath: pauseCanvas
       value: 
       objectReference: {fileID: 1235840325}
+    - target: {fileID: 4921829721471313445, guid: a0f72bb84c96c004f9bd4ebf50111445, type: 3}
+      propertyPath: kickAcelerationAmount
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 5454445010927250188, guid: a0f72bb84c96c004f9bd4ebf50111445, type: 3}
       propertyPath: m_IsActive
       value: 1

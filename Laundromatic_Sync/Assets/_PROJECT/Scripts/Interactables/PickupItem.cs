@@ -2,7 +2,9 @@ using System;
 using _PROJECT._Jacques.Scripts.Interfaces;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Video;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PickupItem : MonoBehaviour, IPickupable
 {
     Collider collider;
@@ -14,6 +16,7 @@ public class PickupItem : MonoBehaviour, IPickupable
     {
         //machineUsableItemsType = MachineUsableItemsType.None;
         collider = GetComponent<Collider>();
+        rigidbody = GetComponent<Rigidbody>();
         rigidbody.useGravity = false;
     }
 
@@ -21,14 +24,12 @@ public class PickupItem : MonoBehaviour, IPickupable
     {
         if (isHoldingObject) return;
         collider.enabled = false;
+        rigidbody.useGravity = false;
         transform.SetParent(placePosition);
         transform.DOLocalMove(Vector3.zero, 0.2f);
+        transform.DOLocalRotate(Vector3.zero, 0.2f);
+        rigidbody.constraints = RigidbodyConstraints.FreezePosition;
     }
-
-    // public MachineUsableItemsType ReturnMachineUsableItemsType()
-    // {
-    //     return machineUsableItemsType;
-    // }
 }
 
 

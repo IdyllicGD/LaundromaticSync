@@ -171,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit itemHit, kickLayer))
         {
             if (!itemHit.transform.TryGetComponent(out Rigidbody rigidbodyToKick)) return;
-            rigidbodyToKick.AddRelativeForce(Vector3.forward * kickAcelerationAmount , ForceMode.Force);
+            rigidbodyToKick.AddForce(Camera.main.transform.forward * kickAcelerationAmount , ForceMode.Force);
             Debug.Log($"[PlayerMovement] Kick Object");
             //play kick sound
 
