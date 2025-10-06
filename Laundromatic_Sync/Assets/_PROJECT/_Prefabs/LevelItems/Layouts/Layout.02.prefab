@@ -10226,6 +10226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709d485478b7ee646b209dcbb30d9cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canBeKicked: 0
   itemName: Open/Close Store
 --- !u!1 &4009420817943728260
 GameObject:
@@ -21577,11 +21578,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3042593448143801175, guid: 64ed474e9c584a54cb40188588bd5c1b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.629
+      value: 1.597
       objectReference: {fileID: 0}
     - target: {fileID: 3042593448143801175, guid: 64ed474e9c584a54cb40188588bd5c1b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.7980003
+      value: 1.798
       objectReference: {fileID: 0}
     - target: {fileID: 3042593448143801175, guid: 64ed474e9c584a54cb40188588bd5c1b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -21717,15 +21718,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5052294209506065583, guid: 2c911387280243c4c8bc0f93d25602c6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.6249604
+      value: -6.625
       objectReference: {fileID: 0}
     - target: {fileID: 5052294209506065583, guid: 2c911387280243c4c8bc0f93d25602c6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.66
+      value: 1.604
       objectReference: {fileID: 0}
     - target: {fileID: 5052294209506065583, guid: 2c911387280243c4c8bc0f93d25602c6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.5299988
+      value: -0.53
       objectReference: {fileID: 0}
     - target: {fileID: 5052294209506065583, guid: 2c911387280243c4c8bc0f93d25602c6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -22577,6 +22578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709d485478b7ee646b209dcbb30d9cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canBeKicked: 0
   itemName: Laptop
 --- !u!114 &8894246485331006741
 MonoBehaviour:
@@ -22594,6 +22596,7 @@ MonoBehaviour:
   lookAtPosition: {fileID: 4890516078393775711}
   camPosition: {fileID: 3050375506302532327}
   baseSpeedCam: 0.5
+  realCan: {fileID: 0}
   uiLayer:
     serializedVersion: 2
     m_Bits: 32
