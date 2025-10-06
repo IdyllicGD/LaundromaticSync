@@ -6,6 +6,8 @@ using FMODUnity;
 using DG.Tweening;
 using System.Data;
 using Unity.VisualScripting;
+using Unity.AppUI.UI;
+using UnityEngine.Rendering;
 
 public class Menu : MonoBehaviour
 {
@@ -32,7 +34,11 @@ public class Menu : MonoBehaviour
 
     //FMOD Event References
     public FMODUnity.EventReference SoundClick; //button click sound
-    
+
+    //CAM Texture
+    public RawImage playerCamImage;
+    public RenderTexture camTextureON;
+    public RenderTexture camTextureOFF;
 
 
 
@@ -138,5 +144,14 @@ public class Menu : MonoBehaviour
     public void ButtonClick()
     {
         FMODUnity.RuntimeManager.PlayOneShot(SoundClick, 0);
+    }
+    
+    public void onPixelToggleChanged(bool isOn)
+    {
+        
+       Camera maincam = Camera.main;
+       playerCamImage.texture = isOn ? camTextureON : camTextureOFF;
+       maincam.targetTexture = isOn ? camTextureON : camTextureOFF;
+        
     }
 }
