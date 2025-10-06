@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using Microsoft.Unity.VisualStudio.Editor;
 using Sirenix.OdinInspector;
 using TMPro;
+using Unity.AppUI.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DayNight : MonoBehaviour
 {
@@ -34,6 +38,26 @@ public class DayNight : MonoBehaviour
     [Title("Delivery", null, TitleAlignments.Centered)]
     [SerializeField] GameObject deliveryArea;
     public int delivryAreaMaxAmount;
+    [Title("End Day Review Vars", null, TitleAlignments.Centered)]
+    [SerializeField] GameObject endDayReviewCanvas;
+    //Money made
+    [SerializeField] TextMeshProUGUI moneyMadeText;
+    public int moneyMadeThisDay;
+    //Orders Completed
+    [SerializeField] TextMeshProUGUI ordersCompletedTodayText;
+    public int ordersCompletedToday;
+    //Score
+    //overall Score
+    [Title("Pass out info", null, TitleAlignments.Centered)]
+    [SerializeField] GameObject passOutInfo;
+    [SerializeField] TextMeshProUGUI passOutInfoText;
+    [SerializeField] RawImage blinkImage;
+    [SerializeField] TextMeshProUGUI blinkText;
+    [SerializeField] float blinkDuration;
+    [SerializeField] float blinkWaitTime;
+    [SerializeField] PlayerMovement playerMovement;
+    float originalPlayerSpeed;
+    
 
 
     float tempSeconds;
@@ -42,6 +66,7 @@ public class DayNight : MonoBehaviour
 
     void Start()
     {
+
         instance = this;
         UpdateTimeData();
         delivryAreaMaxAmount = ReturnAvailableSpaceOnDeliveryTable();
@@ -61,13 +86,21 @@ public class DayNight : MonoBehaviour
 
     public void StartOfNewDay()
     {
-        StartCoroutine(TimeToWaitForStart(1f));
+        endOfDayPause = false;
         RenderSettings.skybox = sunriseSkybox;
+        NpcManager.instance.canSpawnNpc = true;
+        
     }
-    public void CheckForMail()
+
+    #region End Day Review
+    public void EndDayReview()
     {
 
     }
+
+
+
+    #endregion
 
     void Update()
     {
@@ -80,11 +113,16 @@ public class DayNight : MonoBehaviour
             if (minutes >= 60)
             {
                 hours++;
+                if (hours == 22)
+                {
+                    Blink();
+                }
                 if (hours >= 24)
                 {
                     hours = 0;
                     endOfDayPause = true;
                     PauseTimeAndCloseStore();
+
                 }
                 hoursText.text = hours.ToString("00");
                 minutes = 0;
@@ -92,6 +130,8 @@ public class DayNight : MonoBehaviour
             minutesText.text = minutes.ToString("00");
             tempSeconds = 0;
         }
+
+
 
 
     }
@@ -111,6 +151,25 @@ public class DayNight : MonoBehaviour
         }
     }
 
+    void Blink()
+    {
+        blinkImage.DOFade(1f, blinkDuration).OnComplete(() => StartCoroutine(TimeToWaitForFade(blinkWaitTime)));
+        blinkText.DOFade(1f, blinkDuration);
+        Camera.main.DOShakePosition(5f, 3f, 10, 90f, true);
+        playerMovement.playerSpeed /= 0.5f;
+
+        //Yawn Sound
+    }
+
+    IEnumerator TimeToWaitForFade(float timeToWait)
+    {
+        yield return new WaitForSeconds(timeToWait);
+        blinkImage.DOFade(0f, blinkDuration);
+        blinkText.DOFade(0f, blinkDuration);
+        playerMovement.playerSpeed = playerMovement.playerOriginalSpeed;
+
+    }
+
     public void PauseTimeAndCloseStore()
     {
         NpcManager.instance.canSpawnNpc = false;
@@ -118,7 +177,7 @@ public class DayNight : MonoBehaviour
 
     public void EndDay()
     {
-        
+
         int currentNpcCount = NpcManager.instance.currentNpcs.Count;
         int basketCount = NpcManager.instance.currentBaskets.Count;
         int nullCountBasket = 0;
@@ -135,7 +194,7 @@ public class DayNight : MonoBehaviour
             {
                 Destroy(NpcManager.instance.currentNpcs[i].gameObject);
             }
-            
+
         }
         for (int i = 0; i < basketCount; i++)
         {
@@ -147,7 +206,7 @@ public class DayNight : MonoBehaviour
             {
                 Destroy(NpcManager.instance.currentBaskets[i].gameObject);
             }
-            
+
 
         }
         if (nullCountBasket != 0)
@@ -159,14 +218,14 @@ public class DayNight : MonoBehaviour
         }
         if (nullCountNpc != 0)
         {
-            for (int i = 0; i < nullCountNpc; i++)      
+            for (int i = 0; i < nullCountNpc; i++)
             {
                 NpcManager.instance.currentNpcs.RemoveAt(0);
             }
         }
 
 
-
+        endOfDayPause = true;
         NpcManager.instance.currentNpcs.Clear();
         NpcManager.instance.currentBaskets.Clear();
         NpcManager.instance.ResetNpcList();
@@ -177,31 +236,9 @@ public class DayNight : MonoBehaviour
         UpdateTimeData();
         NpcManager.instance.SpawnNpc();
         RenderSettings.skybox = sunriseSkybox;
-        StartOfDayDelivery();
+        EndDayReview();
     }
 
-    void StartOfDayDelivery()
-    {
-        // int spawnerOrders = 0;
-        // for (int i = 0; i < deliveryArea.transform.childCount; i++)
-        // {
-        //     if (spawnerOrders < ShopManager.instance.orderList.Count && !CheckIfObjectHasChild(deliveryArea.transform.GetChild(i)))
-        //     {
-        //         Instantiate(ShopManager.instance.orderList[spawnerOrders], deliveryArea.transform.GetChild(i));
-        //         spawnerOrders++;
-        //     }
-        //     Debug.Log($"[DayNight] {i}");
-
-            
-            
-            
-
-
-        // }
-        // StartCoroutine(TimeToWait(5f));
-        // ShopManager.instance.orderList.Clear();
-
-    }
 
     public int ReturnAvailableSpaceOnDeliveryTable()
     {
@@ -232,12 +269,6 @@ public class DayNight : MonoBehaviour
         yield return new WaitForSeconds(time);
         ShopManager.instance.orderList.Clear();
 
-    }
-    IEnumerator TimeToWaitForStart(float time)
-    {
-        yield return new WaitForSeconds(time);
-        StartOfDayDelivery();
-        
     }
 
     

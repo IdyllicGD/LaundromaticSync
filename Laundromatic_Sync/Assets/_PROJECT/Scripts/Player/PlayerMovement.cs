@@ -11,7 +11,7 @@ using UnityEngine.XR;
 public class PlayerMovement : MonoBehaviour
 {
     [Title("Character Controller Vars", null, TitleAlignments.Centered)]
-    [SerializeField] float playerSpeed; 
+    public float playerSpeed; 
     [SerializeField] float sprintMultiplier;
     [SerializeField] float minClampDistance;
     [SerializeField] float maxClampDistance;
@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [Title("Menu", null, TitleAlignments.Centered)]
     [SerializeField] GameObject pauseCanvas;
     
-    private float playerOriginalSpeed;
+    [ReadOnly]public float playerOriginalSpeed;
     private PlayerSettings playerSettings;
     [HideInInspector] public InputSystem_Actions inputActions;
     [HideInInspector] public bool canMoveAndLook = true;

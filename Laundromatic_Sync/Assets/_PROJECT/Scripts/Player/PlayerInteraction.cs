@@ -85,6 +85,8 @@ public class PlayerInteraction : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
     }
 
+    #region Interaction Visuals
+
     void Update()
     {
         if (!canInteract)
@@ -98,7 +100,7 @@ public class PlayerInteraction : MonoBehaviour
             ShowItemNameWhenRayHit();
             playerCroshair.SetActive(true);
         }
-        
+
     }
 
     void ShowItemNameWhenRayHit()
@@ -123,6 +125,10 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Pet
+
     void PetAnimal()
     {
         Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hit, raycastDistance);
@@ -136,6 +142,9 @@ public class PlayerInteraction : MonoBehaviour
         UpdatePlayerPopupMessage($"{nameOfObject} says thank you for the pets!");
     }
 
+    #endregion
+
+    #region Interactions
     private void InteractWithObject()
     {
         if (!canInteract) return;
@@ -243,7 +252,9 @@ public class PlayerInteraction : MonoBehaviour
             if (handPosition.childCount == 0) return;
             Transform hitObject = hitTable.transform;
             Transform handObject = handPosition.GetChild(0);
-            for (int i = 0; hitObject.childCount > i; i++)
+            int forAmount = hitObject.childCount;
+            --forAmount;
+            for (int i = 0; forAmount > i; i++)
             {
                 if (hitObject.GetChild(i).childCount == 0)
                 {
@@ -258,14 +269,15 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitLaptop, raycastDistance,
-                laptopLayer)) {
+                laptopLayer))
+        {
             //InteractWithCamOnly
             if (hitLaptop.transform.TryGetComponent(out IMachineInteractable machineInteractable))
             {
                 machineInteractable.Interact(playerCam);
             }
         }
-        
+
 
 
         //check if the player is holding an item
@@ -274,7 +286,7 @@ public class PlayerInteraction : MonoBehaviour
         if (!Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit machineHit,
                 raycastDistance,
                 interactionLayer)) return;
-        
+
 
         //Machine interaction
         if (machineHit.transform.TryGetComponent(out IMachineInteractable interactable))
@@ -282,7 +294,7 @@ public class PlayerInteraction : MonoBehaviour
             interactable.Interact(playerCam, itemInHand);
             return;
         }
-        
+
 
 
 
@@ -290,6 +302,22 @@ public class PlayerInteraction : MonoBehaviour
 
 
     }
+
+    void BackPressed()
+    {
+        if (!playerMovement.canMoveAndLook)
+        {
+            playerMovement.ResetCamera();
+            playerMovement.canMoveAndLook = true;
+        }
+
+    }
+
+    
+
+    #endregion
+
+    #region Throw and Drop
 
     void DropItem(InputAction.CallbackContext obj)
     {
@@ -311,7 +339,7 @@ public class PlayerInteraction : MonoBehaviour
         objectInHand.transform.DOKill();
         Camera.main.transform.DOKill();
         Rigidbody objectRigidbody = objectInHand.GetComponent<Rigidbody>();
-        
+
         Collider collier = objectInHand.GetComponent<Collider>();
         float finalTime = Time.time - heldAmount;
         float percentageHeld = 0f;
@@ -327,7 +355,7 @@ public class PlayerInteraction : MonoBehaviour
 
         float finalforce = maxForceAmount * percentageHeld;
 
-        
+
         float finalForceAmount = Mathf.Clamp(finalforce, throwBaseForce, maxForceAmount);
         Debug.Log($"[PlayerInteraction] final force is: {finalForceAmount}");
 
@@ -342,7 +370,7 @@ public class PlayerInteraction : MonoBehaviour
         Debug.Log($"[PlayerInteraction] {finalTime}");
     }
 
-        void DropHat(InputAction.CallbackContext obj)
+    void DropHat(InputAction.CallbackContext obj)
     {
         if (hatPosition.childCount == 0) return;
         heldAmount = Time.time;
@@ -362,7 +390,7 @@ public class PlayerInteraction : MonoBehaviour
         hatObject.transform.DOKill();
         Camera.main.transform.DOKill();
         Rigidbody objectRigidbody = hatObject.GetComponent<Rigidbody>();
-        
+
         Collider collier = hatObject.GetComponent<Collider>();
         float finalTime = Time.time - heldAmount;
         float percentageHeld = 0f;
@@ -378,7 +406,7 @@ public class PlayerInteraction : MonoBehaviour
 
         float finalforce = maxForceAmount * percentageHeld;
 
-        
+
         float finalForceAmount = Mathf.Clamp(finalforce, throwBaseForce, maxForceAmount);
         Debug.Log($"[PlayerInteraction] final force is: {finalForceAmount}");
 
@@ -393,6 +421,8 @@ public class PlayerInteraction : MonoBehaviour
         Debug.Log($"[PlayerInteraction] {finalTime}");
     }
 
+    #endregion
+
     #region Cooldown Timers
 
     IEnumerator DialogueCooldown(float cooldownTime)
@@ -403,6 +433,7 @@ public class PlayerInteraction : MonoBehaviour
 
     #endregion
 
+    #region Outside Funcs
     public void UpdatePlayerPopupMessage(string messageInfo)
     {
         popupMessageText.text = messageInfo;
@@ -423,10 +454,10 @@ public class PlayerInteraction : MonoBehaviour
             playerMovement.canMoveAndLook = false;
             playerMovement.inputActions.Disable();
         }
-        
+
     }
 
-        public void StopAndStartPlayerMovement(bool setToThis)
+    public void StopAndStartPlayerMovement(bool setToThis)
     {
         if (setToThis)
         {
@@ -438,7 +469,7 @@ public class PlayerInteraction : MonoBehaviour
             playerMovement.canMoveAndLook = false;
             playerMovement.inputActions.Disable();
         }
-        
+
     }
 
     public void StopAndStartPlayerInteraction(bool setToThis)
@@ -459,16 +490,9 @@ public class PlayerInteraction : MonoBehaviour
         return interactableMachine.MachineType();
 
     }
+    #endregion
 
-    void BackPressed()
-    {
-        if (!playerMovement.canMoveAndLook)
-        {
-            playerMovement.ResetCamera();
-            playerMovement.canMoveAndLook = true;
-        }
 
-    }
 
     BasketType CheckBasketType(RaycastHit hit)
     {
@@ -476,6 +500,8 @@ public class PlayerInteraction : MonoBehaviour
             ? basket.ReturnBasketType()
             : BasketType.None;
     }
+
+    #region End
 
     private void OnDestroy()
     {
@@ -487,6 +513,8 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(time);
         popupMessageText.text = "";
     }
+    
+    #endregion
     
     
 }
