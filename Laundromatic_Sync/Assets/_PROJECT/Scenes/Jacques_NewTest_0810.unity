@@ -114609,6 +114609,71 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &8077137053602409343
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1465486635292574856, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -221205623887621268, guid: e2e5b7f3aabd2a84f9aa419f976631f9, type: 2}
+    - target: {fileID: 1465486635292574856, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013180689276974985, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542039246608002925, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
+      propertyPath: m_Name
+      value: WorldCanvasBase
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 281cec059238df640a5b1cd0bf411924, type: 3}
 --- !u!65 &8081934161993517697
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -114951,6 +115016,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 619136539}
     m_Modifications:
+    - target: {fileID: 1227328961798735971, guid: a0f72bb84c96c004f9bd4ebf50111445, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.8784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 1227328961798735971, guid: a0f72bb84c96c004f9bd4ebf50111445, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.7607843
+      objectReference: {fileID: 0}
+    - target: {fileID: 1227328961798735971, guid: a0f72bb84c96c004f9bd4ebf50111445, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
     - target: {fileID: 1957547821658655717, guid: a0f72bb84c96c004f9bd4ebf50111445, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.454
@@ -116643,3 +116720,4 @@ SceneRoots:
   - {fileID: 1692945953}
   - {fileID: 1742549905197764448}
   - {fileID: 626563652}
+  - {fileID: 8077137053602409343}
