@@ -29,7 +29,7 @@ public class NpcStart : MonoBehaviour
         orderObject.GetComponent<OrderInformation>().isCleanOrder = true;
 
 
-        ChangeDialogueText();
+        // ChangeDialogueText();
         SpawnObject(orderObject);
 
     }
@@ -40,11 +40,11 @@ public class NpcStart : MonoBehaviour
         Instantiate(objectToSpawn, objectSpawnPosition);
     }
 
-    void ChangeDialogueText()
-    {
-        npcDialogueSo.DialogieInOrder[0] =  $"{orderType}";
-        npcDialogueSo.DialogieInOrder[npcDialogueSo.DialogieInOrder.Count - 1] = $"{orderType}";
-    }
+    // void ChangeDialogueText()
+    // {
+    //     npcDialogueSo.DialogieInOrder[0] =  $"{orderType}";
+    //     npcDialogueSo.DialogieInOrder[npcDialogueSo.DialogieInOrder.Count - 1] = $"{orderType}";
+    // }
 
 
 

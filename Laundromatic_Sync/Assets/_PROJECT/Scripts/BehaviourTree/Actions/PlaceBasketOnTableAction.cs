@@ -6,18 +6,20 @@ using Unity.Properties;
 using DG.Tweening;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "PlaceBasketOnTable", story: "Place [Basket] on [Table]", category: "Action", id: "a62fb552c2d0eae4bb2059fb51ca5375")]
+[NodeDescription(name: "PlaceBasketOnTable", story: "Place [Basket] on [Table] and set [HasBasket] to true", category: "Action", id: "a62fb552c2d0eae4bb2059fb51ca5375")]
 public partial class PlaceBasketOnTableAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Basket;
     [SerializeReference] public BlackboardVariable<Transform> Table;
+    [SerializeReference] public BlackboardVariable<bool> HasBasket;
     [SerializeReference] public BlackboardVariable<Transform> BasketSpawnPosition;
     [SerializeReference] public BlackboardVariable<GameObject> Self;
 
     protected override Status OnStart()
     {
-
+        if (HasBasket.Value) return Status.Failure;;
         Basket.Value = Self.Value.transform.GetChild(0).transform.GetChild(0).gameObject;
+        HasBasket.Value = true;
         Basket.Value.GetComponent<Collider>().enabled = true;
         for (int i = 0; i <= NpcManager.instance.basketPlacePosition.Count; i++)
         {

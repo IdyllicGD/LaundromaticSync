@@ -10,6 +10,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     [Title("Machine Info", null, TitleAlignments.Centered)]
     [SerializeField] MachineType machineType;
     [SerializeField] GameObject deliveryArea;
+    [SerializeField] Transform spawnPos;
     [SerializeField] int maxAmountOfDryers;
     [SerializeField] int maxAmountOfWashingMachines;
 
@@ -22,7 +23,6 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
 
 
     [Title("UI", null, TitleAlignments.Centered)]
-    [SerializeField] GameObject buyCanvas;
     [SerializeField] GameObject tipCanvas;
 
     [Title("Sounds", null, TitleAlignments.Centered)]
@@ -132,10 +132,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     void OnEnterPressed()
     {
         //Ask to buy
-        if (currentCamInt == 0) return;
-        buyCanvas.SetActive(true);
-        vendingActions.Disable();
-        Cursor.lockState = CursorLockMode.None;
+        TryToBuyItem();
     }
 
     void OnExitPressed()
@@ -147,7 +144,6 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
 
     public void ExitMachine()
     {
-        buyCanvas.SetActive(false);
         tipCanvas.SetActive(false);
         vendingActions.Disable();
         playerInteraction.StopAndStartPlayerInteraction(true);
@@ -172,12 +168,22 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         int price = GetLevelPrice(currentCamInt);
         if (PlayerSettings.instance.playerMoney >= price)
         {
-            if (currentCamInt < 3 && SpacesLeftOnTable() != 0)
+            if (currentCamInt < 3)
             {
-                PlayerSettings.instance.ReduceMoney(price);
-                BuySmallItem();
+                if (SpacesLeftOnTable() != 0)
+                {
+                    PlayerSettings.instance.ReduceMoney(price);
+                    BuySmallItem();
+                    buySound.Play();
+                }
+                else
+                {
+                    PlayerSettings.instance.ReduceMoney(price);
+                    SpawnSmallItem();
+                    buySound.Play();
+                }
             }
-            else if(currentCamInt >= 3 && SpacesLeftOnTable() != 0)
+            else if(currentCamInt >= 3)
             {
                 //Washing Machine
                 if (currentCamInt == 3)
@@ -186,6 +192,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                     {
                         PlayerSettings.instance.ReduceMoney(price);
                         BuyBigItem();
+                        buySound.Play();
                         amountOfWashingMachinesBought++;
                     }
                     else
@@ -201,6 +208,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                     {
                         PlayerSettings.instance.ReduceMoney(price);
                         BuyBigItem();
+                        buySound.Play();
                         amountOfDryersBought++;
                     }
                     else
@@ -230,8 +238,21 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
             return;
         }
         Instantiate(itemsToBuy[currentCamInt], deliveryArea.transform.GetChild(nextAvailableSpaceIndex));
-        OnExitPressed();
+        //OnExitPressed();
 
+    }
+
+    void SpawnSmallItem()
+    {
+        GameObject currentObject = Instantiate(itemsToBuy[currentCamInt], spawnPos);
+        Rigidbody rigidbody = currentObject.GetComponent<Rigidbody>();
+        Collider collider = currentObject.GetComponent<Collider>();
+
+        collider.enabled = true;
+        rigidbody.isKinematic = false;
+        rigidbody.useGravity = true;
+        rigidbody.freezeRotation = false;
+        rigidbody.constraints = RigidbodyConstraints.None;
     }
 
     void BuyBigItem()
@@ -239,12 +260,12 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         if (currentCamInt == 3)
         {
             washingMashineList[amountOfWashingMachinesBought].SetActive(true);
-            OnExitPressed();
+            //OnExitPressed();
         }
         else if (currentCamInt == 4)
         {
             dryerMachineList[amountOfDryersBought].SetActive(true);
-            OnExitPressed();
+            //OnExitPressed();
         }
         
     }
@@ -252,7 +273,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     int SpacesLeftOnTable()
     {
         int amountOfSpace = 0;
-        for (int i = 0; i < deliveryAreaMaxAmount; i++)
+        for (int i = 0; i < --deliveryAreaMaxAmount; i++)
         {
             if (deliveryArea.transform.GetChild(i).childCount == 0)
             {

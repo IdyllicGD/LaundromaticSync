@@ -1,20 +1,17 @@
+using _PROJECT._Jacques.Scripts.Interfaces;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class LightSwitchToggle : MonoBehaviour
+public class LightSwitchToggle : MonoBehaviour, Iinteractable
 {
     public GameObject lightSwitch;
     private bool LightsON = true;
-    
 
-    void Update()
+    public void Interact()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            ToggleLights();
-        }
-        
+        ToggleLights();
     }
+
     public void ToggleLights()
     {
         LightsON = !LightsON;

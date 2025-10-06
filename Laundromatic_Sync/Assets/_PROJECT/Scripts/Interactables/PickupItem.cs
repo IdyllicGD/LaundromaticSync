@@ -28,9 +28,9 @@ public class PickupItem : MonoBehaviour, IPickupable
         rigidbody.isKinematic = true;
         transform.SetParent(placePosition);
         transform.DOLocalMove(Vector3.zero, 0.2f);
-        transform.DOLocalRotate(Vector3.zero, 0.2f);
+        transform.DOLocalRotate(new Vector3(0f,-137.66f,0f), 0.2f).OnComplete(() => rigidbody.constraints = RigidbodyConstraints.FreezeRotation);
         rigidbody.constraints = RigidbodyConstraints.FreezePosition;
-        rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        
     }
 }
 
