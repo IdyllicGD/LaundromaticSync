@@ -177,7 +177,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
         animator.SetBool("isFinished", true);
         animator.SetBool("isWashing", false);
         machineTimeToComplete = originalMachineTimeToComplete;
-        
+        TimeText.text = machineTimeToComplete.ToString();
     }
 
 

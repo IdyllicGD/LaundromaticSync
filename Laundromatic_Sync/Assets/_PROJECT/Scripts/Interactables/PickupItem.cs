@@ -25,10 +25,12 @@ public class PickupItem : MonoBehaviour, IPickupable
         if (isHoldingObject) return;
         collider.enabled = false;
         rigidbody.useGravity = false;
+        rigidbody.isKinematic = true;
         transform.SetParent(placePosition);
         transform.DOLocalMove(Vector3.zero, 0.2f);
         transform.DOLocalRotate(Vector3.zero, 0.2f);
         rigidbody.constraints = RigidbodyConstraints.FreezePosition;
+        rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
     }
 }
 

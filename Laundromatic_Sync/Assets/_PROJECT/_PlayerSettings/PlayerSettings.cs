@@ -20,6 +20,7 @@ public class PlayerSettings : MonoBehaviour
         instance = this;
         Time.timeScale = 1f;
         UpdateMoneyText();
+        QualitySettings.vSyncCount = 1;
 
         UpdateFps(fpsSetting[2]);
     }

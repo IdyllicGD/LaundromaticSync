@@ -11,6 +11,7 @@ using UnityEngine.UIElements;
 using FMODUnity;
 using Sirenix.OdinInspector;
 using TMPro;
+using System.Threading;
 
 public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable, RythmStages
 {
@@ -203,6 +204,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                     currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
                     currentPlayerMovement.cameraOriginalRotation = Camera.main.transform.rotation;
                     playerInteraction.StopAndStartPlayerMovement();
+                    playerInteraction.canInteract = false;
                     camObject.transform.DOMove(camPosition.position, baseSpeedCam);
                     camObject.transform.DODynamicLookAt(camLookAtPosition.position, baseLookAtPositionSpeed);
                     secondaryObject.transform.SetParent(basketPosition);
@@ -234,6 +236,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                         currentPlayerMovement.cameraOriginalRotation = Camera.main.transform.rotation;
                         currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
                         playerInteraction.StopAndStartPlayerMovement();
+                        playerInteraction.canInteract = false;
                         camObject.transform.DOMove(camPosition.position, baseSpeedCam);
                         camObject.transform.DODynamicLookAt(camLookAtPosition.position, baseLookAtPositionSpeed);
                         secondaryObject.transform.SetParent(basketPosition);
@@ -342,6 +345,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         busySound.Stop();
         doneSound.Play();
         machineTimeToComplete = originalMachineTimeToComplete;
+        TimeText.text = machineTimeToComplete.ToString();
 
 
     }

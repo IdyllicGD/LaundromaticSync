@@ -63,11 +63,18 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     }
     public void Interact(Camera camObject)
     {
+        
         currentCam = camObject.gameObject;
         playerInteraction = camObject.transform.parent.parent.GetComponent<PlayerInteraction>();
         playerMovement = camObject.transform.parent.parent.GetComponent<PlayerMovement>();
+        playerMovement.ResetCamMovement();
         playerMovement.cameraOriginalRotation = Camera.main.transform.rotation;
         playerMovement.cameraOriginalTransform = Camera.main.transform.position;
+        playerInteraction.StopAndStartPlayerMovement(false);
+        playerInteraction.StopAndStartPlayerInteraction(false);
+        playerInteraction.canInteract = false;
+        playerMovement.canMoveAndLook = false;
+        
 
         camObject.transform.DOMove(camPositions[0].position, camMoveTime);
         camObject.transform.DODynamicLookAt(camLookAtPositions[0].position, camMoveTime).OnComplete(StartVendingMechanics);
@@ -77,9 +84,6 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     void StartVendingMechanics()
     {
         //Enable new interactions
-        playerInteraction.StopAndStartPlayerMovement();
-        playerInteraction.canInteract = false;
-        playerMovement.canMoveAndLook = false;
         vendingActions.Enable();
         tipCanvas.SetActive(true);
         #region Interactions
@@ -146,6 +150,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         buyCanvas.SetActive(false);
         tipCanvas.SetActive(false);
         vendingActions.Disable();
+        playerInteraction.StopAndStartPlayerInteraction(true);
         playerMovement.ResetCamera();
         playerMovement.canMoveAndLook = true;
         SetCursorOff();

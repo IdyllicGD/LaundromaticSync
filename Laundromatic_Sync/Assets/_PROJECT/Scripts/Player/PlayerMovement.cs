@@ -124,21 +124,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void PlayerMove()
-    {
-
-        // if (!inputActions.Player.Move.inProgress)
-        // {
-        //     playerRb.linearVelocity = Vector2.zero;
-        //     return;
-        // }
-
-        // Vector3 camForward = Camera.main.transform.forward;
-        // Vector3 camRight = Camera.main.transform.right;
-        // camForward.y = 0;
-        // camRight.y = 0;
-        // moveDirection = camForward * moveInput.y + camRight * moveInput.x;
-        // playerRb.linearVelocity = moveDirection * (playerSpeed * Time.fixedDeltaTime);
-        
+    {      
         if (moveInput == Vector2.zero) return;
 
         transform.Translate(moveInput.x * Time.deltaTime * playerSpeed, 0, moveInput.y * Time.deltaTime * playerSpeed);
@@ -186,6 +172,10 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    public void ResetCamMovement()
+    {
+        lookInput = Vector2.zero;
+    }
 
     public void ResetSpeed()
     {
@@ -194,8 +184,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetCamera()
     {
-        playerCam.transform.DOMove(cameraOriginalTransform, 0.5f);
-        playerCam.transform.DORotateQuaternion(cameraOriginalRotation, 0.5f).OnComplete(() => inputActions.Enable());
+        playerCam.transform.DOLocalMove(Vector3.zero, 0.5f);
+        playerCam.transform.DORotateQuaternion(cameraOriginalRotation, 0.5f).OnComplete(DoRotateCompletion);
+    }
+
+    void DoRotateCompletion()
+    {
+        inputActions.Enable();
         canMoveAndLook = true;
         PlayerInteraction playerInteraction = transform.GetComponent<PlayerInteraction>();
         playerInteraction.canInteract = true;

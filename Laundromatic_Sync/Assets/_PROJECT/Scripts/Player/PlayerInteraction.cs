@@ -18,10 +18,20 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] Transform handPosition;
     private PlayerMovement playerMovement;
     private InteractionType interactionType;
+    [Title("Throwing Vars", null, TitleAlignments.Centered)]
+    [Range(0f, 100f)]
     [SerializeField] float throwBaseForce;
-    [SerializeField] float maxHoldAmount;
+    [SerializeField] float maxForceAmount;
+    [SerializeField] float maxHoldTime;
+    [Range(0f, 0.2f)]
+    [SerializeField] float objectShakeIntensity;
+    [SerializeField] float objectShakeRandomness;
     float heldAmount = 0;
     float shootAmount = 0;
+    [Title("Camera Shake Vars", null, TitleAlignments.Centered)]
+    [Range(0f, 0.2f)]
+    [SerializeField] float camShakeStrenght;
+    [SerializeField] float camShakeRandomness;
 
     #region Interaction Variables
 
@@ -37,6 +47,7 @@ public class PlayerInteraction : MonoBehaviour
     [Title("User UI", null, TitleAlignments.Centered)]
     [SerializeField] TextMeshProUGUI objectDitectedString;
     [SerializeField] GameObject objectDitectedCanvas;
+    [SerializeField] GameObject playerCroshair;
     [SerializeField] LayerMask nameInteractionLayers;
     [SerializeField] TextMeshProUGUI popupMessageText;
     [SerializeField] TextMeshProUGUI petableInfo;
@@ -48,6 +59,7 @@ public class PlayerInteraction : MonoBehaviour
     InputSystem_Actions inputActions;
     bool canIncreaseDialogue = true;
     public bool canInteract = true;
+    Rigidbody playerRb;
 
 
     private void Start()
@@ -55,6 +67,7 @@ public class PlayerInteraction : MonoBehaviour
         #region Input Actions
 
         inputActions = new InputSystem_Actions();
+        playerRb = GetComponent<Rigidbody>();
         inputActions.Enable();
         inputActions.Player.Interact.performed += x => InteractWithObject();
         //inputActions.Player.Pet.performed += x => PetAnimal();
@@ -71,7 +84,18 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
-        ShowItemNameWhenRayHit();
+        if (!canInteract)
+        {
+            objectDitectedString.text = "";
+            playerCroshair.SetActive(false);
+            return;
+        }
+        else
+        {
+            ShowItemNameWhenRayHit();
+            playerCroshair.SetActive(true);
+        }
+        
     }
 
     void ShowItemNameWhenRayHit()
@@ -266,28 +290,52 @@ public class PlayerInteraction : MonoBehaviour
 
     void DropItem(InputAction.CallbackContext obj)
     {
+        if (handPosition.childCount == 0) return;
         heldAmount = Time.time;
         GameObject objectInHand = handPosition.GetChild(0).gameObject;
         Rigidbody objectRigidbody = objectInHand.GetComponent<Rigidbody>();
         objectRigidbody.constraints = RigidbodyConstraints.None;
         objectRigidbody.isKinematic = false;
         Debug.Log($"[PlayerInteraction] {heldAmount}");
+        objectInHand.transform.DOShakePosition(100f, objectShakeIntensity, randomness: objectShakeRandomness);
+        Camera.main.transform.DOShakePosition(100f, camShakeStrenght, randomness: camShakeRandomness, randomnessMode: ShakeRandomnessMode.Harmonic);
     }
 
     void ThrowItem()
     {
+        if (handPosition.childCount == 0) return;
         GameObject objectInHand = handPosition.GetChild(0).gameObject;
+        objectInHand.transform.DOKill();
+        Camera.main.transform.DOKill();
         Rigidbody objectRigidbody = objectInHand.GetComponent<Rigidbody>();
-        Collider collier = objectInHand.GetComponent<Collider>();
-        float finalTime = Mathf.Clamp(Time.time - heldAmount, 0f, maxHoldAmount);
-        //Clamp Later!!!
         
+        Collider collier = objectInHand.GetComponent<Collider>();
+        float finalTime = Time.time - heldAmount;
+        float percentageHeld = 0f;
+        if (finalTime >= maxHoldTime)
+        {
+            percentageHeld = 1f;
+        }
+        else
+        {
+            percentageHeld = finalTime / maxHoldTime;
+            Debug.Log($"[PlayerInteraction] {percentageHeld}");
+        }
+
+        float finalforce = maxForceAmount * percentageHeld;
+
+        
+        float finalForceAmount = Mathf.Clamp(finalforce, throwBaseForce, maxForceAmount);
+        Debug.Log($"[PlayerInteraction] final force is: {finalForceAmount}");
+
         collier.enabled = true;
         objectInHand.transform.parent = null;
+        objectRigidbody.isKinematic = false;
         objectRigidbody.useGravity = true;
-        
 
-        objectRigidbody.AddForce(Camera.main.transform.forward * (finalTime * throwBaseForce), ForceMode.Force);
+        objectRigidbody.linearVelocity = playerRb.linearVelocity;
+        objectRigidbody.linearVelocity = Camera.main.transform.forward * finalForceAmount;
+        //objectRigidbody.AddForce(Camera.main.transform.forward * finalForceAmount, ForceMode.Force);
         Debug.Log($"[PlayerInteraction] {finalTime}");
     }
 
@@ -313,6 +361,7 @@ public class PlayerInteraction : MonoBehaviour
         if (!playerMovement.canMoveAndLook)
         {
             playerMovement.canMoveAndLook = true;
+            playerCroshair.SetActive(true);
             playerMovement.inputActions.Enable();
         }
         else
@@ -336,6 +385,18 @@ public class PlayerInteraction : MonoBehaviour
             playerMovement.inputActions.Disable();
         }
         
+    }
+
+    public void StopAndStartPlayerInteraction(bool setToThis)
+    {
+        if (setToThis)
+        {
+            inputActions.Enable();
+        }
+        else
+        {
+            inputActions.Disable();
+        }
     }
 
     public MachineType CheckMachineType(IMachineInteractable interactableMachine)
