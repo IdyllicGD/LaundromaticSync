@@ -16,8 +16,8 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
     private bool isBusy;
     private PlayerMovement currentPlayerMovement;
     [Title("Gameplay Vars", null, TitleAlignments.Centered)]
-    [SerializeField][ReadOnly] int clothingAmount;
-    [SerializeField][ReadOnly] int stagesRun = 0;
+    [SerializeField] int clothingAmount = 0;
+    [SerializeField] int stagesRun = 0;
     
     [Title("Outside Refrences", null, TitleAlignments.Centered, bold: true)]
     [SerializeField] ButtonSpawner buttonSpawner;
@@ -74,7 +74,6 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
         //Get player interaction and player movement Script
         PlayerInteraction playerInteraction = camObject.transform.parent.GetComponentInParent<PlayerInteraction>();
         currentPlayerMovement = camObject.transform.parent.GetComponentInParent<PlayerMovement>();
-        clothingAmount = basket.amountOfClothing;
 
         currentPlayerMovement.cameraOriginalTransform = Camera.main.transform.position;
         if (!Physics.Raycast(camObject.transform.position, Vector3.forward, out RaycastHit hit, Mathf.Infinity, layerMask)) Debug.Log("[FoldingArea] raycast couldnt hit a position");

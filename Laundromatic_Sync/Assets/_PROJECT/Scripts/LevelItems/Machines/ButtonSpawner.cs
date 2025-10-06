@@ -11,6 +11,11 @@ public class ButtonSpawner : MonoBehaviour
     public DryerMachine dm;
     public bool isForLm;
     public int currentStage;
+    int nextInt;
+    int previousInt;
+    [SerializeField] int randomnessRepeatsRange;
+
+
 
     public void SpawnButton()
     {
@@ -33,11 +38,11 @@ public class ButtonSpawner : MonoBehaviour
             case 8:
             case 9:
             case 10:
-                Instantiate(buttons[Random.Range(0, buttons.Count)], spawnPoints[currentStage].position, Quaternion.identity, spawnPoints[currentStage]);
+                Instantiate(buttons[Random.Range(0,buttons.Count)], spawnPoints[currentStage].position, Quaternion.identity, spawnPoints[currentStage]);
                 if (currentStage != 0) { buttonSound.Play(); }
                 currentStage++;
-                
-                
+
+
                 break;
         }
     }

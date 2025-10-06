@@ -137,6 +137,37 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1899921393068519476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5535141697818725491}
+  m_Layer: 0
+  m_Name: HatPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5535141697818725491
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899921393068519476}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.67, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7548883017140519335}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3478094667912034688
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +270,7 @@ Transform:
   m_Children:
   - {fileID: 582043230351605278}
   - {fileID: 3368421718795498931}
+  - {fileID: 5535141697818725491}
   m_Father: {fileID: 8980566995137310426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1533872659665865010
@@ -360,6 +392,7 @@ MonoBehaviour:
   mouseSensitivity: 10
   playerMoney: 0
   moneyText: {fileID: 0}
+  fpsSetting: 
 --- !u!114 &1420753043015344563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,11 +405,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b34fddb726a0b4dbdfe70a29d46693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCam: {fileID: 0}
   playerSpeed: 3
   sprintMultiplier: 2
   minClampDistance: -75
   maxClampDistance: 75
+  kickLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  kickAcelerationAmount: 0
   pauseCanvas: {fileID: 0}
   canMoveAndLook: 1
   cameraOriginalTransform: {x: 0, y: 0, z: 0}
@@ -394,6 +430,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handPosition: {fileID: 582043230351605278}
+  hatPosition: {fileID: 5535141697818725491}
+  throwBaseForce: 0
+  maxForceAmount: 0
+  maxHoldTime: 0
+  objectShakeIntensity: 0
+  objectShakeRandomness: 0
+  camShakeStrenght: 0
+  camShakeRandomness: 0
   raycastDistance: 2.2
   interactionLayer:
     serializedVersion: 2
@@ -410,11 +454,13 @@ MonoBehaviour:
   dialogueCooldownTimer: 0
   objectDitectedString: {fileID: 0}
   objectDitectedCanvas: {fileID: 0}
+  playerCroshair: {fileID: 0}
   nameInteractionLayers:
     serializedVersion: 2
     m_Bits: 1224
   popupMessageText: {fileID: 0}
   petableInfo: {fileID: 0}
+  canInteract: 1
 --- !u!1 &8347081167702068328
 GameObject:
   m_ObjectHideFlags: 0

@@ -243,6 +243,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropHat"",
+                    ""type"": ""Button"",
+                    ""id"": ""e0cad709-a547-4745-b2d9-b3d2710af769"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -727,6 +736,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DropItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""307ca34e-437d-47af-9fe8-9038eecfff57"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DropHat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1529,6 +1549,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_ControllerLook = m_Player.FindAction("ControllerLook", throwIfNotFound: true);
         m_Player_Kick = m_Player.FindAction("Kick", throwIfNotFound: true);
         m_Player_DropItem = m_Player.FindAction("DropItem", throwIfNotFound: true);
+        m_Player_DropHat = m_Player.FindAction("DropHat", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1646,6 +1667,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ControllerLook;
     private readonly InputAction m_Player_Kick;
     private readonly InputAction m_Player_DropItem;
+    private readonly InputAction m_Player_DropHat;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1726,6 +1748,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @DropItem => m_Wrapper.m_Player_DropItem;
         /// <summary>
+        /// Provides access to the underlying input action "Player/DropHat".
+        /// </summary>
+        public InputAction @DropHat => m_Wrapper.m_Player_DropHat;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1802,6 +1828,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @DropItem.started += instance.OnDropItem;
             @DropItem.performed += instance.OnDropItem;
             @DropItem.canceled += instance.OnDropItem;
+            @DropHat.started += instance.OnDropHat;
+            @DropHat.performed += instance.OnDropHat;
+            @DropHat.canceled += instance.OnDropHat;
         }
 
         /// <summary>
@@ -1864,6 +1893,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @DropItem.started -= instance.OnDropItem;
             @DropItem.performed -= instance.OnDropItem;
             @DropItem.canceled -= instance.OnDropItem;
+            @DropHat.started -= instance.OnDropHat;
+            @DropHat.performed -= instance.OnDropHat;
+            @DropHat.canceled -= instance.OnDropHat;
         }
 
         /// <summary>
@@ -2412,6 +2444,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDropItem(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DropHat" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDropHat(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
