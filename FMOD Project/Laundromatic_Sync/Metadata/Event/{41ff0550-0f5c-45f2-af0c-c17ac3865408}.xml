@@ -5,7 +5,7 @@
 			<value>BottleTouch</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{e16d6eb0-1acb-44bf-beca-1e0a23c84b50}</destination>
@@ -96,6 +96,7 @@
 	<object class="MixerBusEffectChain" id="{b8cb0a37-bb4b-4b8f-a570-9a12b72fd01f}">
 		<relationship name="effects">
 			<destination>{875182b3-d9ac-46d3-89af-30ed5bc639a6}</destination>
+			<destination>{d0760719-ab12-4b71-aebc-97923eb5ec8f}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{c2a7957d-f40f-4756-80e3-3d31e3b9d31e}" />
@@ -114,6 +115,7 @@
 	</object>
 	<object class="MixerBusFader" id="{6f948dbf-c7ac-464f-bab2-bfbb0b61503e}" />
 	<object class="MixerBusFader" id="{875182b3-d9ac-46d3-89af-30ed5bc639a6}" />
+	<object class="SpatialiserEffect" id="{d0760719-ab12-4b71-aebc-97923eb5ec8f}" />
 	<object class="SingleSound" id="{d75fdd35-82e6-4196-8cf2-69fdca7eade4}">
 		<relationship name="audioFile">
 			<destination>{6aae0441-272c-4c7d-b790-2f0d1d0388f2}</destination>

@@ -82,13 +82,16 @@ public class DayNight : MonoBehaviour
     [SerializeField] float blinkDuration;
     [SerializeField] float blinkWaitTime;
     [SerializeField] Transform spawnPosition;
-    [SerializeField] PlayerMovement playerMovement;
     [Title("Camera Shake", null, TitleAlignments.Centered)]
     [SerializeField] float cameraShakeDuration;
     [SerializeField] float cameraShakeStrength;
     [SerializeField] int cameraShakeVibrato;
     [SerializeField] float cameraShakeRandomness;
     [SerializeField] bool cameraShakeFadeout;
+    [Title("Other", null, TitleAlignments.Centered)]
+    [SerializeField] PlayerInteraction playerInteraction;
+    [SerializeField] PlayerMovement playerMovement;
+
     float originalPlayerSpeed;
     
 
@@ -159,7 +162,7 @@ public class DayNight : MonoBehaviour
     public void EndReview()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement(true);
+        playerInteraction.StopAndStartPlayerMovement(true);
         blinkImage.DOFade(0f, blinkDuration);
         EndDay();
     }
@@ -167,7 +170,7 @@ public class DayNight : MonoBehaviour
     void StartUpPage()
     {
         Cursor.lockState = CursorLockMode.None;
-        PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement(false);
+        playerInteraction.StopAndStartPlayerMovement(false);
         //Start up with a page explaining what the goal is for the player
         switch (days)
         {
@@ -192,7 +195,7 @@ public class DayNight : MonoBehaviour
         RenderSettings.skybox = sunriseSkybox;
         NpcManager.instance.canSpawnNpc = true;
         tempSeconds = 0f;
-        PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement(true);
+        playerInteraction.StopAndStartPlayerMovement(true);
     }
 
 
@@ -348,7 +351,7 @@ public class DayNight : MonoBehaviour
         hours = 6;
         minutes = 0;
         days++;
-        PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement(true);
+        playerInteraction.StopAndStartPlayerMovement(true);
         UpdateTimeData();
         NpcManager.instance.SpawnNpc();
         RenderSettings.skybox = sunriseSkybox;
