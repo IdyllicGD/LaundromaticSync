@@ -406,10 +406,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638953733948735267
+  lastModified: 638955354749630737
   FileSizes:
   - Name: Desktop
-    Value: 3058
+    Value: 3108
   Exists: 1
 --- !u!114 &-3333710545849025258
 MonoBehaviour:
@@ -561,7 +561,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638953589790967302
+  lastModified: 638955354749599430
   FileSizes:
   - Name: Desktop
     Value: 1632
@@ -608,10 +608,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638953733948900903
+  lastModified: 638955354752333905
   FileSizes:
   - Name: Desktop
-    Value: 2028864
+    Value: 2054080
   Exists: 1
 --- !u!114 &-1229173979382293316
 MonoBehaviour:
@@ -757,12 +757,13 @@ MonoBehaviour:
   - {fileID: 8339368014133035097}
   - {fileID: 8520169477472207743}
   - {fileID: 6493856176813254769}
+  - {fileID: 2651165495528661868}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2125593146152450226}
   StringsBanks:
   - {fileID: -3629877894166248456}
-  cacheTime: 638953733948900903
+  cacheTime: 638955354752333905
   cacheVersion: 131624
 --- !u!114 &68791234730322443
 MonoBehaviour:
@@ -872,6 +873,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 153652
+--- !u!114 &2651165495528661868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Bottles/BottleTouch
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Bottles/BottleTouch
+  Guid:
+    Data1: 1107232080
+    Data2: 1173491548
+    Data3: 2059472047
+    Data4: 139757251
+  Banks:
+  - {fileID: -1373889764487742976}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3384586087098685598
 MonoBehaviour:
   m_ObjectHideFlags: 0

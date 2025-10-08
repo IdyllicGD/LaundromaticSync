@@ -40,8 +40,10 @@ public class DayNight : MonoBehaviour
     [SerializeField] GameObject deliveryArea;
     public int delivryAreaMaxAmount;
     [Title("Start of Day Pages", null, TitleAlignments.Centered)]
-    [SerializeField] GameObject startOfDayCanvas;
-    [SerializeField] GameObject pageOne, pageTwo, finalPage;
+    //[SerializeField] GameObject startOfDayCanvas;
+    [SerializeField] GameObject pageOne;
+    [SerializeField] GameObject pageTwo;
+    [SerializeField] GameObject finalPage;
     [SerializeField] int amountNeededToWin;
 
     [Title("End Day Review Vars", null, TitleAlignments.Centered)]
@@ -64,7 +66,7 @@ public class DayNight : MonoBehaviour
     public float todaysStoreScore;
 
     [Title("Store Score Info", null, TitleAlignments.Centered)]
-    [SerializeField] GameObject starOne, starTwo, starThree;
+    //[SerializeField] GameObject starOne, starTwo, starThree;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] float storeScore;
     [SerializeField] float storewrongOrdersMultiplier;
@@ -164,6 +166,8 @@ public class DayNight : MonoBehaviour
 
     void StartUpPage()
     {
+        Cursor.lockState = CursorLockMode.None;
+        PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement(false);
         //Start up with a page explaining what the goal is for the player
         switch (days)
         {
@@ -176,17 +180,19 @@ public class DayNight : MonoBehaviour
             case 3:
                 finalPage.SetActive(true);
                 break;
-            
+
         }
     }
 
 
     public void StartUpDayAgain()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         endOfDayPause = false;
         RenderSettings.skybox = sunriseSkybox;
         NpcManager.instance.canSpawnNpc = true;
         tempSeconds = 0f;
+        PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement(true);
     }
 
 
