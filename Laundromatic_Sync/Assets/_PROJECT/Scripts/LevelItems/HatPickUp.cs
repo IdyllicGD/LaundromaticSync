@@ -8,6 +8,7 @@ public class HatPickUp : MonoBehaviour, Iinteractable
     public Transform hatHeadPosition;
     [SerializeField] PlayerInteraction playerInteraction;
     Collider collider;
+    Rigidbody rb;
 
     void Start()
     {
@@ -22,6 +23,7 @@ public class HatPickUp : MonoBehaviour, Iinteractable
             playerInteraction.UpdatePlayerPopupMessage("You already have a hat on");
             return;
         }
+        rb.isKinematic = false;
         collider.enabled = false;
         transform.SetParent(hatHeadPosition);
         transform.DOLocalMove(Vector3.zero, 0.5f);

@@ -10,18 +10,12 @@ public class Bed : MonoBehaviour, Iinteractable
 
     public void Interact()
     {
-        if (DayNight.instance.hours >= 22 || DayNight.instance.hours <= 2)
-        {
-            DayNight.instance.EndDay();
             morningSound.Play();
-        }
-        else
-        {
             Cursor.lockState = CursorLockMode.None;
             PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement();
             canvas.SetActive(true);
             Debug.Log($"[Bed] Ask Player if they are sure");
-        }
+        
 
     }
 
@@ -34,8 +28,8 @@ public class Bed : MonoBehaviour, Iinteractable
     public void EndDayEarly()
     {
         morningSound.Play();
-        DayNight.instance.EndDay();
+        DayNight.instance.EndDayReview();
         canvas.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

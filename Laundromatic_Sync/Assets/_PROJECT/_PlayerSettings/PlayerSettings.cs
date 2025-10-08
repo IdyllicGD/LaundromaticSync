@@ -28,12 +28,14 @@ public class PlayerSettings : MonoBehaviour
     public void ReduceMoney(int amount)
     {
         playerMoney -= amount;
+        DayNight.instance.moneySpentThisDay += amount;
         UpdateMoneyText();
     }
 
     public void AddMoney(int amount)
     {
         playerMoney += amount;
+        DayNight.instance.moneyMadeThisDay += amount;
         UpdateMoneyText();
     }
 

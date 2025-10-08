@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using DG.Tweening;
-using Microsoft.Unity.VisualStudio.Editor;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.AppUI.UI;
@@ -38,24 +39,54 @@ public class DayNight : MonoBehaviour
     [Title("Delivery", null, TitleAlignments.Centered)]
     [SerializeField] GameObject deliveryArea;
     public int delivryAreaMaxAmount;
+    [Title("Start of Day Pages", null, TitleAlignments.Centered)]
+    [SerializeField] GameObject startOfDayCanvas;
+    [SerializeField] GameObject pageOne, pageTwo, finalPage;
+    [SerializeField] int amountNeededToWin;
+
     [Title("End Day Review Vars", null, TitleAlignments.Centered)]
     [SerializeField] GameObject endDayReviewCanvas;
+    [SerializeField] TextMeshProUGUI moneyMadeTextTotal;
+    public int moneyMadeTotal;
+    [SerializeField] TextMeshProUGUI moneyNeedToMakeText;
+    public int moneyNeedToMakeTotal;
     //Money made
     [SerializeField] TextMeshProUGUI moneyMadeText;
     public int moneyMadeThisDay;
+    [SerializeField] TextMeshProUGUI moneySpentText;
+    public int moneySpentThisDay;
     //Orders Completed
     [SerializeField] TextMeshProUGUI ordersCompletedTodayText;
     public int ordersCompletedToday;
+    [SerializeField] TextMeshProUGUI ordersWrongTodayText;
+    public int ordersWrongToday;
+    [SerializeField] TextMeshProUGUI todaysScoreText;
+    public float todaysStoreScore;
+
+    [Title("Store Score Info", null, TitleAlignments.Centered)]
+    [SerializeField] GameObject starOne, starTwo, starThree;
+    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] float storeScore;
+    [SerializeField] float storewrongOrdersMultiplier;
+    [SerializeField] float storeOrdersCompleteMultiplier;
+    [SerializeField] float storeMoneyMadeTodayMultiplier;
+
     //Score
     //overall Score
     [Title("Pass out info", null, TitleAlignments.Centered)]
-    [SerializeField] GameObject passOutInfo;
-    [SerializeField] TextMeshProUGUI passOutInfoText;
     [SerializeField] RawImage blinkImage;
     [SerializeField] TextMeshProUGUI blinkText;
+    [SerializeField] String passOutText;
     [SerializeField] float blinkDuration;
     [SerializeField] float blinkWaitTime;
+    [SerializeField] Transform spawnPosition;
     [SerializeField] PlayerMovement playerMovement;
+    [Title("Camera Shake", null, TitleAlignments.Centered)]
+    [SerializeField] float cameraShakeDuration;
+    [SerializeField] float cameraShakeStrength;
+    [SerializeField] int cameraShakeVibrato;
+    [SerializeField] float cameraShakeRandomness;
+    [SerializeField] bool cameraShakeFadeout;
     float originalPlayerSpeed;
     
 
@@ -86,17 +117,78 @@ public class DayNight : MonoBehaviour
 
     public void StartOfNewDay()
     {
-        endOfDayPause = false;
-        RenderSettings.skybox = sunriseSkybox;
-        NpcManager.instance.canSpawnNpc = true;
+        StartUpPage();
         
     }
 
     #region End Day Review
     public void EndDayReview()
     {
+        endOfDayPause = true;
+        Cursor.lockState = CursorLockMode.None;
+        todaysStoreScore = 0f;
+        blinkImage.DOFade(1f, blinkDuration);
+        
+
+        float todaysMoneyScore = moneyMadeThisDay * storeMoneyMadeTodayMultiplier;
+        float todaysOrdersCompleteScore = ordersCompletedToday * storeOrdersCompleteMultiplier;
+        float todaysOrdersWrongScore = ordersWrongToday * storewrongOrdersMultiplier;
+
+        todaysStoreScore += todaysMoneyScore;
+        todaysStoreScore += todaysOrdersCompleteScore;
+        todaysStoreScore -= todaysOrdersWrongScore;
+
+        storeScore += todaysStoreScore;
+
+        //set all score text
+        moneyMadeText.text = $" Money made today: {moneyMadeThisDay:00}";
+        ordersCompletedTodayText.text = $"Orders completed Today: {ordersCompletedToday:00}";
+        ordersWrongTodayText.text = $"Orders Wronf Today: {ordersWrongToday:00}";
+        todaysScoreText.text = $"Todays Score: {todaysStoreScore:00}";
+        scoreText.text = $"Total Score: {storeScore:00}";
+        //QTE's missed
+
+        endDayReviewCanvas.SetActive(true);
+
+
 
     }
+
+    public void EndReview()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement(true);
+        blinkImage.DOFade(0f, blinkDuration);
+        EndDay();
+    }
+
+    void StartUpPage()
+    {
+        //Start up with a page explaining what the goal is for the player
+        switch (days)
+        {
+            case 1:
+                pageOne.SetActive(true);
+                break;
+            case 2:
+                pageTwo.SetActive(true);
+                break;
+            case 3:
+                finalPage.SetActive(true);
+                break;
+            
+        }
+    }
+
+
+    public void StartUpDayAgain()
+    {
+        endOfDayPause = false;
+        RenderSettings.skybox = sunriseSkybox;
+        NpcManager.instance.canSpawnNpc = true;
+        tempSeconds = 0f;
+    }
+
 
 
 
@@ -115,14 +207,14 @@ public class DayNight : MonoBehaviour
                 hours++;
                 if (hours == 22)
                 {
-                    Blink();
+                    Blink("GO TO SLEEP");
                 }
                 if (hours >= 24)
                 {
                     hours = 0;
                     endOfDayPause = true;
                     PauseTimeAndCloseStore();
-
+                    PassOut();
                 }
                 hoursText.text = hours.ToString("00");
                 minutes = 0;
@@ -133,6 +225,23 @@ public class DayNight : MonoBehaviour
 
 
 
+
+    }
+
+    void PassOut()
+    {
+        blinkText.text = passOutText;
+        blinkText.DOFade(1f, blinkDuration);
+        blinkImage.DOFade(1f, blinkDuration).OnComplete(() => Camera.main.transform.parent.parent.transform.DOMove(spawnPosition.position, 0f));
+        StartCoroutine(WaitForSecondsThenContinue(3f));
+    }
+
+    IEnumerator WaitForSecondsThenContinue(float timeToWait)
+    {
+        yield return new WaitForSeconds(timeToWait);
+        blinkText.DOFade(1f, blinkDuration).OnComplete(() => blinkText.text = "");
+        blinkImage.DOFade(1f, blinkDuration).OnComplete(() => EndDayReview());
+        
 
     }
     void ChangeSkybox()
@@ -151,11 +260,12 @@ public class DayNight : MonoBehaviour
         }
     }
 
-    void Blink()
+    void Blink(string textToSet)
     {
+        blinkText.text = textToSet;
         blinkImage.DOFade(1f, blinkDuration).OnComplete(() => StartCoroutine(TimeToWaitForFade(blinkWaitTime)));
         blinkText.DOFade(1f, blinkDuration);
-        Camera.main.DOShakePosition(5f, 3f, 10, 90f, true);
+        Camera.main.DOShakePosition(cameraShakeDuration, cameraShakeStrength, cameraShakeVibrato, cameraShakeRandomness, cameraShakeFadeout);
         playerMovement.playerSpeed /= 0.5f;
 
         //Yawn Sound
@@ -182,7 +292,7 @@ public class DayNight : MonoBehaviour
         int basketCount = NpcManager.instance.currentBaskets.Count;
         int nullCountBasket = 0;
         int nullCountNpc = 0;
-        Debug.Log(currentNpcCount);
+        UnityEngine.Debug.Log(currentNpcCount);
 
         for (int i = 0; i < currentNpcCount; i++)
         {
@@ -225,7 +335,7 @@ public class DayNight : MonoBehaviour
         }
 
 
-        endOfDayPause = true;
+        endOfDayPause = false;
         NpcManager.instance.currentNpcs.Clear();
         NpcManager.instance.currentBaskets.Clear();
         NpcManager.instance.ResetNpcList();
@@ -236,20 +346,19 @@ public class DayNight : MonoBehaviour
         UpdateTimeData();
         NpcManager.instance.SpawnNpc();
         RenderSettings.skybox = sunriseSkybox;
-        EndDayReview();
     }
 
 
     public int ReturnAvailableSpaceOnDeliveryTable()
     {
         int amountAvailable = 0;
-        Debug.Log(deliveryArea.transform.childCount);
+        UnityEngine.Debug.Log(deliveryArea.transform.childCount);
         for (int i = 0; i <= deliveryArea.transform.childCount - 2; i++)
         {
             if (!CheckIfObjectHasChild(deliveryArea.transform.GetChild(i)))
             {
                 amountAvailable++;
-                Debug.Log(amountAvailable);
+                UnityEngine.Debug.Log(amountAvailable);
             }
         }
         return amountAvailable;

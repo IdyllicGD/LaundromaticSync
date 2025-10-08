@@ -30,7 +30,7 @@ public partial class ShowCurrentDialogueAction : Action
         
         DialogueText.Value.text = DialogueFromScriptableObject.Value.DialogieInOrder[This.Value];
         Canvas.Value.SetActive(true);
-        This.Value++;
+        This.Value++; 
 
         return Status.Success;
     }

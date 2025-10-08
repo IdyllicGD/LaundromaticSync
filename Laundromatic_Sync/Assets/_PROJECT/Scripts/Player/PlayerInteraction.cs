@@ -194,6 +194,7 @@ public class PlayerInteraction : MonoBehaviour
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", true);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
+                            ++DayNight.instance.ordersCompletedToday;
                             if (_basketInfo.ItemsUsed == ItemsUsed.FabricSoftner)
                             {
                                 PlayerSettings.instance.AddMoney(50);
@@ -209,6 +210,7 @@ public class PlayerInteraction : MonoBehaviour
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("canEndOrder", true);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", false);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
+                            ++DayNight.instance.ordersWrongToday;
                             PlayerSettings.instance.AddMoney(10);
                             //Destroy(handPosition.GetChild(0).gameObject);
 
