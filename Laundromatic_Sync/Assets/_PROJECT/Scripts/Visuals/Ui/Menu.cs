@@ -146,12 +146,4 @@ public class Menu : MonoBehaviour
         FMODUnity.RuntimeManager.PlayOneShot(SoundClick, 0);
     }
     
-    public void onPixelToggleChanged(bool isOn)
-    {
-        
-       Camera maincam = Camera.main;
-       playerCamImage.texture = isOn ? camTextureON : camTextureOFF;
-       maincam.targetTexture = isOn ? camTextureON : camTextureOFF;
-        
-    }
 }
