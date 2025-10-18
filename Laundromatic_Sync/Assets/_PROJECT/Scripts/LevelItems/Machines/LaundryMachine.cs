@@ -1,17 +1,13 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using _PROJECT._Jacques.Scripts.Interfaces;
 using _PROJECT.Scripts.temp.Scripts;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 using _PROJECT.Scripts.Rhythm;
-using UnityEngine.UIElements;
 using FMODUnity;
 using Sirenix.OdinInspector;
 using TMPro;
-using System.Threading;
 
 public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable, RythmStages
 {
@@ -31,15 +27,11 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     [Title("Button Info", null, TitleAlignments.Centered)]
     [SerializeField] ButtonSpawner buttonSpawner;
 
-    [Title("Prefabs", null, TitleAlignments.Centered)]
-    [SerializeField] GameObject cleanBasket;
-
     [Title("Sounds", null, TitleAlignments.Centered)]
     [SerializeField] StudioEventEmitter doneSound;
     [SerializeField] StudioEventEmitter busySound;
     [SerializeField] StudioEventEmitter buttonSound;
     [SerializeField] StudioEventEmitter doorOpenSound;
-    [SerializeField] StudioEventEmitter doorCloseSound;
 
     [Title("Enums", null, TitleAlignments.Centered)]
     [SerializeField] CurrentStage currentStage;
@@ -50,9 +42,8 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     [Title("Canvas", null, TitleAlignments.Centered)]
     [SerializeField] TextMeshProUGUI TimeText;
     [SerializeField] GameObject mainCan;
+    [SerializeField] GameObject machineItemsCan;
     [SerializeField] UiTimerMachines uiTimer;
-
-
 
 
 
@@ -84,6 +75,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         if (HasObject()) return;
         animator.SetBool("isFinished", false);
         animator.SetBool("isIdle", true);
+        machineItemsCan.SetActive(true);
         uiTimer.ResetUiTimer();
         isDone = false;
     }
@@ -146,6 +138,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 animator.SetTrigger("StartCycle");
                 animator.SetBool("isIdle", false);
                 uiTimer.StartTimerTime(machineTimeToComplete);
+                machineItemsCan.SetActive(false);
                 StartCoroutine(EndMachineFunc(machineTimeToComplete, currentObject));
                 
                 mainCan.SetActive(false);

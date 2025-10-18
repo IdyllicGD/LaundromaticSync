@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9121447942400231515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Hats/MaterialHat
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Hats/MaterialHat
+  Guid:
+    Data1: -1597155458
+    Data2: 1163688562
+    Data3: 2131967888
+    Data4: 1307155895
+  Banks:
+  - {fileID: -1373889764487742976}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-8819099541098123186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +96,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638912368406396214
+  lastModified: 638943479912304137
   FileSizes:
   - Name: Desktop
     Value: 6125824
@@ -251,7 +278,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638912368413661576
+  lastModified: 638943479915920735
   FileSizes:
   - Name: Desktop
     Value: 134496
@@ -433,10 +460,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638960301604749968
+  lastModified: 638964165873063056
   FileSizes:
   - Name: Desktop
-    Value: 3150
+    Value: 3246
   Exists: 1
 --- !u!114 &-3333710545849025258
 MonoBehaviour:
@@ -546,6 +573,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1180
+--- !u!114 &-2467308052314954770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Hats/Wizard
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Hats/Wizard
+  Guid:
+    Data1: -853950043
+    Data2: 1302321866
+    Data3: 1552666793
+    Data4: -1893055532
+  Banks:
+  - {fileID: -1373889764487742976}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-2368683286357018316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,7 +642,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638944379890660694
+  lastModified: 638964165873037880
   FileSizes:
   - Name: Desktop
     Value: 1632
@@ -635,10 +689,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638960301604945383
+  lastModified: 638964180368325893
   FileSizes:
   - Name: Desktop
-    Value: 2057568
+    Value: 2144928
   Exists: 1
 --- !u!114 &-1229173979382293316
 MonoBehaviour:
@@ -786,12 +840,14 @@ MonoBehaviour:
   - {fileID: 6493856176813254769}
   - {fileID: 2651165495528661868}
   - {fileID: -7151594823192805539}
+  - {fileID: -9121447942400231515}
+  - {fileID: -2467308052314954770}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2125593146152450226}
   StringsBanks:
   - {fileID: -3629877894166248456}
-  cacheTime: 638960301604945383
+  cacheTime: 638964180368325893
   cacheVersion: 131624
 --- !u!114 &68791234730322443
 MonoBehaviour:
@@ -1267,7 +1323,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Chiptune.bank
   Name: Chiptune
   StudioPath: bank:/Chiptune/Chiptune
-  lastModified: 638944320257494926
+  lastModified: 638953589800225043
   FileSizes:
   - Name: Desktop
     Value: 8900416
@@ -1368,7 +1424,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 638912368403119668
+  lastModified: 638943479911066430
   FileSizes:
   - Name: Desktop
     Value: 615904

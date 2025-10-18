@@ -29,17 +29,30 @@ PrefabInstance:
       value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[DialogueSO, Assembly-CSharp]]'
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: 'managedReferences[377305533176611270]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[UnityEngine.GameObject,
+        UnityEngine.CoreModule]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495156].Name
       value: ChangeTo
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305533176611270].Name
+      value: CanvasToChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: m_BlackboardVariableOverridesList.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495156].m_Value
       value: 
       objectReference: {fileID: 11400000, guid: 954266cc241374e4280d76c306f0f0a2, type: 2}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305533176611270].m_Value
+      value: 
+      objectReference: {fileID: 6366957838432847609}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[385138139782971967].m_Value
       value: 
@@ -49,12 +62,32 @@ PrefabInstance:
       value: 377305261904495156
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[9]'
+      value: 377305533176611270
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495156].GUID.m_Value0
       value: 15291967668229340722
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495156].GUID.m_Value1
       value: 12695704840535182727
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305533176611270].GUID.m_Value0
+      value: 4653642343020612907
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305533176611270].GUID.m_Value1
+      value: 13646849550635780443
+      objectReference: {fileID: 0}
+    - target: {fileID: 776547882753359122, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.696
+      objectReference: {fileID: 0}
+    - target: {fileID: 776547882753359122, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.664
       objectReference: {fileID: 0}
     - target: {fileID: 1919505374478996264, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: npcID
@@ -120,6 +153,11 @@ PrefabInstance:
       addedObject: {fileID: 2890539628846732121}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1141309a46f898943963674089162bcb, type: 3}
+--- !u!1 &6366957838432847609 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5660165892189001999, guid: 1141309a46f898943963674089162bcb, type: 3}
+  m_PrefabInstance: {fileID: 1645793571151339510}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7147977119019044101 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8495407211098985203, guid: 1141309a46f898943963674089162bcb, type: 3}

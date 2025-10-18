@@ -120,7 +120,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnLook (InputAction.CallbackContext obj) {
         if (!canMoveAndLook) return;
-        lookInput = obj.ReadValue<Vector2> ();
+        lookInput = obj.ReadValue<Vector2>();
+        Debug.Log(lookInput);
     }
 
     void PlayerMove()
@@ -140,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
         rotateX -= mouseY;
         
         playerCam.transform.localRotation = Quaternion.Euler(rotateX, 0f, 0f);
-        transform.Rotate (Vector3.up * mouseX);
+        transform.Rotate(Vector3.up * mouseX);
         
     }
 

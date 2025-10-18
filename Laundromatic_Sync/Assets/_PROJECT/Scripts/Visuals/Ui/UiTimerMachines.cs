@@ -2,16 +2,21 @@ using System.Collections;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiTimerMachines : MonoBehaviour
 {
-    [Title("Outside Inward Refrences")]
+    [Title("Outside Inward Refrences", null, TitleAlignments.Centered)]
     public float timerTime;
     public bool hasDetergent, hasFabricSoftener, hasBasket, isDm;
 
-    [Title("Local Refrences")]
+    [Title("Local Refrences", null, TitleAlignments.Centered)]
     [SerializeField] TextMeshProUGUI timeText;
-    [SerializeField] GameObject detergent, fabricSoftener, basket;
+    [SerializeField] Image detergentColour, fabricSoftenerColour, basketColour;
+    [Title("Colours on Machine", null, TitleAlignments.Centered)]
+    [SerializeField] Color hasObjectColour;
+    [SerializeField] Color doesntHaveObjectColour;
+    [Title("Canvasas")]
     [SerializeField] GameObject canvasTimer, canvasGroup;
 
 
@@ -49,24 +54,24 @@ public class UiTimerMachines : MonoBehaviour
     {
         if (hasDetergent)
         {
-            detergent.SetActive(false);
+            detergentColour.color = hasObjectColour;
         }
         if (hasFabricSoftener)
         {
-            fabricSoftener.SetActive(false);
+            fabricSoftenerColour.color = hasObjectColour;
         }
         if (hasBasket)
         {
-            basket.SetActive(false);
+            basketColour.color = hasObjectColour;
         }
     }
     public void ResetUiTimer()
     {
         if (!isDm)
         {
-            detergent.SetActive(true);
-            fabricSoftener.SetActive(true);
-            basket.SetActive(true);
+            detergentColour.color = doesntHaveObjectColour;
+            fabricSoftenerColour.color = doesntHaveObjectColour;
+            basketColour.color = doesntHaveObjectColour;
         }
         
         hasDetergent = false;

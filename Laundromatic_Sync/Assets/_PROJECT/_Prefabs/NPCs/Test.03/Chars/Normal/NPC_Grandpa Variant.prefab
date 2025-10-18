@@ -29,17 +29,30 @@ PrefabInstance:
       value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[DialogueSO, Assembly-CSharp]]'
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: 'managedReferences[377305533176611269]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[UnityEngine.GameObject,
+        UnityEngine.CoreModule]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495155].Name
       value: ChangeTo
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305533176611269].Name
+      value: CanvasToChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: m_BlackboardVariableOverridesList.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495155].m_Value
       value: 
       objectReference: {fileID: 11400000, guid: 853fc76b0560b2348911668b15725a35, type: 2}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305533176611269].m_Value
+      value: 
+      objectReference: {fileID: 9192346780504178934}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[385138139782971967].m_Value
       value: 
@@ -49,12 +62,28 @@ PrefabInstance:
       value: 377305261904495155
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[9]'
+      value: 377305533176611269
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495155].GUID.m_Value0
       value: 15291967668229340722
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495155].GUID.m_Value1
       value: 12695704840535182727
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305533176611269].GUID.m_Value0
+      value: 4653642343020612907
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305533176611269].GUID.m_Value1
+      value: 13646849550635780443
+      objectReference: {fileID: 0}
+    - target: {fileID: 776547882753359122, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.418
       objectReference: {fileID: 0}
     - target: {fileID: 1919505374478996264, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: npcID
@@ -123,6 +152,11 @@ PrefabInstance:
 --- !u!4 &4969875619166128906 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8495407211098985203, guid: 1141309a46f898943963674089162bcb, type: 3}
+  m_PrefabInstance: {fileID: 3539042410142980601}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9192346780504178934 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5660165892189001999, guid: 1141309a46f898943963674089162bcb, type: 3}
   m_PrefabInstance: {fileID: 3539042410142980601}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7379553337420607850

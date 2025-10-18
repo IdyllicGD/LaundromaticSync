@@ -103,6 +103,12 @@ public class PlayerInteraction : MonoBehaviour
 
     }
 
+
+    public void SetInteractBool(bool boolToSetTo)
+    {
+        canInteract = boolToSetTo;
+    }
+
     void ShowItemNameWhenRayHit()
     {
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hit, raycastDistance, nameInteractionLayers))
@@ -419,7 +425,7 @@ public class PlayerInteraction : MonoBehaviour
 
         objectRigidbody.linearVelocity = playerRb.linearVelocity;
         objectRigidbody.linearVelocity = Camera.main.transform.forward * finalForceAmount;
-        //objectRigidbody.AddForce(Camera.main.transform.forward * finalForceAmount, ForceMode.Force);
+        objectRigidbody.AddForce(Camera.main.transform.forward * finalForceAmount, ForceMode.Force);
         Debug.Log($"[PlayerInteraction] {finalTime}");
     }
 

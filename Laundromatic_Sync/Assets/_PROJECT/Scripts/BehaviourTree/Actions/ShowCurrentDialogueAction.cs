@@ -5,30 +5,36 @@ using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
 using TMPro;
+using UnityEngine.UI;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "ShowCurrentDialogue", story: "Show next [Dialogue] at [this] int and set [DialogueText] and Enable [Canvas] and set [isDoneTalking] to true", category: "Action", id: "91f998e4a039e4258a01e2bd1072e64e")]
+[NodeDescription(name: "ShowCurrentDialogue", story: "Show next [Dialogue] at [this] int and set [DialogueText] and Enable [Canvas] and set [isDoneTalking] to true and refresh [CanvasThatNeedsResetting]", category: "Action", id: "91f998e4a039e4258a01e2bd1072e64e")]
 public partial class ShowCurrentDialogueAction : Action
 {
     [SerializeReference] public BlackboardVariable<DialogueSO> Dialogue;
     [SerializeReference] public BlackboardVariable<int> This;
-    [SerializeReference] public BlackboardVariable<TextMeshProUGUI> DialogueText; 
+    [SerializeReference] public BlackboardVariable<TextMeshProUGUI> DialogueText;
     [SerializeReference] public BlackboardVariable<GameObject> Canvas;
     [SerializeReference] public BlackboardVariable<bool> IsDoneTalking;
+    [SerializeReference] public BlackboardVariable<GameObject> CanvasThatNeedsResetting;
     [SerializeReference] public BlackboardVariable<DialogueSO> DialogueFromScriptableObject;
     protected override Status OnStart()
     {
 
-        
+        ResetUiLayout resetThisUi = CanvasThatNeedsResetting.Value.GetComponent<ResetUiLayout>();
+        resetThisUi.ResetUi();
         Debug.Log($"[ShowCurrentDialogueAction] current list count is {DialogueFromScriptableObject.Value.DialogieInOrder.Capacity.ToString()}");
         if (This.Value >= DialogueFromScriptableObject.Value.DialogieInOrder.Capacity)
         {
+            resetThisUi.ResetUi();
             This.Value = 0;
             IsDoneTalking.Value = true;
             return Status.Success;
         }
-        
+
         DialogueText.Value.text = DialogueFromScriptableObject.Value.DialogieInOrder[This.Value];
+        
+        resetThisUi.ResetUi();
         Canvas.Value.SetActive(true);
         This.Value++; 
 

@@ -73,17 +73,16 @@ MonoBehaviour:
   camLookAtPosition: {fileID: 5310664832880514527}
   basketPosition: {fileID: 9196277445696488530}
   buttonSpawner: {fileID: 43196580386085352}
-  cleanBasket: {fileID: 5662443402454060199, guid: 7904f850d73b5104f8d62d2306093147, type: 3}
   doneSound: {fileID: 7734248663665162298}
   busySound: {fileID: 1522448333244725613}
   buttonSound: {fileID: 8160719880907984852}
   doorOpenSound: {fileID: 2302576395148913781}
-  doorCloseSound: {fileID: 2509943916555294359}
   currentStage: 0
   raycastPosition: {fileID: 9086599318988543127}
   bubbles: {fileID: 6669746682679956668}
   TimeText: {fileID: 4109517695452662969}
   mainCan: {fileID: 4495634769961453275}
+  machineItemsCan: {fileID: 3907580826556819482}
   uiTimer: {fileID: 743017764891991838}
   machineType: 0
   hasDetergent: 0
@@ -330,7 +329,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619123710380094730}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -338,7 +337,7 @@ RectTransform:
   - {fileID: 7167870271617093517}
   - {fileID: 2219907588024525645}
   - {fileID: 858371633313023796}
-  m_Father: {fileID: 6886010163910268144}
+  m_Father: {fileID: 6644337207233314704}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -774,7 +773,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277667407163355311}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -782,7 +781,7 @@ RectTransform:
   - {fileID: 7434599190138738097}
   - {fileID: 2462795562893969988}
   - {fileID: 762797794702437992}
-  m_Father: {fileID: 6886010163910268144}
+  m_Father: {fileID: 6644337207233314704}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -863,8 +862,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292444889
-  m_fontColor: {r: 0.8509804, g: 0.50980395, b: 0.8509804, a: 1}
+    rgba: 4292919989
+  m_fontColor: {r: 0.70980394, g: 0.7607843, b: 0.8784314, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -953,7 +952,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2966116416195367405}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.351}
+  m_LocalPosition: {x: 0, y: 0, z: 0.35099956}
   m_LocalScale: {x: 0.58, y: 0.58, z: 0.58}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1062,9 +1061,11 @@ MonoBehaviour:
   hasBasket: 0
   isDm: 0
   timeText: {fileID: 7011901119842114569}
-  detergent: {fileID: 274717929413592826}
-  fabricSoftener: {fileID: 4692807897379206151}
-  basket: {fileID: 1140541228630471550}
+  detergentColour: {fileID: 2785706685456975297}
+  fabricSoftenerColour: {fileID: 7234408003288106845}
+  basketColour: {fileID: 1561518519960047585}
+  hasObjectColour: {r: 0, g: 1, b: 0, a: 1}
+  doesntHaveObjectColour: {r: 0.54901963, g: 0.003921569, b: 0.003921569, a: 1}
   canvasTimer: {fileID: 2966116416195367405}
   canvasGroup: {fileID: 619123710380094730}
 --- !u!1 &3002172701443511873
@@ -1549,6 +1550,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3907580826556819482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6644337207233314704}
+  m_Layer: 0
+  m_Name: UiItmes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6644337207233314704
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3907580826556819482}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3378158355434659018}
+  - {fileID: 188551495810892237}
+  m_Father: {fileID: 6886010163910268144}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3967865385633828157
 GameObject:
   m_ObjectHideFlags: 0
@@ -2147,9 +2185,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3378158355434659018}
-  - {fileID: 188551495810892237}
   - {fileID: 6609299055600790819}
+  - {fileID: 6644337207233314704}
   m_Father: {fileID: 1071985896249093054}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2663,7 +2700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7391040552272516668
 Transform:
   m_ObjectHideFlags: 0
@@ -3122,6 +3159,14 @@ PrefabInstance:
     - target: {fileID: 1862533725269175773, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
       propertyPath: m_fontColor.r
       value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 1862533725269175773, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4292919989
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987631593882798978, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6087762403399533024, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
       propertyPath: m_fontColor.b
