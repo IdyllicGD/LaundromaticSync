@@ -20,16 +20,20 @@ public class Menu : MonoBehaviour
 
     //Intro Slider Behaviour
     public Slider menuSlider;
+    public bool hasToggled = false;
+    public RectTransform phoneOverlay;
+    public RectTransform screenBG;
+    public float offsetSizeReduction = 100f;
     private float toggleValue = 1f; //Slider complete value
-    private bool hasToggled = false;
     private float maxScale = 1.25f; //Canvas zoomed in scale
     private float zoomDuration = .1f;
     private RectTransform CanvasTransform;
     private Tween currentTween;
+    
 
     //BG Scrolling
     public float scrollspeed = 0.1f;
-    public RawImage rawImage;
+    public RawImage canvasBG;
     private Vector2 uvoffset = Vector2.zero;
 
     //FMOD Event References
@@ -55,7 +59,7 @@ public class Menu : MonoBehaviour
     {
         uvoffset.x += scrollspeed * Time.deltaTime;
         uvoffset.y += scrollspeed * Time.deltaTime; //scroll image
-        //rawImage.uvRect = new Rect(uvoffset, rawImage.uvRect.size);
+        canvasBG.uvRect = new Rect(uvoffset, canvasBG.uvRect.size);
     }
     public void PlayGame ()
     {
@@ -125,10 +129,23 @@ public class Menu : MonoBehaviour
             Screen2.SetActive(true);   
             hasToggled = true;
             FMODUnity.RuntimeManager.PlayOneShot(SoundClick, 0);
+            hasToggled = false;
+            phoneOverlay.DOLocalRotate(new Vector3 (0,0,90), 1f, RotateMode.Fast);
+            screenBG.DOLocalRotate(new Vector3(0, 0, 90), 1f, RotateMode.Fast);
+            phoneOverlay.sizeDelta = new Vector2(1080 - offsetSizeReduction, 1920 - offsetSizeReduction);
+            screenBG.sizeDelta = new Vector2(1020- offsetSizeReduction, 1860- offsetSizeReduction);
+            
+
         }
     
     }
-
+    public void BackToIntroScreen()
+    {
+        phoneOverlay.DOLocalRotate(new Vector3(0, 0, 0), 1f, RotateMode.Fast);
+        screenBG.DOLocalRotate(new Vector3(0, 0, 0), 1f, RotateMode.Fast);
+        phoneOverlay.sizeDelta = new Vector2(640, 1025);
+        screenBG.sizeDelta = new Vector2(590, 894);
+    }
     public void ToggleControls()
     {
         Screen2.SetActive(false);
