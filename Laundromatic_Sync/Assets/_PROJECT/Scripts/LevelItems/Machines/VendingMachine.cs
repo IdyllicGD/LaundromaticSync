@@ -3,6 +3,7 @@ using _PROJECT._Jacques.Scripts.Interfaces;
 using DG.Tweening;
 using FMODUnity;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 
 public class VendingMachine : MonoBehaviour, IMachineInteractable
@@ -38,6 +39,17 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
 
     [Title("Prices", "This is based on rows from top to bottom", TitleAlignments.Centered)]
     [SerializeField] List<int> pricesList = new();
+    [SerializeField] TextMeshProUGUI upgradePriceText;
+    [SerializeField] TextMeshProUGUI detergentPriceText;
+    [SerializeField] TextMeshProUGUI softenerPriceText;
+    [SerializeField] TextMeshProUGUI laundryMachinePriceText;
+    [SerializeField] TextMeshProUGUI dryingMachinePriceText;
+    [SerializeField] Color inStockColour;
+    [SerializeField] Color outOfStockColour;
+
+    [Title("Upgrades")]
+    [SerializeField] MachineManager machineMan;
+
 
 
     [Title("Washer and Dryers", null, TitleAlignments.Centered)]
@@ -60,6 +72,8 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     {
         vendingActions = new();
         deliveryAreaMaxAmount = deliveryArea.transform.childCount;
+        UpdatePrices();
+
     }
     public void Interact(Camera camObject)
     {
@@ -142,6 +156,14 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
 
     #endregion
 
+    void UpdatePrices()
+    {
+        upgradePriceText.text = $"${pricesList[0].ToString()}";
+        detergentPriceText.text = $"${pricesList[1].ToString()}";
+        softenerPriceText.text = $"${pricesList[2].ToString()}";
+        laundryMachinePriceText.text = $"${pricesList[3].ToString()}";
+        dryingMachinePriceText.text = $"${pricesList[4].ToString()}";
+    }
     public void ExitMachine()
     {
         tipCanvas.SetActive(false);
@@ -170,16 +192,15 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         {
             if (currentCamInt < 3)
             {
-                if (SpacesLeftOnTable() != 0)
-                {
-                    PlayerSettings.instance.ReduceMoney(price);
-                    BuySmallItem();
-                    buySound.Play();
-                }
-                else
+                if (currentCamInt != 0)
                 {
                     PlayerSettings.instance.ReduceMoney(price);
                     SpawnSmallItem();
+                    buySound.Play();
+                }else if(currentCamInt == 0)
+                {
+                    PlayerSettings.instance.ReduceMoney(price);
+                    BuyBigItem();
                     buySound.Play();
                 }
             }
@@ -193,12 +214,18 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                         PlayerSettings.instance.ReduceMoney(price);
                         BuyBigItem();
                         buySound.Play();
-                        amountOfWashingMachinesBought++;
+                        ++amountOfWashingMachinesBought;
+                        if(amountOfWashingMachinesBought >= maxAmountOfWashingMachines)
+                        {
+                            laundryMachinePriceText.color = outOfStockColour;
+                            laundryMachinePriceText.text = "Out Of Stock";
+                            playerInteraction.UpdatePlayerPopupMessage("Max amount of Washing Machines Bought");
+                        }
                     }
                     else
                     {
                         cantBuySound.Play();
-                        playerInteraction.UpdatePlayerPopupMessage("Max amount of Washing Machines Bought");
+                        laundryMachinePriceText.color = outOfStockColour;
                     }
                 }
                 //Dryers
@@ -209,12 +236,17 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                         PlayerSettings.instance.ReduceMoney(price);
                         BuyBigItem();
                         buySound.Play();
-                        amountOfDryersBought++;
+                        ++amountOfDryersBought;
+                        if(amountOfDryersBought >= maxAmountOfDryers)
+                        {
+                            dryingMachinePriceText.color = outOfStockColour;
+                            dryingMachinePriceText.text = "Out Of Stock";
+                            playerInteraction.UpdatePlayerPopupMessage("Max amount of Drying Machines Bought");
+                        }
                     }
                     else
                     {
                         cantBuySound.Play();
-                        playerInteraction.UpdatePlayerPopupMessage("Max amount of Drying Machines Bought");
                     }
                 }
             }
@@ -257,6 +289,15 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
 
     void BuyBigItem()
     {
+        if (currentCamInt == 0)
+        {
+            foreach (TimerMachines machineToUpgrade in machineMan.machineList)
+            {
+                machineToUpgrade.skipRythm = true;
+            }
+            upgradePriceText.color = outOfStockColour;
+            upgradePriceText.text = $"Out Of Stock";
+        }
         if (currentCamInt == 3)
         {
             washingMashineList[amountOfWashingMachinesBought].SetActive(true);
@@ -267,8 +308,9 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
             dryerMachineList[amountOfDryersBought].SetActive(true);
             //OnExitPressed();
         }
-        
+
     }
+    
 
     int SpacesLeftOnTable()
     {

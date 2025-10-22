@@ -319,6 +319,10 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
             currentBasket = playerInteraction.handPosition.GetChild(0).gameObject;
         }
         GameObject playerHandObject = currentBasket;
+        Rigidbody basketRb = currentBasket.GetComponent<Rigidbody>();
+        currentBasket.GetComponent<Collider>().enabled = false;
+        basketRb.isKinematic = true;
+        basketRb.useGravity = false;
         playerHandObject.transform.parent = endPostion;
         playerHandObject.transform.DOLocalMove(Vector3.zero, objectMoveTime);
         playerHandObject.transform.DOLocalRotate(Vector3.zero, objectMoveTime);
@@ -327,6 +331,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     #region Rythm
     void StartRythm()
     {
+         
         playerMovement.cameraOriginalRotation = Camera.main.transform.rotation;
         playerMovement.cameraOriginalTransform = Camera.main.transform.position;
         playerInteraction.canInteract = false;
@@ -335,6 +340,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
         Camera.main.transform.DOMove(camPosition.position, objectMoveTime);
         buttonSpawner.currentStage = 0;
         Camera.main.transform.DODynamicLookAt(camLookPosition.position, objectMoveTime).OnComplete(() => buttonSpawner.SpawnButton());
+        TimeTextRythm.text = timerTime.ToString("00");
 
         //Start Rythm
         //Take player out
@@ -362,9 +368,10 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     
     public void AddTimeToTimer(float timeToAdd)
     {
+        Debug.Log("[TimerMachines] add time to timer");
         if (timerTime >= maxMachineTimeToComplete) return;
-        timerTime += timeToAddToTimer;
-        TimeTextRythm.text = machineTimeToComplete.ToString();
+        timerTime += timeToAdd;
+        TimeTextRythm.text = timerTime.ToString();
     }
 
     #endregion
@@ -373,6 +380,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     void StartMachine()
     {
+        TimeTextRythm.text = timerTime.ToString("00");
         currentBasket = basketPlacePosition.GetChild(0).gameObject;
         currentBasket.SetActive(false);
         Basket _currentBasket = currentBasket.GetComponent<Basket>();
@@ -426,6 +434,10 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     void MachineStop()
     {
+        currentBasket.GetComponent<Collider>().enabled = true;
+        Rigidbody basketRb = currentBasket.GetComponent<Rigidbody>();
+        basketRb.isKinematic = false;
+        basketRb.useGravity = true;
         busySound.Stop();
         timerTime = originalMachineTimer;
         AnimMachineFinished();

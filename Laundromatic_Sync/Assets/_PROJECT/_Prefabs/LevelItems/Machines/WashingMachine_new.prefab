@@ -82,17 +82,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2acd442debb827f478599c18fa02a72a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skipRythm: 1
+  skipRythm: 0
   playerInteraction: {fileID: 0}
   playerMovement: {fileID: 0}
   machineType: 0
   correctBasket: 0
   nextBasketType: 1
   timerTime: 10
-  objectMoveTime: 1
+  objectMoveTime: 0.5
   objectCheckRaycastPosition: {fileID: 9086599318988543127}
   buttonSpawner: {fileID: 43196580386085352}
   rounds: 0
+  timeToAddToTimer: 0
+  RythmInfoCanvas: {fileID: 4495634769961453275}
+  TimeTextRythm: {fileID: 4109517695452662969}
   basketPlacePosition: {fileID: 9196277445696488530}
   camLookPosition: {fileID: 5310664832880514527}
   camPosition: {fileID: 5237061326639078688}
@@ -100,6 +103,7 @@ MonoBehaviour:
   timerInfo: {fileID: 2966116416195367405}
   timerHud: {fileID: 0}
   machineTimeToComplete: 60
+  maxMachineTimeToComplete: 60
   doneSound: {fileID: 7734248663665162298}
   busySound: {fileID: 1522448333244725613}
   buttonSound: {fileID: 0}
@@ -3236,6 +3240,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aafa3aba2da6f004ab8614ea24971caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4109517695452662969 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6087762403399533024, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
+  m_PrefabInstance: {fileID: 7889148988643396953}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4495634769961453275 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5987631593882798978, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
+  m_PrefabInstance: {fileID: 7889148988643396953}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &9114837126119001224 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1370654657866973649, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}

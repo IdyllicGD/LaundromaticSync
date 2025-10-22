@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MachineManager : MonoBehaviour
 {
-    [SerializeField] List<TimerMachines> machineList = new();
+    public List<TimerMachines> machineList = new();
 
 
     [Button]
