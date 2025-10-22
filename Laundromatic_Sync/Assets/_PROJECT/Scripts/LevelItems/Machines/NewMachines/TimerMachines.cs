@@ -50,6 +50,9 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     [Title("Rythm Items", null, TitleAlignments.Centered)]
     [SerializeField] ButtonSpawner buttonSpawner;
     [SerializeField] int rounds;
+    [SerializeField] int timeToAddToTimer;
+    [SerializeField] GameObject RythmInfoCanvas;
+    [SerializeField] TextMeshProUGUI TimeTextRythm;
 
     [Title("Start Machine Items", null, TitleAlignments.Centered)]
     [SerializeField] Transform basketPlacePosition;
@@ -59,6 +62,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     [SerializeField] GameObject timerInfo;
     [SerializeField] GameObject timerHud;
     [SerializeField] float machineTimeToComplete;
+    [SerializeField] float maxMachineTimeToComplete;
 
 
 
@@ -93,6 +97,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     void Start()
     {
         originalMachineTimer = timerTime;
+        machineTimeToComplete = timerTime;
     }
 
     void OnTriggerEnter(Collider targetObject)
@@ -145,18 +150,23 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     bool HasObject()
     {
-        Debug.DrawRay(objectCheckRaycastPosition.position, Vector3.down, Color.blue, 1f);
+        //Debug.DrawRay(objectCheckRaycastPosition.position, Vector3.down, Color.blue, 1f);
         if (basketPlacePosition.childCount >= 1)
         {
             return true;
         }
-        return false;
+        else
+        {
+            return false;
+        }
+        
 
     }
 
-    bool isBusy;
+    bool isBusy = false;
     public void Interact(Camera camObject)
     {
+        if (isBusy) return;
         if (currentBasket == null) return;
         if (currentBasket.GetComponent<Basket>().BasketType != correctBasket) return;
         switch (machineType)
@@ -199,6 +209,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     public void Interact(Camera camObject, GameObject secondaryObject)
     {
+        if (isBusy) return;
         if (secondaryObject.TryGetComponent(out MachineUsableObjects itemType))
         {
             MachineUsableItemsType _type = itemType.ReturnMachineUsableItemsType();
@@ -316,11 +327,13 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     #region Rythm
     void StartRythm()
     {
-        buttonSpawner.currentStage = 0;
-        playerInteraction.StopAndStartPlayerMovement();
-        playerInteraction.StopAndStartPlayerMovement();
-        playerMovement.canMoveAndLook = false;
+        playerMovement.cameraOriginalRotation = Camera.main.transform.rotation;
+        playerMovement.cameraOriginalTransform = Camera.main.transform.position;
+        playerInteraction.canInteract = false;
+        RythmInfoCanvas.SetActive(true);
+        playerInteraction.StopAndStartPlayerMovement(false);
         Camera.main.transform.DOMove(camPosition.position, objectMoveTime);
+        buttonSpawner.currentStage = 0;
         Camera.main.transform.DODynamicLookAt(camLookPosition.position, objectMoveTime).OnComplete(() => buttonSpawner.SpawnButton());
 
         //Start Rythm
@@ -328,22 +341,30 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
         //Start Machine
 
     }
-    
+
     public void StageCheck()
     {
         //rounds
-        if (rounds == buttonSpawner.spawnPoints.Count)
+        if (buttonSpawner.currentStage == buttonSpawner.spawnPoints.Count)
         {
-            transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(false);
-            rounds = 0;
-            StartCoroutine(StartMachineTimer());
+            StartMachine();
             playerMovement.ResetCamera();
+            transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            RythmInfoCanvas.SetActive(false);
+            return;
             //Reset cam
         }
-        ++rounds;
-        
+        buttonSpawner.SpawnButton();
 
 
+
+    }
+    
+    public void AddTimeToTimer(float timeToAdd)
+    {
+        if (timerTime >= maxMachineTimeToComplete) return;
+        timerTime += timeToAddToTimer;
+        TimeTextRythm.text = machineTimeToComplete.ToString();
     }
 
     #endregion
@@ -355,11 +376,9 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
         currentBasket = basketPlacePosition.GetChild(0).gameObject;
         currentBasket.SetActive(false);
         Basket _currentBasket = currentBasket.GetComponent<Basket>();
+        if (_currentBasket.BasketType != correctBasket) return;
         //play animations
         AnimMachineWashing();
-        //disable basket
-        currentBasket.SetActive(false);
-        if (_currentBasket.BasketType != correctBasket) return;
         switch (_currentBasket.BasketType)
         {
             case BasketType.Dirty:
@@ -381,12 +400,14 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
                 break;
         }
         //Change basket info
+        isBusy = true;
         StartCoroutine(StartMachineTimer());
 
     }
 
     IEnumerator StartMachineTimer()
     {
+        isBusy = true;
         currentBasket.SetActive(false);
         while (timerTime > 0 && !interupt)
         {
@@ -411,6 +432,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
         currentBasket.SetActive(true);
         currentBasket = null;
         ResetMachineCompletely();
+        isBusy = false;
     }
     #endregion
 
@@ -484,6 +506,8 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     }
 
     #endregion
+
+
 
     #region UI
 

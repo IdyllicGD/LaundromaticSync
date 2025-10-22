@@ -116,18 +116,15 @@ public class RhythmButtonInfo : MonoBehaviour
         // Debug.Log($"[RythmButtonInfo] {transform.parent.parent.parent.GetChild(1).name} Lm Name");
         // Debug.Log($"[RythmButtonInfo] {transform.parent.parent.parent.name} Dm name");
         //Laundry Machine
-        if (transform.parent.parent.parent.GetChild(1).TryGetComponent(out LaundryMachine lm))
-        {
-            lm.AddTimeToTimer(mistakeTimeAdd);
-        }//Dryer Machine
-        else if (transform.parent.parent.parent.TryGetComponent(out DryerMachine dm))
-        {
-            dm.AddTimeToTimer(mistakeTimeAdd);
-        }
-        else
-        {
-            Debug.Log($"[RythButtonInfo] No Mistake Timer");
-        }
+        // if (transform.parent.parent.parent.GetChild(1).TryGetComponent(out TimerMachines currentMachine))
+        // {
+        //     currentMachine.AddTimeToTimer(mistakeTimeAdd);
+        // }//Dryer Machine
+
+        // else
+        // {
+        //     Debug.Log($"[RythButtonInfo] No Mistake Timer");
+        // }
     }
 }
 
