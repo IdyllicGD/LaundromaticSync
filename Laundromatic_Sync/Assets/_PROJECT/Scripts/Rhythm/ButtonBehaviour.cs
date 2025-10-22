@@ -3,11 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class ButtonBehaviour : MonoBehaviour
 {
-    private float bps;
+    public float bps = 5f;
+    public float endScaleValue;
 void Awake()
     {
         RectTransform ButtonRect = GetComponent<RectTransform>();
-        ButtonRect.DOScale(1.04f, bps)
+        ButtonRect.DOScale(endScaleValue, bps)
             .SetEase(Ease.InOutBack)
             .SetLoops(-1, LoopType.Yoyo)
             .SetUpdate(true);
