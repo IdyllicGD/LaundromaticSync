@@ -10,7 +10,7 @@ public class Bed : MonoBehaviour, Iinteractable
 
     public void Interact()
     {
-            morningSound.Play();
+            //morningSound.Play();
             Cursor.lockState = CursorLockMode.None;
             PlayerSettings.instance.playerInteraction.StopAndStartPlayerMovement();
             canvas.SetActive(true);

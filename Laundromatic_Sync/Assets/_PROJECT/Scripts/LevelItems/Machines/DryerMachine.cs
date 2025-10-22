@@ -45,6 +45,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
     [Title("Canvas Vars", null, TitleAlignments.Centered)]
     [SerializeField] TextMeshProUGUI TimeText;
     [SerializeField] GameObject mainCan;
+    [SerializeField] GameObject uiTimerCan;
 
     [Title("Enums", null, TitleAlignments.Centered)]
     [SerializeField] ItemsUsed itemsUsed;
@@ -52,6 +53,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
     [Title("Bools", "Only for debugging", TitleAlignments.Centered)]
     [ReadOnly] public bool isBusy;
     [ReadOnly] public bool isDone;
+    bool hasBeenReset;
 
 
     void Update()
@@ -140,8 +142,10 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
                 break;
             case CurrentStage.FinishedStage:
                 //exit to normal view
+                hasBeenReset = false;
+                uiTimerCan.SetActive(true);
                 StartCoroutine(EndMachineFunc(machineTimeToComplete));
-                uiTimer.StartTimerTime(machineTimeToComplete);
+                //uiTimer.StartTimerTime(machineTimeToComplete);
                 buttonSound.Play();
                 busySound.Play();
                 bubbles.Play();
@@ -164,7 +168,14 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
 
     IEnumerator EndMachineFunc(float waitTime)
     {
-        yield return new WaitForSeconds(waitTime);
+        
+        // yield return new WaitForSeconds(waitTime);
+        while (waitTime > 0 && !hasBeenReset)
+        {
+            waitTime -= Time.deltaTime;
+            uiTimer.timeText.text = waitTime.ToString("00");
+            yield return null;
+        }
         bubbles.Stop();
         isDone = true;
         currentStage = CurrentStage.FillingUpStage;
@@ -178,6 +189,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
         animator.SetBool("isWashing", false);
         machineTimeToComplete = originalMachineTimeToComplete;
         TimeText.text = machineTimeToComplete.ToString();
+        uiTimerCan.SetActive(false);
     }
 
 
@@ -208,11 +220,19 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
         //Play current animation where needed
     }
 
-        public void AddTimeToTimer(float amountToAdd)
+    public void AddTimeToTimer(float amountToAdd)
     {
         if (machineTimeToComplete >= maxMachineTimeToComplete) return;
         machineTimeToComplete += amountToAdd;
         TimeText.text = machineTimeToComplete.ToString();
+    }
+    
+    public void ResetMachine()
+    {
+        animator.SetBool("isFinished", false);
+        animator.SetBool("isIdle", true);
+        isDone = false;
+        hasBeenReset = true;
     }
 
 

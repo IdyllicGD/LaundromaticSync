@@ -34,6 +34,11 @@ PrefabInstance:
         UnityEngine.CoreModule]]'
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: 'managedReferences[377305554956059296]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[NpcSoundManager,
+        Assembly-CSharp]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495155].Name
       value: ChangeTo
       objectReference: {fileID: 0}
@@ -42,8 +47,12 @@ PrefabInstance:
       value: CanvasToChange
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305554956059296].Name
+      value: NpcSoundMan
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: m_BlackboardVariableOverridesList.Array.size
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495155].m_Value
@@ -53,6 +62,10 @@ PrefabInstance:
       propertyPath: managedReferences[377305533176611269].m_Value
       value: 
       objectReference: {fileID: 9192346780504178934}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305554956059296].m_Value
+      value: 
+      objectReference: {fileID: 7048841595868714351}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[385138139782971967].m_Value
       value: 
@@ -64,6 +77,10 @@ PrefabInstance:
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: 'm_BlackboardVariableOverridesList.Array.data[9]'
       value: 377305533176611269
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[10]'
+      value: 377305554956059296
       objectReference: {fileID: 0}
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305261904495155].GUID.m_Value0
@@ -80,6 +97,14 @@ PrefabInstance:
     - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: managedReferences[377305533176611269].GUID.m_Value1
       value: 13646849550635780443
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305554956059296].GUID.m_Value0
+      value: 6365004700546361007
+      objectReference: {fileID: 0}
+    - target: {fileID: 532226197329711421, guid: 1141309a46f898943963674089162bcb, type: 3}
+      propertyPath: managedReferences[377305554956059296].GUID.m_Value1
+      value: 7739782628819673969
       objectReference: {fileID: 0}
     - target: {fileID: 776547882753359122, guid: 1141309a46f898943963674089162bcb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -154,6 +179,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8495407211098985203, guid: 1141309a46f898943963674089162bcb, type: 3}
   m_PrefabInstance: {fileID: 3539042410142980601}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7048841595868714351 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5823066664389692566, guid: 1141309a46f898943963674089162bcb, type: 3}
+  m_PrefabInstance: {fileID: 3539042410142980601}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d552ffaef444c49baa8e000818853e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9192346780504178934 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5660165892189001999, guid: 1141309a46f898943963674089162bcb, type: 3}

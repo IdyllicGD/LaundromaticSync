@@ -121,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnLook (InputAction.CallbackContext obj) {
         if (!canMoveAndLook) return;
         lookInput = obj.ReadValue<Vector2>();
-        Debug.Log(lookInput);
+        
     }
 
     void PlayerMove()

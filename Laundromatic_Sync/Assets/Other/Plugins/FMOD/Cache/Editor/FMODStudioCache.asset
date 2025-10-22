@@ -460,10 +460,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638964165873063056
+  lastModified: 638964842005665061
   FileSizes:
   - Name: Desktop
-    Value: 3246
+    Value: 3380
   Exists: 1
 --- !u!114 &-3333710545849025258
 MonoBehaviour:
@@ -642,7 +642,7 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638964165873037880
+  lastModified: 638964842005640002
   FileSizes:
   - Name: Desktop
     Value: 1632
@@ -689,10 +689,10 @@ MonoBehaviour:
   Path: ../FMOD Project/Laundromatic_Sync/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638964180368325893
+  lastModified: 638967343195265211
   FileSizes:
   - Name: Desktop
-    Value: 2144928
+    Value: 2243296
   Exists: 1
 --- !u!114 &-1229173979382293316
 MonoBehaviour:
@@ -842,12 +842,15 @@ MonoBehaviour:
   - {fileID: -7151594823192805539}
   - {fileID: -9121447942400231515}
   - {fileID: -2467308052314954770}
+  - {fileID: 7321625151579942380}
+  - {fileID: 3678658646261047740}
+  - {fileID: 1966868643665940556}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2125593146152450226}
   StringsBanks:
   - {fileID: -3629877894166248456}
-  cacheTime: 638964180368325893
+  cacheTime: 638967343195265211
   cacheVersion: 131624
 --- !u!114 &68791234730322443
 MonoBehaviour:
@@ -957,6 +960,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 153652
+--- !u!114 &1966868643665940556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/NPC/NpcTalk
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/NPC/NpcTalk
+  Guid:
+    Data1: 757850870
+    Data2: 1151521903
+    Data3: -1939024975
+    Data4: 813960558
+  Banks:
+  - {fileID: -1373889764487742976}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &2651165495528661868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1038,6 +1068,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 340
+--- !u!114 &3678658646261047740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/DropItem
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/DropItem
+  Guid:
+    Data1: -500110793
+    Data2: 1139566354
+    Data3: 1624997303
+    Data4: -854696718
+  Banks:
+  - {fileID: -1373889764487742976}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3843167400022428867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1254,6 +1311,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 380
+--- !u!114 &7321625151579942380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/PickUpItem
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/PickUpItem
+  Guid:
+    Data1: -1707178583
+    Data2: 1328686317
+    Data3: -1343483238
+    Data4: -148609118
+  Banks:
+  - {fileID: -1373889764487742976}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &7859350958166673944
 MonoBehaviour:
   m_ObjectHideFlags: 0

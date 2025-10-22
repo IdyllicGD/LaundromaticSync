@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using _PROJECT._Jacques.Scripts.Interfaces;
 using _PROJECT.Scripts.temp.Scripts;
 using DG.Tweening;
+using FMODUnity;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.Behavior;
@@ -15,7 +16,7 @@ using UnityEngine.InputSystem;
 public class PlayerInteraction : MonoBehaviour
 {
     [Title("Player", null, TitleAlignments.Centered)]
-    [SerializeField] Transform handPosition;
+    public Transform handPosition;
     public Transform hatPosition;
     private PlayerMovement playerMovement;
     private InteractionType interactionType;
@@ -44,7 +45,9 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] LayerMask npcLayer;
     [SerializeField] LayerMask laptopLayer;
     [SerializeField] float dialogueCooldownTimer;
-
+    [Title("Interaction Sounds", null, TitleAlignments.Centered)]
+    [SerializeField] StudioEventEmitter pickUpSound;
+    [SerializeField] StudioEventEmitter dropItemSound;
     [Title("User UI", null, TitleAlignments.Centered)]
     [SerializeField] TextMeshProUGUI objectDitectedString;
     [SerializeField] GameObject objectDitectedCanvas;
@@ -52,6 +55,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] LayerMask nameInteractionLayers;
     [SerializeField] TextMeshProUGUI popupMessageText;
     [SerializeField] TextMeshProUGUI petableInfo;
+    bool resetUi;
 
     Camera playerCam;
 
@@ -80,7 +84,7 @@ public class PlayerInteraction : MonoBehaviour
         inputActions.Player.DropHat.canceled += x => ThrowHat();
 
         #endregion
-
+        
         playerCam = Camera.main;
         playerMovement = GetComponent<PlayerMovement>();
     }
@@ -243,6 +247,12 @@ public class PlayerInteraction : MonoBehaviour
             if (hit.transform.TryGetComponent(out IPickupable objectPickup))
             {
                 objectPickup.Pickup(handPosition, handPosition.childCount != 0);
+                if(handPosition.childCount != 0)
+                {
+                    pickUpSound.Stop();
+                    pickUpSound.Play();
+                }
+                
                 return;
             }
             //normal interaction
@@ -266,6 +276,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                 if (hitObject.GetChild(i).childCount == 0)
                 {
+                    dropItemSound.Play();
                     handObject.SetParent(hitObject.GetChild(i));
                     handObject.transform.DOLocalMove(Vector3.zero, 0.5f);
                     handObject.GetComponent<Collider>().enabled = true;
@@ -289,19 +300,31 @@ public class PlayerInteraction : MonoBehaviour
 
 
         //check if the player is holding an item
-        if (handPosition.childCount == 0) return;
-        GameObject itemInHand = handPosition.GetChild(0).gameObject;
-        if (!Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit machineHit,
+
+
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit machineHit,
                 raycastDistance,
-                interactionLayer)) return;
-
-
-        //Machine interaction
-        if (machineHit.transform.TryGetComponent(out IMachineInteractable interactable))
+                interactionLayer))
         {
-            interactable.Interact(playerCam, itemInHand);
-            return;
+        if (handPosition.childCount == 0){
+            if (machineHit.transform.TryGetComponent(out IMachineInteractable interactable))
+            {
+                interactable.Interact(playerCam);
+                return;
+            }
         }
+        else
+        {
+            GameObject itemInHand = handPosition.GetChild(0).gameObject;
+            //Machine interaction
+            if (machineHit.transform.TryGetComponent(out IMachineInteractable interactable))
+            {
+                interactable.Interact(playerCam, itemInHand);
+                return;
+            }
+        }
+        }
+
 
 
 
@@ -374,6 +397,7 @@ public class PlayerInteraction : MonoBehaviour
 
         objectRigidbody.linearVelocity = playerRb.linearVelocity;
         objectRigidbody.linearVelocity = Camera.main.transform.forward * finalForceAmount;
+        dropItemSound.Play();
         //objectRigidbody.AddForce(Camera.main.transform.forward * finalForceAmount, ForceMode.Force);
         Debug.Log($"[PlayerInteraction] {finalTime}");
     }
@@ -427,6 +451,7 @@ public class PlayerInteraction : MonoBehaviour
         objectRigidbody.linearVelocity = Camera.main.transform.forward * finalForceAmount;
         objectRigidbody.AddForce(Camera.main.transform.forward * finalForceAmount, ForceMode.Force);
         Debug.Log($"[PlayerInteraction] {finalTime}");
+        dropItemSound.Play();
     }
 
     #endregion
@@ -444,6 +469,10 @@ public class PlayerInteraction : MonoBehaviour
     #region Outside Funcs
     public void UpdatePlayerPopupMessage(string messageInfo)
     {
+        if (popupMessageText.text != "")
+        {
+            StopCoroutine(TimeToWaitToDisablePopupText(0f));
+        }
         popupMessageText.text = messageInfo;
         StartCoroutine(TimeToWaitToDisablePopupText(3f));
 
@@ -518,7 +547,12 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator TimeToWaitToDisablePopupText(float time)
     {
-        yield return new WaitForSeconds(time);
+
+        while(time > 0)
+        {
+            time -= Time.deltaTime;
+            yield return null;
+        }
         popupMessageText.text = "";
     }
     

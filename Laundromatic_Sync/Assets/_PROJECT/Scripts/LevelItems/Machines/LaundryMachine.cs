@@ -8,10 +8,11 @@ using _PROJECT.Scripts.Rhythm;
 using FMODUnity;
 using Sirenix.OdinInspector;
 using TMPro;
+using Unity.VisualScripting;
 
 public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable, RythmStages
 {
-    Animator animator;
+    [SerializeField] Animator animator;
     GameObject currentObject;
     PlayerMovement currentPlayerMovement;
     [Title("Wash time", null, TitleAlignments.Centered)]
@@ -44,6 +45,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     [SerializeField] GameObject mainCan;
     [SerializeField] GameObject machineItemsCan;
     [SerializeField] UiTimerMachines uiTimer;
+    bool hasBeenReset;
 
 
 
@@ -73,8 +75,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 
         if (!isDone) return;
         if (HasObject()) return;
-        animator.SetBool("isFinished", false);
-        animator.SetBool("isIdle", true);
+        animator.SetTrigger("isIdle");
         machineItemsCan.SetActive(true);
         uiTimer.ResetUiTimer();
         isDone = false;
@@ -98,7 +99,6 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
         baseLookAtPositionSpeed = 0.5f;
 
         #endregion
-        animator = transform.GetComponentInParent<Animator>();
 
         animator.SetBool("isIdle", true);
 
@@ -137,8 +137,9 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 bubbles.Play();
                 animator.SetTrigger("StartCycle");
                 animator.SetBool("isIdle", false);
-                uiTimer.StartTimerTime(machineTimeToComplete);
+                //uiTimer.StartTimerTime(machineTimeToComplete);
                 machineItemsCan.SetActive(false);
+                hasBeenReset = false;
                 StartCoroutine(EndMachineFunc(machineTimeToComplete, currentObject));
                 
                 mainCan.SetActive(false);
@@ -174,6 +175,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     #region Interact with machine and move cam and another object. Example: Basket
     public void Interact(Camera camObject, GameObject secondaryObject)
     {
+        Debug.Log(HasObject());
         if (HasObject()) return;
 
         currentObject = secondaryObject;
@@ -307,9 +309,19 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 
     IEnumerator EndMachineFunc(float waitTime, GameObject itemType)
     {
-        yield return new WaitForSeconds(waitTime);
-        bubbles.Stop();
-        currentStage = CurrentStage.FillingUpStage;
+        uiTimer.canvasTimer.SetActive(true);
+        while (waitTime > 0 && !hasBeenReset)
+        {
+            waitTime -= Time.deltaTime;
+            uiTimer.timeText.text = waitTime.ToString("00");
+            Debug.Log($"[LaundryMachine] {waitTime}");
+            yield return null;
+        }
+        Debug.Log($"[LaundryMachine] timer Done");
+        
+        if (!hasBeenReset)
+        {
+
         switch (ReturnItemType(itemType))
         {
             case MachineUsableItemsType.None:
@@ -330,15 +342,9 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
                 }
                 break;
         }
-
-        hasDetergent = false;
-        hasFabricSoftener = false;
-        animator.SetBool("isFinished", true);
-        isDone = true;
-        busySound.Stop();
-        doneSound.Play();
-        machineTimeToComplete = originalMachineTimeToComplete;
-        TimeText.text = machineTimeToComplete.ToString();
+        }
+        ResetMachine();
+        
 
 
     }
@@ -380,6 +386,35 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
     void UpdateInfoCards()
     {
         uiTimer.UpdateImages();
+    }
+
+    public void ResetMachine()
+    {
+        if (!gameObject.transform.parent.gameObject.activeSelf) return;
+        uiTimer.ResetUiTimer();
+        
+        
+        animator.SetTrigger("isFinished");
+        bubbles.Stop();
+        currentStage = CurrentStage.FillingUpStage;
+        hasDetergent = false;
+        hasFabricSoftener = false;
+        isDone = true;
+        busySound.Stop();
+        machineTimeToComplete = originalMachineTimeToComplete;
+        hasBeenReset = true;
+        StartCoroutine(TimeToWaitBeforeFuckYou());
+    }
+
+    IEnumerator TimeToWaitBeforeFuckYou()
+    {
+        yield return new WaitForSeconds(0.5f);
+        uiTimer.interupt = false;
+        isBusy = false;
+        animator.SetTrigger("isIdle");
+        hasBeenReset = false;
+        TimeText.text = "";
+        machineItemsCan.SetActive(true);
     }
 
 }

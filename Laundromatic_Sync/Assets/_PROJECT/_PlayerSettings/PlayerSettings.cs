@@ -36,6 +36,7 @@ public class PlayerSettings : MonoBehaviour
     {
         playerMoney += amount;
         DayNight.instance.moneyMadeThisDay += amount;
+        DayNight.instance.moneyMadeTotal += amount;
         UpdateMoneyText();
     }
 

@@ -7,7 +7,7 @@ public class TrashCan : MonoBehaviour, IMachineInteractable
 
     public void Interact(Camera camObject)
     {
-        throw new System.NotImplementedException();
+        // throw new System.NotImplementedException();
     }
 
     public void Interact(Camera camObject, GameObject secondaryObject)

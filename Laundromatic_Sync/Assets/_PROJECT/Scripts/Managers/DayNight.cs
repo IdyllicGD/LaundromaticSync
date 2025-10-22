@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using DG.Tweening;
+using FMODUnity;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.AppUI.UI;
@@ -64,6 +65,7 @@ public class DayNight : MonoBehaviour
     public int ordersWrongToday;
     [SerializeField] TextMeshProUGUI todaysScoreText;
     public float todaysStoreScore;
+    [SerializeField] MachineManager machineManager;
 
     [Title("Store Score Info", null, TitleAlignments.Centered)]
     //[SerializeField] GameObject starOne, starTwo, starThree;
@@ -91,11 +93,23 @@ public class DayNight : MonoBehaviour
     [Title("Other", null, TitleAlignments.Centered)]
     [SerializeField] PlayerInteraction playerInteraction;
     [SerializeField] PlayerMovement playerMovement;
+    [Title("End of Day", null, TitleAlignments.Centered)]
+    [SerializeField] GameObject winPage;
+    [SerializeField] GameObject losePage;
+    [SerializeField] TextMeshProUGUI moneyStillNeededText;
+    [SerializeField] TextMeshProUGUI moneyStillNeededFinalText;
+    [SerializeField] TextMeshProUGUI dayTextOnPaper;
+    [SerializeField] TextMeshProUGUI dayTextOnFinalPaper;
+    [Title("Win State")]
+    [SerializeField] TextMeshProUGUI totalMoneyMadeWinText;
+    [Title("Lose State")]
+    [SerializeField] TextMeshProUGUI moneyNeededToWinLoseStateText;
+    [Title("Sounds")]
+    [SerializeField] StudioEventEmitter winSound;
+    [SerializeField] StudioEventEmitter loseSound;
+
 
     float originalPlayerSpeed;
-    
-
-
     float tempSeconds;
 
     bool endOfDayPause = false;
@@ -123,12 +137,12 @@ public class DayNight : MonoBehaviour
     public void StartOfNewDay()
     {
         StartUpPage();
-        
     }
 
     #region End Day Review
     public void EndDayReview()
     {
+        machineManager.ResetAllMachines();
         endOfDayPause = true;
         Cursor.lockState = CursorLockMode.None;
         todaysStoreScore = 0f;
@@ -155,6 +169,8 @@ public class DayNight : MonoBehaviour
 
         endDayReviewCanvas.SetActive(true);
 
+        
+
 
 
     }
@@ -171,20 +187,55 @@ public class DayNight : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         playerInteraction.StopAndStartPlayerMovement(false);
+
+        if(moneyMadeTotal > amountNeededToWin)
+        {
+            WinState();
+            return;
+        }
+
         //Start up with a page explaining what the goal is for the player
         switch (days)
         {
             case 1:
+                dayTextOnPaper.text = "3 Days Left";
+                moneyStillNeededText.text = (amountNeededToWin - moneyMadeTotal).ToString();
                 pageOne.SetActive(true);
+                
                 break;
             case 2:
-                pageTwo.SetActive(true);
+                dayTextOnPaper.text = "2 Days Left";
+                moneyStillNeededText.text = (amountNeededToWin - moneyMadeTotal).ToString();
+                pageOne.SetActive(true);
                 break;
             case 3:
+                dayTextOnFinalPaper.text = "Final Day Left";
+                moneyStillNeededFinalText.text = (amountNeededToWin - moneyMadeTotal).ToString();
                 finalPage.SetActive(true);
+                break;
+            case 4:
+                LoseState();
                 break;
 
         }
+    }
+
+    void WinState()
+    {
+        //Show win screen and let player keep playing
+        totalMoneyMadeWinText.text = moneyMadeTotal.ToString();
+        winPage.SetActive(true);
+        winSound.Play();
+        //On the page make the player continue with a button and let the player continue or go to main menu
+        //Play win sound
+    }
+    void LoseState()
+    {
+        //Show lose screen
+        moneyNeededToWinLoseStateText.text = (amountNeededToWin - moneyMadeTotal).ToString();
+        losePage.SetActive(true);
+        loseSound.Play();
+        //Make the player go to main screen with a button
     }
 
 
@@ -345,8 +396,7 @@ public class DayNight : MonoBehaviour
 
 
         endOfDayPause = false;
-        NpcManager.instance.currentNpcs.Clear();
-        NpcManager.instance.currentBaskets.Clear();
+        HandleBaskets(); 
         NpcManager.instance.ResetNpcList();
         hours = 6;
         minutes = 0;
@@ -355,6 +405,13 @@ public class DayNight : MonoBehaviour
         UpdateTimeData();
         NpcManager.instance.SpawnNpc();
         RenderSettings.skybox = sunriseSkybox;
+        StartOfNewDay();
+    }
+
+    public void HandleBaskets()
+    {
+        NpcManager.instance.currentNpcs.Clear();
+        NpcManager.instance.currentBaskets.Clear();
     }
 
 

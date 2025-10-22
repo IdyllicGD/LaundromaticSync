@@ -11,13 +11,14 @@ public class UiTimerMachines : MonoBehaviour
     public bool hasDetergent, hasFabricSoftener, hasBasket, isDm;
 
     [Title("Local Refrences", null, TitleAlignments.Centered)]
-    [SerializeField] TextMeshProUGUI timeText;
+    public TextMeshProUGUI timeText;
     [SerializeField] Image detergentColour, fabricSoftenerColour, basketColour;
     [Title("Colours on Machine", null, TitleAlignments.Centered)]
     [SerializeField] Color hasObjectColour;
     [SerializeField] Color doesntHaveObjectColour;
     [Title("Canvasas")]
-    [SerializeField] GameObject canvasTimer, canvasGroup;
+    public GameObject canvasTimer, canvasGroup;
+    public bool interupt;
 
 
 
@@ -28,7 +29,7 @@ public class UiTimerMachines : MonoBehaviour
         timeText.text = timerTime.ToString("00");
         canvasGroup.SetActive(false);
         canvasTimer.SetActive(true);
-        StartCoroutine(TimeToWait(1f));
+        StartCoroutine(TimeToWait(timerTime));
         
 
     }
@@ -36,12 +37,12 @@ public class UiTimerMachines : MonoBehaviour
     IEnumerator TimeToWait(float time)
     {
 
-        while (timerTime > 0)
+        while (time > 0 && !interupt)
         {
             Debug.Log($"[UiTimerMachines] timerTime = {timerTime}");
-            yield return new WaitForSeconds(time);
-            timerTime--;
-            timeText.text = timerTime.ToString("00");
+            time -= Time.deltaTime;
+            timeText.text = time.ToString("00");
+            yield return null;
 
         }
         if (timerTime <= 0)
@@ -67,6 +68,7 @@ public class UiTimerMachines : MonoBehaviour
     }
     public void ResetUiTimer()
     {
+        interupt = true;
         if (!isDm)
         {
             detergentColour.color = doesntHaveObjectColour;
