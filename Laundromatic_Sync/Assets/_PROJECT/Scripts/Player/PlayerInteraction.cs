@@ -57,12 +57,9 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] TextMeshProUGUI petableInfo;
     [SerializeField] GameObject buttonUiInteract;
     [SerializeField] GameObject buttonUiThrow;
-    [SerializeField] GameObject buttonUiHat;
     [Title("Ui Throw Bars", null, TitleAlignments.Left, false)]
     [SerializeField] GameObject itemBarUiParent;
-    [SerializeField] GameObject hatBarUiParent;
     [SerializeField] UnityEngine.UI.Image itemBarImage;
-    [SerializeField] UnityEngine.UI.Image hatBarImage;
     bool resetUi;
     bool resetInteractBar;
     bool resetHatBar;
@@ -91,8 +88,6 @@ public class PlayerInteraction : MonoBehaviour
         //inputActions.Player.Back.performed += x => BackPressed();
         inputActions.Player.DropItem.performed += DropItem;
         inputActions.Player.DropItem.canceled += x => ThrowItem();
-        inputActions.Player.DropHat.performed += DropHat;
-        inputActions.Player.DropHat.canceled += x => ThrowHat();
 
         #endregion
         playerCam = Camera.main;
@@ -106,7 +101,7 @@ public class PlayerInteraction : MonoBehaviour
         
         if(!hasHat && hatPosition.childCount != 0)
         {
-            buttonUiHat.SetActive(true);
+            buttonUiThrow.SetActive(true);
             hasHat = true;
         }
 
@@ -307,7 +302,11 @@ public class PlayerInteraction : MonoBehaviour
                 }
             }
             buttonUiInteract.SetActive(false);
-            buttonUiThrow.SetActive(false);
+            if(hatPosition.childCount == 0)
+            {
+               buttonUiThrow.SetActive(false); 
+            }
+            
         }
 
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitLaptop, raycastDistance,
@@ -334,6 +333,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                     interactable.Interact(playerCam);
                     buttonUiInteract.SetActive(false);
+                    if (hatPosition.childCount != 0) return;
                     buttonUiThrow.SetActive(false);
                 return;
             }
@@ -346,6 +346,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                     interactable.Interact(playerCam, itemInHand);
                     buttonUiInteract.SetActive(false);
+                    if (hatPosition.childCount != 0) return;
                     buttonUiThrow.SetActive(false);
                 return;
             }
@@ -379,15 +380,24 @@ public class PlayerInteraction : MonoBehaviour
 
     void DropItem(InputAction.CallbackContext obj)
     {
-        if (handPosition.childCount == 0) return;
+        if (handPosition.childCount == 0 && hatPosition.childCount == 0) return;
+        GameObject objectToThrow;
+        if (handPosition.childCount != 0)
+        {
+            objectToThrow= handPosition.GetChild(0).gameObject;
+        }
+        else
+        {
+            objectToThrow = hatPosition.GetChild(0).gameObject;
+        }
         resetInteractBar = false;
         heldAmount = Time.time;
-        GameObject objectInHand = handPosition.GetChild(0).gameObject;
-        Rigidbody objectRigidbody = objectInHand.GetComponent<Rigidbody>();
+        
+        Rigidbody objectRigidbody = objectToThrow.GetComponent<Rigidbody>();
         objectRigidbody.constraints = RigidbodyConstraints.None;
         objectRigidbody.isKinematic = false;
         Debug.Log($"[PlayerInteraction] {heldAmount}");
-        objectInHand.transform.DOShakePosition(100f, objectShakeIntensity, randomness: objectShakeRandomness);
+        objectToThrow.transform.DOShakePosition(100f, objectShakeIntensity, randomness: objectShakeRandomness);
         Camera.main.transform.DOShakePosition(100f, camShakeStrenght, randomness: camShakeRandomness, randomnessMode: ShakeRandomnessMode.Harmonic);
         StartCoroutine(ThrowItemBar());
     }
@@ -396,26 +406,21 @@ public class PlayerInteraction : MonoBehaviour
     {
         resetInteractBar = true;
         itemBarImage.fillAmount = 0f;
-        if (handPosition.childCount == 0) return;
-        GameObject objectInHand = handPosition.GetChild(0).gameObject;
-        objectInHand.transform.DOKill();
+        if (handPosition.childCount == 0 && hatPosition.childCount == 0) return;
+        GameObject objectToThrow;
+        if (handPosition.childCount != 0)
+        {
+            objectToThrow= handPosition.GetChild(0).gameObject;
+        }
+        else
+        {
+            objectToThrow = hatPosition.GetChild(0).gameObject;
+        }
+        objectToThrow.transform.DOKill();
         Camera.main.transform.DOKill();
-        Rigidbody objectRigidbody = objectInHand.GetComponent<Rigidbody>();
+        Rigidbody objectRigidbody = objectToThrow.GetComponent<Rigidbody>();
 
-        Collider collier = objectInHand.GetComponent<Collider>();
-        // float finalTime = Mathf.Clamp(Time.time - heldAmount, throwBaseForce, maxHoldTime);
-        // float percentageHeld = 0f;
-        // if (finalTime >= maxHoldTime)
-        // {
-        //     percentageHeld = 1f;
-        // }
-        // else
-        // {
-        //     percentageHeld = finalTime / maxHoldTime;
-        //     Debug.Log($"[PlayerInteraction] {percentageHeld}");
-        // }
-
-        // float finalforce = maxForceAmount * percentageHeld;
+        Collider collier = objectToThrow.GetComponent<Collider>();
 
         float finalTime = Mathf.Clamp(Time.time - heldAmount, 0f, 1f);
 
@@ -425,7 +430,7 @@ public class PlayerInteraction : MonoBehaviour
         Debug.Log($"[PlayerInteraction] final force is: {finalForce}");
 
         collier.enabled = true;
-        objectInHand.transform.parent = null;
+        objectToThrow.transform.parent = null;
         objectRigidbody.isKinematic = false;
         objectRigidbody.useGravity = true;
 
@@ -433,7 +438,10 @@ public class PlayerInteraction : MonoBehaviour
         objectRigidbody.linearVelocity = Camera.main.transform.forward * finalForce;
         dropItemSound.Play();
         buttonUiInteract.SetActive(false);
-        buttonUiThrow.SetActive(false);
+        if(hatPosition.childCount == 0)
+        {
+          buttonUiThrow.SetActive(false);  
+        }
         //objectRigidbody.AddForce(Camera.main.transform.forward * finalForceAmount, ForceMode.Force);
         Debug.Log($"[PlayerInteraction] {finalTime}");
     }
@@ -449,75 +457,10 @@ public class PlayerInteraction : MonoBehaviour
         while(timeWaited < maxTime && !resetInteractBar)
         {
             timeWaited += Time.deltaTime;
-            itemBarImage.fillAmount = timeWaited / 2f;
+            itemBarImage.fillAmount = timeWaited;
             yield return null;
         }
         
-    }
-
-    void DropHat(InputAction.CallbackContext obj)
-    {
-        if (hatPosition.childCount == 0) return;
-        resetHatBar = false;
-        heldAmount = Time.time;
-        GameObject hatObject = hatPosition.GetChild(0).gameObject;
-        Rigidbody hatRigidbody = hatObject.GetComponent<Rigidbody>();
-        hatRigidbody.constraints = RigidbodyConstraints.None;
-        hatRigidbody.isKinematic = false;
-        Debug.Log($"[PlayerInteraction] {heldAmount}");
-        hatObject.transform.DOShakePosition(100f, objectShakeIntensity, randomness: objectShakeRandomness);
-        Camera.main.transform.DOShakePosition(100f, camShakeStrenght, randomness: camShakeRandomness, randomnessMode: ShakeRandomnessMode.Harmonic);
-        StartCoroutine(ThrowHatItemBar());
-
-    }
-
-    IEnumerator ThrowHatItemBar()
-    {
-        hatBarImage.fillAmount = 0f;
-        hatBarUiParent.SetActive(true);
-        float timeWaited = 0f;
-        float maxTime = 1f;
-
-
-        while(timeWaited < maxTime && !resetHatBar)
-        {
-            timeWaited += Time.deltaTime;
-            hatBarImage.fillAmount = timeWaited / 2f;
-            yield return null;
-        }
-        
-    }
-
-    void ThrowHat()
-    {
-        resetHatBar = true;
-        hatBarImage.fillAmount = 0f;
-        if (hatPosition.childCount == 0) return;
-        GameObject hatObject = hatPosition.GetChild(0).gameObject;
-        hatObject.transform.parent = null;
-        hatObject.transform.DOKill();
-        Camera.main.transform.DOKill();
-        Rigidbody objectRigidbody = hatObject.GetComponent<Rigidbody>();
-
-        Collider collier = hatObject.GetComponent<Collider>();
-        float finalTime = Mathf.Clamp(Time.time - heldAmount, 0f, 1f);
-
-        float finalForce = throwBaseForce * (1 + finalTime);
-
-
-        Debug.Log($"[PlayerInteraction] final force is: {finalForce}");
-
-        collier.enabled = true;
-        objectRigidbody.isKinematic = false;
-        objectRigidbody.useGravity = true;
-
-        objectRigidbody.linearVelocity = playerRb.linearVelocity;
-        objectRigidbody.linearVelocity = Camera.main.transform.forward * finalForce;
-        dropItemSound.Play();
-        buttonUiHat.SetActive(false);
-        hasHat = false;
-        Debug.Log($"[PlayerInteraction] {finalTime}");
-        dropItemSound.Play();
     }
 
     #endregion
