@@ -233,7 +233,7 @@ public class PlayerInteraction : MonoBehaviour
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", false);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
                             ++DayNight.instance.ordersWrongToday;
-                            PlayerSettings.instance.AddMoney(10);
+                            // PlayerSettings.instance.AddMoney(10);
                             //Destroy(handPosition.GetChild(0).gameObject);
 
 
