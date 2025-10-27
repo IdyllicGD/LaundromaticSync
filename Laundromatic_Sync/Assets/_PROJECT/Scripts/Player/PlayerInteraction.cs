@@ -5,7 +5,6 @@ using _PROJECT._Jacques.Scripts.Interfaces;
 using _PROJECT.Scripts.temp.Scripts;
 using DG.Tweening;
 using FMODUnity;
-using Microsoft.Unity.VisualStudio.Editor;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.Behavior;
