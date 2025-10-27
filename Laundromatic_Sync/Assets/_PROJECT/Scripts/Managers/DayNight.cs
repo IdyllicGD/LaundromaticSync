@@ -210,7 +210,7 @@ public class DayNight : MonoBehaviour
                 break;
             case 3:
                 dayTextOnFinalPaper.text = "Final Day Left";
-                moneyStillNeededFinalText.text = $"${(amountNeededToWin - moneyMadeTotal).ToString()}";
+                moneyStillNeededFinalText.text = $"${(amountNeededToWin - moneyMadeTotal).ToString()}"; 
                 finalPage.SetActive(true);
                 break;
             case 4:
