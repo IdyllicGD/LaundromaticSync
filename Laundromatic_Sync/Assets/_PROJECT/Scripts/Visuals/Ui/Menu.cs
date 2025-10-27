@@ -8,6 +8,7 @@ using System.Data;
 using Unity.VisualScripting;
 using Unity.AppUI.UI;
 using UnityEngine.Rendering;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Menu : MonoBehaviour
 {
@@ -115,7 +116,6 @@ public class Menu : MonoBehaviour
     {
         CanvasTransform = GetComponent<RectTransform>();
         float upscale = Mathf.Lerp(1, maxScale, value); // zoom in relation to slider value
-
         if (currentTween != null && currentTween.IsActive())
         {
             currentTween.Kill();
@@ -141,6 +141,14 @@ public class Menu : MonoBehaviour
     }
     public void BackToIntroScreen()
     {
+        CanvasTransform = GetComponent<RectTransform>();
+        CanvasTransform.DOKill();
+
+        DG.Tweening.Sequence scaleSequence = DOTween.Sequence();
+
+        scaleSequence.Append(CanvasTransform.DOScale(.75f, .6f).SetEase(Ease.OutBack))
+                     .Append(CanvasTransform.DOScale(1f, .6f).SetEase(Ease.InOutBack));
+
         phoneOverlay.DOLocalRotate(new Vector3(0, 0, 0), 1f, RotateMode.Fast);
         screenBG.DOLocalRotate(new Vector3(0, 0, 0), 1f, RotateMode.Fast);
         phoneOverlay.sizeDelta = new Vector2(640, 1025);
