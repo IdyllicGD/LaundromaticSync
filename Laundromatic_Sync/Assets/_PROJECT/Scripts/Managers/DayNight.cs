@@ -199,18 +199,18 @@ public class DayNight : MonoBehaviour
         {
             case 1:
                 dayTextOnPaper.text = "3 Days Left";
-                moneyStillNeededText.text = (amountNeededToWin - moneyMadeTotal).ToString();
+                moneyStillNeededText.text = $"${(amountNeededToWin - moneyMadeTotal).ToString()}";
                 pageOne.SetActive(true);
                 
                 break;
             case 2:
                 dayTextOnPaper.text = "2 Days Left";
-                moneyStillNeededText.text = (amountNeededToWin - moneyMadeTotal).ToString();
+                moneyStillNeededText.text = $"${(amountNeededToWin - moneyMadeTotal).ToString()}";
                 pageOne.SetActive(true);
                 break;
             case 3:
                 dayTextOnFinalPaper.text = "Final Day Left";
-                moneyStillNeededFinalText.text = (amountNeededToWin - moneyMadeTotal).ToString();
+                moneyStillNeededFinalText.text = $"${(amountNeededToWin - moneyMadeTotal).ToString()}";
                 finalPage.SetActive(true);
                 break;
             case 4:
