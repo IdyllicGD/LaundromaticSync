@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public bool canMoveAndLook = true;
     [HideInInspector] public Vector3 cameraOriginalTransform;
     [HideInInspector] public Quaternion cameraOriginalRotation;
+    
+    bool isMenuOpen;
 
     #region Player Settings Variables
     private float mouseSensitivity;
@@ -51,19 +53,21 @@ public class PlayerMovement : MonoBehaviour
         PlayerLook();
     }
 
+
+
     private void Start()
     {
-        
+        Menu.setThisGameObjectActive += SetThisGameObjectActive;
         StartCoroutine(TimeToWait(0.1f));
         Cursor.lockState = CursorLockMode.Locked;
         #region Input Actions
 
         inputActions = new InputSystem_Actions();
         inputActions.Enable();
-        
-        inputActions.Player.Move.performed += OnMove; 
-        inputActions.Player.Move.canceled += x => moveInput = Vector2.zero; 
-        
+
+        inputActions.Player.Move.performed += OnMove;
+        inputActions.Player.Move.canceled += x => moveInput = Vector2.zero;
+
         inputActions.Player.Look.performed += OnLook;
 
         inputActions.Player.Sprint.performed += x => PlayerSprint();
@@ -79,9 +83,9 @@ public class PlayerMovement : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         playerSettings = GetComponent<PlayerSettings>();
         playerCam = Camera.main;
-        
+
         #endregion
-        
+
         #region Player Settings
 
         mouseSensitivity = playerSettings.mouseSensitivity;
@@ -89,17 +93,35 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         #region Other
-        
+
         playerOriginalSpeed = playerSpeed;
-        
+
         #endregion
     }
-
-    void PauseGame()
+    void SetThisGameObjectActive(GameObject objectToDisableAndEnable)
     {
-        Time.timeScale = 0;
-        pauseCanvas.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
+        objectToDisableAndEnable.SetActive(false);
+        objectToDisableAndEnable.SetActive(true);
+    }
+
+
+    public void PauseGame()
+    {
+        if (isMenuOpen)
+        {
+            Time.timeScale = 1;
+            pauseCanvas.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            isMenuOpen = false;
+        }
+        else
+        {
+            Time.timeScale = 0;
+            pauseCanvas.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            isMenuOpen = true;
+        }
+
 
     }
 
@@ -204,5 +226,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnDestroy()
     {
         inputActions.Disable();
+        Menu.setThisGameObjectActive -= SetThisGameObjectActive;
     }
 }

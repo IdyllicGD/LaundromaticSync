@@ -9,6 +9,8 @@ using Unity.VisualScripting;
 using Unity.AppUI.UI;
 using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
+using System.Collections;
+using System;
 
 public class Menu : MonoBehaviour
 {
@@ -44,6 +46,10 @@ public class Menu : MonoBehaviour
     public RawImage playerCamImage;
     public RenderTexture camTextureON;
     public RenderTexture camTextureOFF;
+    [SerializeField] GameObject pixelCan;
+    [SerializeField] GameObject menuCan;
+    public static Action<GameObject> setThisGameObjectActive;
+    bool isPixel;
 
 
 
@@ -165,10 +171,32 @@ public class Menu : MonoBehaviour
         Screen3.SetActive(false);
         Screen2.SetActive(true);
     }
-    
+
     public void ButtonClick()
     {
         FMODUnity.RuntimeManager.PlayOneShot(SoundClick, 0);
     }
+
+    public void PixelLook()
+    {
+        if (isPixel)
+        {
+            //maybe set thingy true
+
+            Camera.main.targetTexture = null;
+            pixelCan.SetActive(false);
+            isPixel = false;
+        }
+        else
+        {
+            Camera.main.targetTexture = camTextureON;
+            pixelCan.SetActive(true);
+            isPixel = true;
+            setThisGameObjectActive?.Invoke(menuCan);
+            
+        }
+    }
+    
+
     
 }

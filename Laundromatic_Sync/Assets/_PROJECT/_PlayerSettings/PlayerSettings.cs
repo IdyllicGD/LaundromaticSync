@@ -11,9 +11,6 @@ public class PlayerSettings : MonoBehaviour
     public int playerMoney;
     [SerializeField] TextMeshProUGUI moneyText;
     public List<int> fpsSetting = new();
-    //Display size
-    //Volume
-    //Accessibility settings
 
     private void Start()
     {
