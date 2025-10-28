@@ -102,6 +102,8 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     void OnTriggerEnter(Collider targetObject)
     {
+        if (isBusy) return;
+        if (machineType == TypeOfMachine.DryingMachine && hasBasket) return;
         if (targetObject.TryGetComponent(out Basket basket))
         {
             if (basket.BasketType == correctBasket)

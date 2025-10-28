@@ -48,7 +48,6 @@ public class DayNight : MonoBehaviour
     [SerializeField] int amountNeededToWin;
 
     [Title("End Day Review Vars", null, TitleAlignments.Centered)]
-    [SerializeField] GameObject endDayReviewCanvas;
     [SerializeField] TextMeshProUGUI moneyMadeTextTotal;
     public int moneyMadeTotal;
     [SerializeField] TextMeshProUGUI moneyNeedToMakeText;
@@ -143,11 +142,9 @@ public class DayNight : MonoBehaviour
     public void EndDayReview()
     {
         machineManager.ResetAllMachines();
-        endOfDayPause = true;
-        Cursor.lockState = CursorLockMode.None;
         todaysStoreScore = 0f;
-        blinkImage.DOFade(1f, blinkDuration);
-        
+        blinkImage.DOFade(1f, blinkDuration).OnComplete(() => EndReview());
+
 
         float todaysMoneyScore = moneyMadeThisDay * storeMoneyMadeTodayMultiplier;
         float todaysOrdersCompleteScore = ordersCompletedToday * storeOrdersCompleteMultiplier;
@@ -159,17 +156,10 @@ public class DayNight : MonoBehaviour
 
         storeScore += todaysStoreScore;
 
-        //set all score text
-        moneyMadeText.text = $" Money made today: {moneyMadeThisDay:00}";
-        ordersCompletedTodayText.text = $"Orders completed Today: {ordersCompletedToday:00}";
-        ordersWrongTodayText.text = $"Orders Wronf Today: {ordersWrongToday:00}";
-        todaysScoreText.text = $"Todays Score: {todaysStoreScore:00}";
-        scoreText.text = $"Total Score: {storeScore:00}";
-        //QTE's missed
 
-        endDayReviewCanvas.SetActive(true);
 
-        
+
+
 
 
 
@@ -223,7 +213,7 @@ public class DayNight : MonoBehaviour
     void WinState()
     {
         //Show win screen and let player keep playing
-        totalMoneyMadeWinText.text = moneyMadeTotal.ToString();
+        totalMoneyMadeWinText.text = $"${moneyMadeTotal.ToString()}";
         winPage.SetActive(true);
         winSound.Play();
         //On the page make the player continue with a button and let the player continue or go to main menu
@@ -232,7 +222,7 @@ public class DayNight : MonoBehaviour
     void LoseState()
     {
         //Show lose screen
-        moneyNeededToWinLoseStateText.text = (amountNeededToWin - moneyMadeTotal).ToString();
+        moneyNeededToWinLoseStateText.text = "${$(amountNeededToWin - moneyMadeTotal).ToString()}";
         losePage.SetActive(true);
         loseSound.Play();
         //Make the player go to main screen with a button
