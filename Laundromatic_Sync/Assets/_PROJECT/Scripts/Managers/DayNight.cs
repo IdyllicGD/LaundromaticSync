@@ -213,7 +213,7 @@ public class DayNight : MonoBehaviour
     void WinState()
     {
         //Show win screen and let player keep playing
-        totalMoneyMadeWinText.text = moneyMadeTotal.ToString();
+        totalMoneyMadeWinText.text = $"${moneyMadeTotal.ToString()}";
         winPage.SetActive(true);
         winSound.Play();
         //On the page make the player continue with a button and let the player continue or go to main menu
@@ -222,7 +222,7 @@ public class DayNight : MonoBehaviour
     void LoseState()
     {
         //Show lose screen
-        moneyNeededToWinLoseStateText.text = (amountNeededToWin - moneyMadeTotal).ToString();
+        moneyNeededToWinLoseStateText.text = "${$(amountNeededToWin - moneyMadeTotal).ToString()}";
         losePage.SetActive(true);
         loseSound.Play();
         //Make the player go to main screen with a button
