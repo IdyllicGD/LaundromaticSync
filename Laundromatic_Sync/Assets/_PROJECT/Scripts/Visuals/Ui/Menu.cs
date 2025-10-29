@@ -32,7 +32,7 @@ public class Menu : MonoBehaviour
     private float zoomDuration = .1f;
     private RectTransform CanvasTransform;
     private Tween currentTween;
-    
+    public GameObject sliderBackBtn;
 
     //BG Scrolling
     public float scrollspeed = 0.1f;
@@ -136,11 +136,19 @@ public class Menu : MonoBehaviour
             hasToggled = true;
             FMODUnity.RuntimeManager.PlayOneShot(SoundClick, 0);
             hasToggled = false;
-            phoneOverlay.DOLocalRotate(new Vector3 (0,0,90), 1f, RotateMode.Fast);
-            screenBG.DOLocalRotate(new Vector3(0, 0, 90), 1f, RotateMode.Fast);
+            phoneOverlay.DOLocalRotate(new Vector3(0, 0, 90), 1f, RotateMode.Fast);
+            screenBG.DOLocalRotate(new Vector3(0, 0, 90), 1f, RotateMode.Fast).OnComplete(() => sliderBackBtn.SetActive(true));
             phoneOverlay.sizeDelta = new Vector2(1080 - offsetSizeReduction, 1920 - offsetSizeReduction);
             screenBG.sizeDelta = new Vector2(1020- offsetSizeReduction, 1860- offsetSizeReduction);
+
+            // StartCoroutine(DelayButton());
+            //IEnumerator DelayButton()
+            //{
+            //    yield return new WaitForSeconds(1.0f);
+            //    sliderBackBtn.gameObject.SetActive(true);
+            //}
             
+
 
         }
     
@@ -156,9 +164,10 @@ public class Menu : MonoBehaviour
                      .Append(CanvasTransform.DOScale(1f, .6f).SetEase(Ease.InOutBack));
 
         phoneOverlay.DOLocalRotate(new Vector3(0, 0, 0), 1f, RotateMode.Fast);
-        screenBG.DOLocalRotate(new Vector3(0, 0, 0), 1f, RotateMode.Fast);
+        screenBG.DOLocalRotate(new Vector3(0, 0, 0), 1f, RotateMode.Fast).OnComplete(() => sliderBackBtn.SetActive(false));
         phoneOverlay.sizeDelta = new Vector2(640, 1025);
         screenBG.sizeDelta = new Vector2(590, 894);
+        //sliderBackBtn.gameObject.SetActive(false);
     }
     public void ToggleControls()
     {

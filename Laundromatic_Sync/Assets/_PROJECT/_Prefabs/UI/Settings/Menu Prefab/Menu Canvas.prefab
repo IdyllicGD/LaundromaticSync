@@ -297,6 +297,7 @@ MonoBehaviour:
   phoneOverlay: {fileID: 0}
   screenBG: {fileID: 0}
   offsetSizeReduction: 100
+  sliderBackBtn: {fileID: 0}
   scrollspeed: 0.1
   canvasBG: {fileID: 0}
   SoundClick:
@@ -309,6 +310,8 @@ MonoBehaviour:
   playerCamImage: {fileID: 0}
   camTextureON: {fileID: 8600000, guid: 72be098e39eea3844b8e771f42883b62, type: 2}
   camTextureOFF: {fileID: 8600000, guid: 3c280026232a8ca4499c742aabaaea41, type: 2}
+  pixelCan: {fileID: 0}
+  menuCan: {fileID: 0}
 --- !u!1 &746397499903817221
 GameObject:
   m_ObjectHideFlags: 0
@@ -3803,6 +3806,7 @@ MonoBehaviour:
   phoneOverlay: {fileID: 2222780202285925821}
   screenBG: {fileID: 7388067435693045074}
   offsetSizeReduction: 100
+  sliderBackBtn: {fileID: 1097654031197995787}
   scrollspeed: 0.1
   canvasBG: {fileID: 467201962395446510}
   SoundClick:
@@ -3815,6 +3819,8 @@ MonoBehaviour:
   playerCamImage: {fileID: 0}
   camTextureON: {fileID: 0}
   camTextureOFF: {fileID: 0}
+  pixelCan: {fileID: 0}
+  menuCan: {fileID: 0}
 --- !u!222 &4523815628311609967
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7001,6 +7007,11 @@ PrefabInstance:
       addedObject: {fileID: 870928287428491553}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a9f0f3f42818264fad54e83e6c057a1, type: 3}
+--- !u!1 &1097654031197995787 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8576279718835481322, guid: 8a9f0f3f42818264fad54e83e6c057a1, type: 3}
+  m_PrefabInstance: {fileID: 8664563331707070945}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5736981685394453442 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4009166857467451939, guid: 8a9f0f3f42818264fad54e83e6c057a1, type: 3}
