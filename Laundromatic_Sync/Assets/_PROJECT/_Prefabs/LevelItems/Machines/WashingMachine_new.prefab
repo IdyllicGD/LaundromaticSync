@@ -117,6 +117,7 @@ MonoBehaviour:
   canvasTimer: {fileID: 0}
   canvasGroup: {fileID: 0}
   currentBasket: {fileID: 0}
+  currentPs: {fileID: 6669746682679956668}
   interupt: 0
 --- !u!65 &4295485611621119395
 BoxCollider:
@@ -1270,11 +1271,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1612595674
-      Data2: 1159147049
-      Data3: -87839056
-      Data4: 488898003
-    Path: event:/SFX/Machines/Register/Button Press
+      Data1: -217098309
+      Data2: 1197574575
+      Data3: -127140168
+      Data4: -867617623
+    Path: event:/SFX/Player/Footsteps_Tile
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0
@@ -3092,6 +3093,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9106793964100751139, guid: a242e4fdde44907499d9f6e02014b9a3, type: 3}
   m_PrefabInstance: {fileID: 4823326701963174469}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &6669746682679956668 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2188843228249290489, guid: a242e4fdde44907499d9f6e02014b9a3, type: 3}
+  m_PrefabInstance: {fileID: 4823326701963174469}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7889148988643396953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3182,15 +3188,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1862533725269175773, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
       propertyPath: m_fontColor.b
-      value: 0.8784314
+      value: 0.14509805
       objectReference: {fileID: 0}
     - target: {fileID: 1862533725269175773, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
       propertyPath: m_fontColor.g
-      value: 0.7607843
+      value: 0.09411765
       objectReference: {fileID: 0}
     - target: {fileID: 1862533725269175773, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
       propertyPath: m_fontColor.r
-      value: 0.70980394
+      value: 0.07058824
       objectReference: {fileID: 0}
     - target: {fileID: 1862533725269175773, guid: 73102f8bea8642a4fa46d2bfedfc4526, type: 3}
       propertyPath: m_fontColor32.rgba

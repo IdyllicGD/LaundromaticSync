@@ -18,6 +18,7 @@ public class UIButtonSFX : MonoBehaviour
     void PlayClickSound()
     {
         if (UIAudioManager.Instance != null)
+            Debug.Log("Sound Played");
             UIAudioManager.Instance.PlayButtonClick();
     }
 }

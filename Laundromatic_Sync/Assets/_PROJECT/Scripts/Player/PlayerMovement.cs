@@ -27,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public bool canMoveAndLook = true;
     [HideInInspector] public Vector3 cameraOriginalTransform;
     [HideInInspector] public Quaternion cameraOriginalRotation;
-    
+    [SerializeField] GameObject croshair;
+    [SerializeField] GameObject npcPopUp;    
     bool isMenuOpen;
 
     #region Player Settings Variables
@@ -109,6 +110,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isMenuOpen)
         {
+            croshair.SetActive(true);
+            npcPopUp.SetActive(true);
             Time.timeScale = 1;
             pauseCanvas.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
@@ -117,6 +120,8 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             Time.timeScale = 0;
+            croshair.SetActive(false);
+            npcPopUp.SetActive(false);
             pauseCanvas.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             isMenuOpen = true;

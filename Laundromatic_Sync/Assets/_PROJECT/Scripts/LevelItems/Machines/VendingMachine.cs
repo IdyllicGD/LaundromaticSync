@@ -31,6 +31,8 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     [SerializeField] StudioEventEmitter buySound;
     [SerializeField] StudioEventEmitter cantMoveSound;
     [SerializeField] StudioEventEmitter cantBuySound;
+    [SerializeField] StudioEventEmitter shopMusic;
+    [SerializeField] StudioEventEmitter mainMusic;
 
 
     [Title("Objects to Buy", "This is based on rows from top to bottom", TitleAlignments.Centered)]
@@ -77,7 +79,8 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     }
     public void Interact(Camera camObject)
     {
-        
+        mainMusic.Stop();
+        shopMusic.Play();
         currentCam = camObject.gameObject;
         playerInteraction = camObject.transform.parent.parent.GetComponent<PlayerInteraction>();
         playerMovement = camObject.transform.parent.parent.GetComponent<PlayerMovement>();
@@ -166,6 +169,8 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     }
     public void ExitMachine()
     {
+        mainMusic.Play();
+        shopMusic.Stop();
         tipCanvas.SetActive(false);
         vendingActions.Disable();
         playerInteraction.StopAndStartPlayerInteraction(true);

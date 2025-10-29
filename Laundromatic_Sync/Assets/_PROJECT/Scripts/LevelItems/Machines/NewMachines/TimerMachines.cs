@@ -87,7 +87,8 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     public GameObject canvasTimer, canvasGroup;
 
 
-    [SerializeField]GameObject currentBasket;
+    [SerializeField] GameObject currentBasket;
+    [SerializeField] ParticleSystem currentPs;
     bool isDone;
     public bool interupt;
     float originalMachineTimer;
@@ -382,6 +383,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     void StartMachine()
     {
+        currentPs.Play();
         TimeTextRythm.text = timerTime.ToString("00");
         currentBasket = basketPlacePosition.GetChild(0).gameObject;
         currentBasket.SetActive(false);
@@ -436,6 +438,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     void MachineStop()
     {
+        currentPs.Stop();
         currentBasket.GetComponent<Collider>().enabled = true;
         Rigidbody basketRb = currentBasket.GetComponent<Rigidbody>();
         basketRb.isKinematic = false;
