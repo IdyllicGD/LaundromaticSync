@@ -93,7 +93,7 @@ public class PlayerSettings : MonoBehaviour
 
     void ResetMoneyPosition()
     {
-        moneyText.transform.DOLocalMove(moneyTransformPositionBase, 0f);
+        moneyText.rectTransform.anchoredPosition = new Vector3(45f, 4.5f, 0f);
         moneyBeingShook = false;
     }
 

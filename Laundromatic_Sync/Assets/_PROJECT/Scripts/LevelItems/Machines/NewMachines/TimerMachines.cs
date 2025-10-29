@@ -75,6 +75,9 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     [Title("Animation", null, TitleAlignments.Centered)]
     [SerializeField] Animator animator;
+    [Title("Timer", null, TitleAlignments.Left, false)]
+    [SerializeField] TextMeshProUGUI addTimerAnimText;
+    [SerializeField] float animDuration;
 
 
 
@@ -91,6 +94,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     [SerializeField] ParticleSystem currentPs;
     bool isDone;
     public bool interupt;
+    bool addTimeBusy;
     float originalMachineTimer;
     GameObject currentFabricSoftener;
     GameObject currentDetergent;
@@ -368,13 +372,38 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
 
     }
-    
+
     public void AddTimeToTimer(float timeToAdd)
     {
+
+        #region Animation
+        if (addTimeBusy)
+        {
+            addTimerAnimText.DOKill();
+            addTimerAnimText.transform.DOKill();
+            ResetTimerUi();
+            addTimeBusy = false;
+        }
+
+        addTimeBusy = true;
+        addTimerAnimText.text = $"+{timeToAdd}";
+        addTimerAnimText.transform.DOLocalMoveY(90f, animDuration);
+        addTimerAnimText.DOFade(0f, animDuration).OnComplete(() => ResetTimerUi());
+
+        #endregion
+
         Debug.Log("[TimerMachines] add time to timer");
         if (timerTime >= maxMachineTimeToComplete) return;
         timerTime += timeToAdd;
         TimeTextRythm.text = timerTime.ToString();
+    }
+    
+    void ResetTimerUi()
+    {
+        addTimerAnimText.transform.DOLocalMoveY(23f, 0f);
+        addTimerAnimText.text = string.Empty;
+        addTimerAnimText.DOFade(1f, 0f);
+        addTimeBusy = false;
     }
 
     #endregion
