@@ -222,7 +222,7 @@ public class DayNight : MonoBehaviour
     void LoseState()
     {
         //Show lose screen
-        moneyNeededToWinLoseStateText.text = "${$(amountNeededToWin - moneyMadeTotal).ToString()}";
+        moneyNeededToWinLoseStateText.text = $"${(amountNeededToWin - moneyMadeTotal).ToString()}";
         losePage.SetActive(true);
         loseSound.Play();
         //Make the player go to main screen with a button
