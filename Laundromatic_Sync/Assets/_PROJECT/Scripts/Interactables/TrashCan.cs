@@ -10,7 +10,7 @@ public class TrashCan : MonoBehaviour, IMachineInteractable
         // throw new System.NotImplementedException();
     }
 
-    public void Interact(Camera camObject, GameObject secondaryObject)
+    public void Interact(Camera camObject, GameObject secondaryObject, bool i)
     {
         if (secondaryObject.TryGetComponent(out DontDestroyObject dontDestroy)) return;
         Destroy(secondaryObject.gameObject);

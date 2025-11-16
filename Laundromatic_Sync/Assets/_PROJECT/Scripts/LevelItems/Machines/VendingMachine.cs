@@ -46,11 +46,16 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     [SerializeField] TextMeshProUGUI softenerPriceText;
     [SerializeField] TextMeshProUGUI laundryMachinePriceText;
     [SerializeField] TextMeshProUGUI dryingMachinePriceText;
+    [SerializeField] TextMeshProUGUI currentUpgradeTextInfo;
+    [SerializeField] TextMeshProUGUI currentUpgradeText;
     [SerializeField] Color inStockColour;
     [SerializeField] Color outOfStockColour;
 
     [Title("Upgrades")]
     [SerializeField] MachineManager machineMan;
+    [SerializeField] Upgrades currentSelectedUpgrade;
+    [SerializeField] List<UpgradeInfo> upgradeInfo = new();
+    [SerializeField] GameObject popupInfoTextGameObject;
 
 
 
@@ -75,6 +80,8 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         vendingActions = new();
         deliveryAreaMaxAmount = deliveryArea.transform.childCount;
         UpdatePrices();
+        UpdateUpgradeText();
+
 
     }
     public void Interact(Camera camObject)
@@ -91,7 +98,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         playerInteraction.StopAndStartPlayerInteraction(false);
         playerInteraction.canInteract = false;
         playerMovement.canMoveAndLook = false;
-        
+
 
         camObject.transform.DOMove(camPositions[0].position, camMoveTime);
         camObject.transform.DODynamicLookAt(camLookAtPositions[0].position, camMoveTime).OnComplete(StartVendingMechanics);
@@ -103,16 +110,19 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         //Enable new interactions
         vendingActions.Enable();
         tipCanvas.SetActive(true);
+        popupInfoTextGameObject.SetActive(true);
         #region Interactions
 
         vendingActions.VendingMachine.Up.performed += x => OnUp();
         vendingActions.VendingMachine.Down.performed += x => OnDown();
         vendingActions.VendingMachine.E.performed += x => OnEnterPressed();
         vendingActions.VendingMachine.Exit.performed += x => OnExitPressed();
+        vendingActions.VendingMachine.Left.performed += x => OnLeft();
+        vendingActions.VendingMachine.Right.performed += x => OnRight();
 
         #endregion
         //Disable Player Movement
-        
+
     }
 
     #region  Actions
@@ -124,7 +134,12 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         {
             cantMoveSound.Play();
             return;
-        } 
+        }
+        if (currentCamInt == 1)
+        {
+            UpdateUpgradeText();
+            popupInfoTextGameObject.SetActive(true);
+        }
         CamMoveSound.Play();
         currentCamInt--;
         currentCam.transform.DOMove(camPositions[currentCamInt].position, camMoveTime);
@@ -140,11 +155,42 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
             cantMoveSound.Play();
             return;
         }
+        if (currentCamInt == 0)
+        {
+            popupInfoTextGameObject.SetActive(false);
+        }
         CamMoveSound.Play();
         currentCamInt++;
         currentCam.transform.DOMove(camPositions[currentCamInt].position, camMoveTime);
         //moveCamDownIfAble
     }
+
+    void OnLeft()
+    {
+        if (currentCamInt != 0) return;
+        if (currentSelectedUpgrade == 0)
+        {
+            cantMoveSound.Play();
+            return;
+        }
+        --currentSelectedUpgrade;
+        UpdateUpgradeText();
+
+    }
+
+    void OnRight()
+    {
+        if (currentCamInt != 0) return;
+        if ((int)currentSelectedUpgrade == 5)
+        {
+            cantMoveSound.Play();
+            return;
+        }
+        ++currentSelectedUpgrade;
+        UpdateUpgradeText();
+    }
+
+
 
     void OnEnterPressed()
     {
@@ -177,7 +223,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         playerMovement.ResetCamera();
         playerMovement.canMoveAndLook = true;
         SetCursorOff();
-        
+
     }
 
     public bool IsBusy()
@@ -202,14 +248,13 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                     PlayerSettings.instance.ReduceMoney(price);
                     SpawnSmallItem();
                     buySound.Play();
-                }else if(currentCamInt == 0)
+                }
+                else if (currentCamInt == 0)
                 {
-                    PlayerSettings.instance.ReduceMoney(price);
                     BuyBigItem();
-                    buySound.Play();
                 }
             }
-            else if(currentCamInt >= 3)
+            else if (currentCamInt >= 3)
             {
                 //Washing Machine
                 if (currentCamInt == 3)
@@ -220,7 +265,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                         BuyBigItem();
                         buySound.Play();
                         ++amountOfWashingMachinesBought;
-                        if(amountOfWashingMachinesBought >= maxAmountOfWashingMachines)
+                        if (amountOfWashingMachinesBought >= maxAmountOfWashingMachines)
                         {
                             laundryMachinePriceText.color = outOfStockColour;
                             laundryMachinePriceText.text = "Out Of Stock";
@@ -242,7 +287,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
                         BuyBigItem();
                         buySound.Play();
                         ++amountOfDryersBought;
-                        if(amountOfDryersBought >= maxAmountOfDryers)
+                        if (amountOfDryersBought >= maxAmountOfDryers)
                         {
                             dryingMachinePriceText.color = outOfStockColour;
                             dryingMachinePriceText.text = "Out Of Stock";
@@ -296,12 +341,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     {
         if (currentCamInt == 0)
         {
-            foreach (TimerMachines machineToUpgrade in machineMan.machineList)
-            {
-                machineToUpgrade.skipRythm = true;
-            }
-            upgradePriceText.color = outOfStockColour;
-            upgradePriceText.text = $"Out Of Stock";
+            BuyUpgrades();
         }
         if (currentCamInt == 3)
         {
@@ -315,7 +355,92 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         }
 
     }
-    
+
+    #region Upgrades
+    void BuyUpgrades()
+    {
+        if (PlayerSettings.instance.playerMoney < upgradeInfo[(int)currentSelectedUpgrade].price)
+        {
+            cantBuySound.Play();
+            playerInteraction.UpdatePlayerPopupMessage("Sorry, you're too broke for this!");
+            return;
+        }
+        if (upgradeInfo[(int)currentSelectedUpgrade].owned)
+        {
+            cantBuySound.Play();
+            playerInteraction.UpdatePlayerPopupMessage("You already own this buddy... You feeling okay?");
+            return;
+        }
+        buySound.Play();
+        int currentUpgradeIndex = (int)currentSelectedUpgrade;
+        PlayerSettings.instance.ReduceMoney(upgradeInfo[currentUpgradeIndex].price);
+        switch (currentSelectedUpgrade)
+        {
+
+            case Upgrades.NoQte:
+                foreach (TimerMachines machineToUpgrade in machineMan.machineList)
+                {
+                    machineToUpgrade.skipRythm = true;
+                }
+                upgradeInfo[currentUpgradeIndex].owned = true;
+                UpdateUpgradeText();
+                break;
+            case Upgrades.SpeedBoost:
+                Debug.Log($"[Vending Machine] {currentSelectedUpgrade} bought");
+                playerMovement.playerOriginalSpeed *= 1.5f;
+                playerMovement.playerSpeed *= 1.5f;
+                upgradeInfo[currentUpgradeIndex].owned = true;
+                UpdateUpgradeText();
+                break;
+            case Upgrades.JumpBoost:
+                Debug.Log($"[Vending Machine] {currentSelectedUpgrade} bought");
+                playerMovement.jumpForce = 550f;
+                upgradeInfo[currentUpgradeIndex].owned = true;
+                UpdateUpgradeText();
+                break;
+            case Upgrades.ProfitBoost:
+                Debug.Log($"[Vending Machine] {currentSelectedUpgrade} bought");
+                upgradeInfo[currentUpgradeIndex].owned = true;
+                playerInteraction.upgradeMoneyMultiplier = 2;
+                UpdateUpgradeText();
+                break;
+            case Upgrades.ThrowBoost:
+                Debug.Log($"[Vending Machine] {currentSelectedUpgrade} bought");
+                upgradeInfo[currentUpgradeIndex].owned = true;
+                playerInteraction.maxForceAmount *= 2f;
+                UpdateUpgradeText();
+                break;
+            case Upgrades.ThrowChargeShorter:
+                Debug.Log($"[Vending Machine] {currentSelectedUpgrade} bought");
+                upgradeInfo[currentUpgradeIndex].owned = true;
+                playerInteraction.hasUpgrade = true;
+                playerInteraction.maxHoldTime /= 2;
+                UpdateUpgradeText();
+                break;
+        }
+        
+
+    }
+
+    void UpdateUpgradeText()
+    {
+        if (upgradeInfo[(int)currentSelectedUpgrade].owned)
+        {
+            upgradePriceText.text = "OUT OF STOCK";
+            currentUpgradeText.text = upgradeInfo[(int)currentSelectedUpgrade].upgradeName;
+            upgradePriceText.color = outOfStockColour;
+            currentUpgradeTextInfo.text = upgradeInfo[(int)currentSelectedUpgrade].upgradePopupInfo;
+        }
+        else
+        {
+            currentUpgradeText.text = upgradeInfo[(int)currentSelectedUpgrade].upgradeName;
+            upgradePriceText.text = $"${upgradeInfo[(int)currentSelectedUpgrade].price.ToString()}";
+            currentUpgradeTextInfo.text = upgradeInfo[(int)currentSelectedUpgrade].upgradePopupInfo;
+            upgradePriceText.color = inStockColour;
+        }
+    }
+
+#endregion
 
     int SpacesLeftOnTable()
     {
@@ -351,7 +476,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
             case 0:
                 return pricesList[0];
             case 1:
-                return pricesList[1]; 
+                return pricesList[1];
             case 2:
                 return pricesList[2];
             case 3:
@@ -375,10 +500,24 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
 
     #region Unused
 
-    public void Interact(Camera camObject, GameObject secondaryObject)
+    public void Interact(Camera camObject, GameObject secondaryObject, bool i)
     {
         throw new System.NotImplementedException();
     }
 
     #endregion
+}
+
+public enum Upgrades
+{
+    NoQte, SpeedBoost, JumpBoost, ProfitBoost, ThrowBoost, ThrowChargeShorter
+}
+
+[System.Serializable]
+public class UpgradeInfo
+{
+    public string upgradeName;
+    public string upgradePopupInfo;
+    public int price;
+    public bool owned;
 }

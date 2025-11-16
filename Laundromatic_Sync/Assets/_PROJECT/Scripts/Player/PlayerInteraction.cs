@@ -16,14 +16,15 @@ public class PlayerInteraction : MonoBehaviour
 {
     [Title("Player", null, TitleAlignments.Centered)]
     public Transform handPosition;
+    public float moveAmount;
     public Transform hatPosition;
     private PlayerMovement playerMovement;
     private InteractionType interactionType;
     [Title("Throwing Vars", null, TitleAlignments.Centered)]
     [Range(0f, 100f)]
     [SerializeField] float throwBaseForce;
-    [SerializeField] float maxForceAmount;
-    [SerializeField] float maxHoldTime;
+    public float maxForceAmount;
+    public float maxHoldTime = 1f;
     [Range(0f, 0.2f)]
     [SerializeField] float objectShakeIntensity;
     [SerializeField] float objectShakeRandomness;
@@ -44,6 +45,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] LayerMask npcLayer;
     [SerializeField] LayerMask laptopLayer;
     [SerializeField] float dialogueCooldownTimer;
+    public int currentActiveObjectIndex;
     [Title("Interaction Sounds", null, TitleAlignments.Centered)]
     [SerializeField] StudioEventEmitter pickUpSound;
     [SerializeField] StudioEventEmitter dropItemSound;
@@ -62,6 +64,7 @@ public class PlayerInteraction : MonoBehaviour
     bool resetUi;
     bool resetInteractBar;
     bool resetHatBar;
+    public bool hasUpgrade;
 
     Camera playerCam;
 
@@ -72,7 +75,9 @@ public class PlayerInteraction : MonoBehaviour
     public bool canInteract = true;
     Rigidbody playerRb;
     bool hasHat;
+    private bool canThrow;
 
+    public int upgradeMoneyMultiplier = 1;
 
     private void Start()
     {
@@ -141,8 +146,8 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
-            petableInfo.text = "";
-            objectDitectedString.text = "";
+            petableInfo.text = string.Empty;
+            objectDitectedString.text = string.Empty;
             objectDitectedCanvas.SetActive(false);
         }
     }
@@ -194,7 +199,7 @@ public class PlayerInteraction : MonoBehaviour
             if (handPosition.childCount > 0 && _isDoneTalking)
             {
                 Debug.Log("Npc end code running");
-                GameObject currentObjectInHand = handPosition.GetChild(0).gameObject;
+                GameObject currentObjectInHand = handPosition.GetChild(currentActiveObjectIndex - 1).gameObject;
                 List<GameObject> npcList = NpcManager.instance.currentNpcs;
                 if (currentObjectInHand.TryGetComponent(out Basket _basketInfo))
                 {
@@ -219,13 +224,13 @@ public class PlayerInteraction : MonoBehaviour
                             ++DayNight.instance.ordersCompletedToday;
                             if (_basketInfo.ItemsUsed == ItemsUsed.FabricSoftner)
                             {
-                                PlayerSettings.instance.AddMoney(50);
+                                PlayerSettings.instance.AddMoney(50 * upgradeMoneyMultiplier);
                             }
                             else
                             {
-                                PlayerSettings.instance.AddMoney(20);
+                                PlayerSettings.instance.AddMoney(20 * upgradeMoneyMultiplier);
                             }
-                            Destroy(handPosition.GetChild(0).gameObject);
+                            Destroy(handPosition.GetChild(currentActiveObjectIndex - 1).gameObject);
                         }
                         else
                         {
@@ -258,15 +263,14 @@ public class PlayerInteraction : MonoBehaviour
             //pickup Interaction
             if (hit.transform.TryGetComponent(out IPickupable objectPickup))
             {
-                objectPickup.Pickup(handPosition, handPosition.childCount != 0);
-                if(handPosition.childCount != 0)
-                {
+                objectPickup.Pickup(handPosition, moveAmount,handPosition.childCount != 0);
+                    currentActiveObjectIndex++;
                     //HERE
                     buttonUiInteract.SetActive(true);
                     buttonUiThrow.SetActive(true);
                     pickUpSound.Stop();
                     pickUpSound.Play();
-                }
+                
                 
                 return;
             }
@@ -284,7 +288,7 @@ public class PlayerInteraction : MonoBehaviour
             Debug.Log($"Table Hit");
             if (handPosition.childCount == 0) return;
             Transform hitObject = hitTable.transform;
-            Transform handObject = handPosition.GetChild(0);
+            Transform handObject = handPosition.GetChild(currentActiveObjectIndex - 1);
             int forAmount = hitObject.childCount;
             --forAmount;
             for (int i = 0; forAmount > i; i++)
@@ -295,6 +299,7 @@ public class PlayerInteraction : MonoBehaviour
                     handObject.SetParent(hitObject.GetChild(i));
                     handObject.transform.DOLocalMove(Vector3.zero, 0.5f);
                     handObject.GetComponent<Collider>().enabled = true;
+                    MoveItemsOneDown();
 
 
                     break;
@@ -339,11 +344,12 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
-            GameObject itemInHand = handPosition.GetChild(0).gameObject;
+            GameObject itemInHand = handPosition.GetChild(currentActiveObjectIndex - 1).gameObject;
             //Machine interaction
             if (machineHit.transform.TryGetComponent(out IMachineInteractable interactable))
             {
-                    interactable.Interact(playerCam, itemInHand);
+                    interactable.Interact(playerCam, itemInHand, false);
+                    
                     buttonUiInteract.SetActive(false);
                     if (hatPosition.childCount != 0) return;
                     buttonUiThrow.SetActive(false);
@@ -379,15 +385,16 @@ public class PlayerInteraction : MonoBehaviour
 
     void DropItem(InputAction.CallbackContext obj)
     {
+        //if(!canThrow) return;
         if (handPosition.childCount == 0 && hatPosition.childCount == 0) return;
         GameObject objectToThrow;
         if (handPosition.childCount != 0)
         {
-            objectToThrow= handPosition.GetChild(0).gameObject;
+            objectToThrow= handPosition.GetChild(currentActiveObjectIndex - 1).gameObject;
         }
         else
         {
-            objectToThrow = hatPosition.GetChild(0).gameObject;
+            objectToThrow = hatPosition.GetChild(currentActiveObjectIndex - 1).gameObject;
         }
         resetInteractBar = false;
         heldAmount = Time.time;
@@ -409,7 +416,7 @@ public class PlayerInteraction : MonoBehaviour
         GameObject objectToThrow;
         if (handPosition.childCount != 0)
         {
-            objectToThrow= handPosition.GetChild(0).gameObject;
+            objectToThrow= handPosition.GetChild(currentActiveObjectIndex - 1).gameObject;
         }
         else
         {
@@ -420,10 +427,27 @@ public class PlayerInteraction : MonoBehaviour
         Rigidbody objectRigidbody = objectToThrow.GetComponent<Rigidbody>();
 
         Collider collier = objectToThrow.GetComponent<Collider>();
+        float finalTime;
+        if (hasUpgrade)
+        {
+            finalTime = Mathf.Clamp(Time.time - heldAmount, 0f, 1f);
+        }
+        else
+        {
+            finalTime = Mathf.Clamp(Time.time - heldAmount, 0f, 0.5f);
+        }
+        
+        float finalForce;
 
-        float finalTime = Mathf.Clamp(Time.time - heldAmount, 0f, 1f);
-
-        float finalForce = throwBaseForce * (1 + finalTime);
+        if (hasUpgrade)
+        {
+            finalForce = throwBaseForce * (1 + finalTime * 2);
+        }
+        else
+        {
+            finalForce = throwBaseForce * (1 + finalTime);
+        }
+        
 
 
         Debug.Log($"[PlayerInteraction] final force is: {finalForce}");
@@ -435,6 +459,7 @@ public class PlayerInteraction : MonoBehaviour
 
         objectRigidbody.linearVelocity = playerRb.linearVelocity;
         objectRigidbody.linearVelocity = Camera.main.transform.forward * finalForce;
+        MoveItemsOneDown();
         dropItemSound.Play();
         buttonUiInteract.SetActive(false);
         if(hatPosition.childCount == 0)
@@ -447,16 +472,26 @@ public class PlayerInteraction : MonoBehaviour
     
     IEnumerator ThrowItemBar()
     {
+        Debug.Log($"[PlayerInteraction] Trying to show le bar");
         itemBarImage.fillAmount = 0f;
         itemBarUiParent.SetActive(true);
         float timeWaited = 0f;
         float maxTime = 1f;
 
-
         while(timeWaited < maxTime && !resetInteractBar)
         {
-            timeWaited += Time.deltaTime;
-            itemBarImage.fillAmount = timeWaited;
+            if (!hasUpgrade)
+            {
+                timeWaited += Time.deltaTime * maxHoldTime;
+                itemBarImage.fillAmount = timeWaited;
+            }
+            else
+            {
+                timeWaited += Time.deltaTime * 2;
+                itemBarImage.fillAmount = timeWaited * 2;
+            }
+            
+            
             yield return null;
         }
         
@@ -545,6 +580,20 @@ public class PlayerInteraction : MonoBehaviour
             ? basket.ReturnBasketType()
             : BasketType.None;
     }
+
+    public void MoveItemsOneDown()
+    {
+        canThrow = false;
+        for (int i = 0; i < handPosition.childCount; i++)
+        {
+            Transform currentObjectToMove = handPosition.GetChild(i).transform;
+            Vector3 finalPos = new Vector3(0, currentObjectToMove.localPosition.y - moveAmount, 0);
+            currentObjectToMove.DOLocalMove(finalPos, 0.1f).OnComplete(() => canThrow = true);
+            
+        }
+        --currentActiveObjectIndex;
+    }
+
 
     #region End
 

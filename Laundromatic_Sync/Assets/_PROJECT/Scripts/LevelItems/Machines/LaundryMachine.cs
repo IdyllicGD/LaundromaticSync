@@ -173,7 +173,7 @@ public class LaundryMachine : MonoBehaviour, IMachineInteractable, Iinteractable
 
 
     #region Interact with machine and move cam and another object. Example: Basket
-    public void Interact(Camera camObject, GameObject secondaryObject)
+    public void Interact(Camera camObject, GameObject secondaryObject, bool i)
     {
         Debug.Log(HasObject());
         if (HasObject()) return;

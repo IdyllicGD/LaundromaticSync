@@ -93,7 +93,7 @@ public class DryerMachine : MonoBehaviour, IMachineInteractable, RythmStages
         throw new NotImplementedException();
     }
 
-    public void Interact(Camera camObject, GameObject secondaryObject)
+    public void Interact(Camera camObject, GameObject secondaryObject, bool i)
     {
         //LIST:
         // - Check if the player is holding a clean basket

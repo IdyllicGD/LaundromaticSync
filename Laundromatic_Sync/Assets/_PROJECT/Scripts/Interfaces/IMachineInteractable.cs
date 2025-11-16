@@ -8,7 +8,7 @@ namespace _PROJECT._Jacques.Scripts.Interfaces
         public MachineType MachineType();
         public bool IsBusy();
         public void Interact(Camera camObject);
-        public void Interact(Camera camObject, GameObject secondaryObject);
+        public void Interact(Camera camObject, GameObject secondaryObject, bool wasThrown);
         
     }
 

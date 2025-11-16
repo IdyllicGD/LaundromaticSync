@@ -134,4 +134,9 @@ public class PlayerSettings : MonoBehaviour
     {
         Application.targetFrameRate = updatedAmount;
     }
+
+    internal void AddMoney(object value)
+    {
+        throw new NotImplementedException();
+    }
 }

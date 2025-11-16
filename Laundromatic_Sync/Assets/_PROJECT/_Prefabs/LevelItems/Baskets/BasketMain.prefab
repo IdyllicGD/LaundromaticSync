@@ -298,6 +298,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4041226078298806486}
   - {fileID: 1253936223299520457}
   - {fileID: 1758493336400066578}
   - {fileID: 243881865724242184}
@@ -422,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stackPosition: {fileID: 4041226078298806486}
   cleanOrDirty: 0
 --- !u!114 &2912325553496750569
 MonoBehaviour:
@@ -622,6 +624,37 @@ Transform:
   - {fileID: 3616289730317005172}
   - {fileID: 8358724970291237190}
   - {fileID: 6337455510901502471}
+  m_Father: {fileID: 6116003081534105234}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7795742023329354683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4041226078298806486}
+  m_Layer: 6
+  m_Name: StackPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4041226078298806486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7795742023329354683}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.326, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 6116003081534105234}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8084285829253496297

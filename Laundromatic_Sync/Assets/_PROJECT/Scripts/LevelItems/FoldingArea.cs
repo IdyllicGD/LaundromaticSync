@@ -62,7 +62,7 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
     }
 
     #region Interaction with Machine
-    public void Interact(Camera camObject, GameObject secondaryObject)
+    public void Interact(Camera camObject, GameObject secondaryObject, bool i)
     {
         //Check if the basket is WetClean
         if (ReturnBasketType(secondaryObject) != BasketType.DryClean) return;

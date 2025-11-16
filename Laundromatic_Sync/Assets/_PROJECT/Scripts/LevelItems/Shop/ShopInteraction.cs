@@ -156,7 +156,7 @@ public class ShopInteraction : MonoBehaviour, IMachineInteractable
         currentPlayerCam.transform.DORotateQuaternion(camOriginalRotateAngle, baseSpeedCam).OnComplete(() => playerInteraction.StopAndStartPlayerMovement());
     }
 
-    public void Interact(Camera camObject, GameObject secondaryObject)
+    public void Interact(Camera camObject, GameObject secondaryObject, bool i)
     {
         //NOT USED
         Interact(camObject);

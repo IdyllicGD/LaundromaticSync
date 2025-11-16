@@ -93,6 +93,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     [SerializeField] GameObject currentBasket;
     [SerializeField] ParticleSystem currentPs;
     bool isDone;
+    bool wasThrown;
     public bool interupt;
     bool addTimeBusy;
     float originalMachineTimer;
@@ -114,7 +115,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
             if (basket.BasketType == correctBasket)
             {
                 currentBasket = targetObject.gameObject;
-                Interact(Camera.main, targetObject.gameObject);
+                Interact(Camera.main, targetObject.gameObject, true);
             }
             else
             {
@@ -126,20 +127,23 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
             if(currentMachineUseableObject.ReturnMachineUsableItemsType() == MachineUsableItemsType.Detergent)
             {
                 currentDetergent = targetObject.gameObject;
-                Interact(Camera.main, targetObject.gameObject);
+                Interact(Camera.main, targetObject.gameObject, true);
+                
             }else if(currentMachineUseableObject.ReturnMachineUsableItemsType() == MachineUsableItemsType.FabricSoftener)
             {
                 currentFabricSoftener = targetObject.gameObject;
-                Interact(Camera.main, targetObject.gameObject);
+                Interact(Camera.main, targetObject.gameObject, true);
+                
             }
             else
             {
                 return;
             }
-        }
-        
+        } 
 
     }
+
+
 
     void Update()
     {
@@ -214,9 +218,11 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     }
 
-    public void Interact(Camera camObject, GameObject secondaryObject)
+    public void Interact(Camera camObject, GameObject secondaryObject, bool wasItemThrown)
     {
         if (isBusy) return;
+        wasThrown = wasItemThrown;
+        
         if (secondaryObject.TryGetComponent(out MachineUsableObjects itemType))
         {
             MachineUsableItemsType _type = itemType.ReturnMachineUsableItemsType();
@@ -268,6 +274,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
                             else
                             {
                                 Destroy(currentFabricSoftener);
+                                
                                 currentFabricSoftener = null;
                             }
 
@@ -294,14 +301,15 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
                     break;
             }
         }
-
+        
 
 
     }
 
     void DestroyObjectInPlayerhand()
     {
-        Destroy(playerInteraction.handPosition.GetChild(0).gameObject);
+        Destroy(playerInteraction.handPosition.GetChild(playerInteraction.currentActiveObjectIndex - 1).gameObject);
+        playerInteraction.MoveItemsOneDown();
     }
 
     void CheckIfCorrectBasket(BasketType basketToCheck, GameObject basketGameObject)
@@ -323,7 +331,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     {
         if(currentBasket == null)
         {
-            currentBasket = playerInteraction.handPosition.GetChild(0).gameObject;
+            currentBasket = playerInteraction.handPosition.GetChild(playerInteraction.currentActiveObjectIndex - 1).gameObject;
         }
         GameObject playerHandObject = currentBasket;
         Rigidbody basketRb = currentBasket.GetComponent<Rigidbody>();
@@ -333,6 +341,8 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
         playerHandObject.transform.parent = endPostion;
         playerHandObject.transform.DOLocalMove(Vector3.zero, objectMoveTime);
         playerHandObject.transform.DOLocalRotate(Vector3.zero, objectMoveTime);
+        if(wasThrown)return;
+        playerInteraction.MoveItemsOneDown();
     }
 
     #region Rythm

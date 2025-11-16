@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
 using Sirenix.OdinInspector;
@@ -15,6 +16,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float sprintMultiplier;
     [SerializeField] float minClampDistance;
     [SerializeField] float maxClampDistance;
+    bool canSprint;
+    [Title("Jumping Var", null, TitleAlignments.Centered)]
+    [Range(100f, 1000f)]
+    public float jumpForce;
+    [SerializeField] float maxJumpUpDistance;
+    [SerializeField] LayerMask floorLayer;
+    [SerializeField] Transform feetPosition;
     [Title("Kicking Vars", null, TitleAlignments.Centered)]
     [SerializeField] LayerMask kickLayer;
     [SerializeField] float kickAcelerationAmount;
@@ -28,7 +36,12 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public Vector3 cameraOriginalTransform;
     [HideInInspector] public Quaternion cameraOriginalRotation;
     [SerializeField] GameObject croshair;
-    [SerializeField] GameObject npcPopUp;    
+    [SerializeField] GameObject npcPopUp;
+    [Title("Collision Fix Vars")]
+    [SerializeField] List<Transform> rayPositions = new();
+    [SerializeField] float rayMaxDistance;
+    [SerializeField] LayerMask layerMaskForCollision;
+    [SerializeField] Transform originalPosition;
     bool isMenuOpen;
 
     #region Player Settings Variables
@@ -38,17 +51,18 @@ public class PlayerMovement : MonoBehaviour
     
     #region Character Controller Variables
 
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     private Vector2 lookInput;
     private Vector3 moveDirection;
     private Rigidbody playerRb;
     private float rotateX, rotateY;
     private Camera playerCam;
+    private bool canJump = true;
+    
 
     #endregion
 
-
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         PlayerMove();
         PlayerLook();
@@ -77,6 +91,8 @@ public class PlayerMovement : MonoBehaviour
         inputActions.Player.Kick.performed += x => Kick();
 
         inputActions.Player.Pause.performed += x => PauseGame();
+
+        inputActions.Player.Jump.performed += x => PlayerJump();
         #endregion
 
         #region Get Components
@@ -99,6 +115,12 @@ public class PlayerMovement : MonoBehaviour
 
         #endregion
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        canJump = true;
+        canSprint = true;
+    }
     void SetThisGameObjectActive(GameObject objectToDisableAndEnable)
     {
         objectToDisableAndEnable.SetActive(false);
@@ -110,6 +132,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isMenuOpen)
         {
+            inputActions.Enable();
             croshair.SetActive(true);
             npcPopUp.SetActive(true);
             Time.timeScale = 1;
@@ -119,6 +142,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            inputActions.Disable    ();
             Time.timeScale = 0;
             croshair.SetActive(false);
             npcPopUp.SetActive(false);
@@ -152,29 +176,131 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void PlayerMove()
-    {      
+    {
         if (moveInput == Vector2.zero) return;
+        float currentMoveX = moveInput.x;
+        float currentMoveY = moveInput.y;
 
-        transform.Translate(moveInput.x * Time.deltaTime * playerSpeed, 0, moveInput.y * Time.deltaTime * playerSpeed);
+        float moveDirectionX = transform.position.x + moveInput.x;
+        float moveDirectionY = transform.position.z + moveInput.y;
+
+        Vector3 camForward = Camera.main.transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
+        camForward.y = 0;
+        camRight.y = 0;
+        moveDirection = camForward * moveInput.y + camRight * moveInput.x;
+        //playerRb.linearVelocity =  moveDirection * (playerSpeed * Time.fixedDeltaTime);
+
+        #region Collision Detection Forward Right Left Back
+        // if (Physics.Raycast(rayPositions[1].position, rayPositions[1].forward, out RaycastHit hit, rayMaxDistance, layerMaskForCollision) && currentMoveY > 0)
+        // {
+        //     //forward
+        //     currentMoveY = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[9].position, rayPositions[9].forward, out RaycastHit hitTwo, rayMaxDistance, layerMaskForCollision) && currentMoveY > 0)
+        // {
+        //     currentMoveY = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[17].position, rayPositions[17].forward, out RaycastHit hitThree, rayMaxDistance, layerMaskForCollision) && currentMoveY > 0)
+        // {
+        //     currentMoveY = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[3].position, rayPositions[3].forward, out RaycastHit a, rayMaxDistance, layerMaskForCollision) && currentMoveY < 0)
+        // {
+        //     //Back
+        //     currentMoveY = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[11].position, rayPositions[11].forward, out RaycastHit b, rayMaxDistance, layerMaskForCollision) && currentMoveY < 0)
+        // {
+        //     currentMoveY = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[19].position, rayPositions[19].forward, out RaycastHit c, rayMaxDistance, layerMaskForCollision) && currentMoveY < 0)
+        // {
+        //     currentMoveY = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[0].position, rayPositions[0].forward, out RaycastHit d, rayMaxDistance, layerMaskForCollision) && currentMoveX < 0)
+        // {
+        //     //Left
+        //     currentMoveX = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[8].position, rayPositions[8].forward, out RaycastHit e, rayMaxDistance, layerMaskForCollision) && currentMoveX < 0)
+        // {
+        //     currentMoveX = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[16].position, rayPositions[16].forward, out RaycastHit f, rayMaxDistance, layerMaskForCollision) && currentMoveX < 0)
+        // {
+        //     currentMoveX = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[2].position, rayPositions[2].forward, out RaycastHit g, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
+        // {
+        //     //Right
+        //     currentMoveX = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[10].position, rayPositions[10].forward, out RaycastHit h, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
+        // {
+        //     currentMoveX = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[18].position, rayPositions[18].forward, out RaycastHit i, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
+        // {
+        //     currentMoveX = 0;
+        // }
+        #endregion
+
+        #region Collision Detection FAngles Bangles
+
+        // if (Physics.Raycast(rayPositions[4].position, rayPositions[4].forward, out RaycastHit j, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0 || currentMoveY > 0)
+        // {
+        //     //Right Anfle Front
+        //     currentMoveX = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[12].position, rayPositions[12].forward, out RaycastHit k, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
+        // {
+        //     currentMoveX = 0;
+        // }
+        // else if (Physics.Raycast(rayPositions[20].position, rayPositions[20].forward, out RaycastHit l, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
+        // {
+        //     currentMoveX = 0;
+        // }
+
+        #endregion
+
+
+        playerRb.MovePosition(transform.position + moveDirection * playerSpeed * Time.deltaTime);
+        //playerRb.linearVelocity = new Vector3(moveInput.x, 0, moveInput.y) * playerSpeed;
+        //transform.Translate(currentMoveX * Time.fixedDeltaTime * playerSpeed, 0, currentMoveY * Time.fixedDeltaTime * playerSpeed);
+        Debug.Log($"x: {currentMoveX} y: {currentMoveY}");
+
 
     }
-    
-    public void PlayerLook () {
-        if (!inputActions.Player.Look.inProgress)return;
-        
-        float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime;
+
+
+    public void PlayerLook()
+    {
+        if (!inputActions.Player.Look.inProgress) return;
+
+        float mouseX = lookInput.x * mouseSensitivity * Time.fixedDeltaTime;
+        float mouseY = lookInput.y * mouseSensitivity * Time.fixedDeltaTime;
         rotateX = Mathf.Clamp(rotateX, minClampDistance, maxClampDistance);
         rotateX -= mouseY;
-        
+
         playerCam.transform.localRotation = Quaternion.Euler(rotateX, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
-        
+
+    }
+
+    void PlayerJump()
+    {
+        Debug.Log("Jump Pressed");
+        if (!Physics.Raycast(feetPosition.position, -feetPosition.up, out RaycastHit floorTarget, maxJumpUpDistance, floorLayer)) return;
+        canJump = false;
+        canSprint = false;
+        playerRb.AddForce(new Vector3(0f, jumpForce, 0f), ForceMode.Force);
+        Debug.Log("Jumped");
     }
 
     void PlayerSprint()
     {
-        if(!Mathf.Approximately(playerSpeed, playerOriginalSpeed)) return;
+        if(!Mathf.Approximately(playerSpeed, playerOriginalSpeed) || !canSprint) return;
         playerSpeed *= sprintMultiplier;
     }
 
