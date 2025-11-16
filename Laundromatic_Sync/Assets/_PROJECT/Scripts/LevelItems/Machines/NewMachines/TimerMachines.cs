@@ -502,6 +502,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     IEnumerator StartMachineTimer()
     {
+        doneSound.Stop();
         isBusy = true;
         currentBasket.SetActive(false);
         while (timerTime > 0 && !interupt)
@@ -522,6 +523,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     void MachineStop()
     {
         currentPs.Stop();
+        doneSound.Stop();
         currentBasket.GetComponent<Collider>().enabled = true;
         Rigidbody basketRb = currentBasket.GetComponent<Rigidbody>();
         basketRb.isKinematic = false;

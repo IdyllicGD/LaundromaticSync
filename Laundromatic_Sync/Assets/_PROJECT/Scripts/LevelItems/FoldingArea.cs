@@ -66,7 +66,7 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
     {
         //Check if the basket is WetClean
         if (ReturnBasketType(secondaryObject) != BasketType.DryClean) return;
-        if (basketFoldedPosition.childCount != 0) return;
+        if (basketNotFoldedPosition.childCount != 0) return;
         //Get a ref to the basket script
         Basket basket = secondaryObject.GetComponent<Basket>();
         //Set items used on that basket
