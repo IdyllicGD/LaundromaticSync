@@ -222,11 +222,55 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     {
         if (isBusy) return;
         wasThrown = wasItemThrown;
-        
+        if(machineType == TypeOfMachine.LaundryMachine && hasDetergent && hasBasket)
+        {
+            if(secondaryObject.TryGetComponent(out MachineUsableObjects itemTypeCurrent))
+            {
+                if(itemTypeCurrent.ReturnMachineUsableItemsType() == MachineUsableItemsType.FabricSoftener)
+                {
+                    if (hasFabricSoftener)
+                    {
+                        Interact(camObject);
+                        return;
+                    }
+                    AnimOpenDoor();
+                    hasFabricSoftener = true;
+                    UpdateImages();
+                    if (currentFabricSoftener == null)
+                    {
+                        DestroyObjectInPlayerhand();
+                        return;
+                    }
+                    else
+                    {
+                        Destroy(currentFabricSoftener);    
+                        currentFabricSoftener = null;
+                        return;
+                    }
+                }else if(machineType == TypeOfMachine.LaundryMachine)
+                {
+                    Interact(camObject);
+                    return;
+                }
+                
+                
+            }
+        }
+        // else
+        // {
+        //     Interact(camObject);
+        //     return;
+        // }
+        if (machineType == TypeOfMachine.DryingMachine && hasBasket)
+        {
+            Interact(camObject);
+            return;
+        }
+
         if (secondaryObject.TryGetComponent(out MachineUsableObjects itemType))
         {
             MachineUsableItemsType _type = itemType.ReturnMachineUsableItemsType();
-            Debug.Log($"Current item type {_type}");
+
                 switch (_type)
                 {
                 case MachineUsableItemsType.Detergent:

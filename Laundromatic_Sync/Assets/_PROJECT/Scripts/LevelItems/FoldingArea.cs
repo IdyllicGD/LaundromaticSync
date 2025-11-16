@@ -80,6 +80,7 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
         currentPlayerMovement.cameraOriginalRotation = camObject.transform.rotation;
 
         playerInteraction.StopAndStartPlayerMovement();
+        playerInteraction.MoveItemsOneDown();
         camObject.transform.DOMove(camPosition.position, 0.5f);
         camObject.transform.DODynamicLookAt(lookAtPosition.position, 0.5f);
         secondaryObject.transform.SetParent(basketNotFoldedPosition);

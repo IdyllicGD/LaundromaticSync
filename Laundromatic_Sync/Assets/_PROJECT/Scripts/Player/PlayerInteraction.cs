@@ -231,6 +231,7 @@ public class PlayerInteraction : MonoBehaviour
                                 PlayerSettings.instance.AddMoney(20 * upgradeMoneyMultiplier);
                             }
                             Destroy(handPosition.GetChild(currentActiveObjectIndex - 1).gameObject);
+                            MoveItemsOneDown();
                         }
                         else
                         {
