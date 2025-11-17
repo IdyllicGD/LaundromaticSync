@@ -24,7 +24,6 @@ public class NpcManager : MonoBehaviour
     [Title("Special Npc Stuff", null, TitleAlignments.Centered)]
     public List<GameObject> detergentsInWorld = new();
     public List<GameObject> softenerInWorld = new();
-    bool cantSpawnNpc;
 
     void Start()
     {

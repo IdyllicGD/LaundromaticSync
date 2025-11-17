@@ -231,12 +231,15 @@ public class DayNight : MonoBehaviour
 
     public void StartUpDayAgain()
     {
+        
         Cursor.lockState = CursorLockMode.Locked;
         endOfDayPause = false;
         RenderSettings.skybox = sunriseSkybox;
         NpcManager.instance.canSpawnNpc = true;
+        NpcManager.instance.SpawnNpc();
         tempSeconds = 0f;
         playerInteraction.StopAndStartPlayerMovement(true);
+        Time.timeScale = 1f;
     }
 
 
@@ -263,7 +266,6 @@ public class DayNight : MonoBehaviour
                 {
                     hours = 0;
                     endOfDayPause = true;
-                    PauseTimeAndCloseStore();
                     PassOut();
                 }
                 hoursText.text = hours.ToString("00");
@@ -330,10 +332,7 @@ public class DayNight : MonoBehaviour
 
     }
 
-    public void PauseTimeAndCloseStore()
-    {
-        NpcManager.instance.canSpawnNpc = false;
-    }
+
 
     public void EndDay()
     {

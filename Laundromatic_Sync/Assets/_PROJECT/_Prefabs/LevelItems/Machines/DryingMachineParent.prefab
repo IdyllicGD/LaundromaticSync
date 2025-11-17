@@ -656,7 +656,7 @@ MonoBehaviour:
   EventPlayTrigger: 0
   EventStopTrigger: 0
   AllowFadeout: 1
-  TriggerOnce: 1
+  TriggerOnce: 0
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
@@ -7274,7 +7274,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.2, y: 1.06, z: 1.0515031}
+  m_Size: {x: 1.11, y: 1.06, z: 1.03}
   m_Center: {x: -0.010971248, y: 0.53, z: 0}
 --- !u!114 &4340109367864005513
 MonoBehaviour:
@@ -7328,6 +7328,7 @@ MonoBehaviour:
   busySound: {fileID: 8525807805213031469}
   buttonSound: {fileID: 480974951784724661}
   doorOpenSound: {fileID: 5027894885286992362}
+  playThis: {fileID: 0}
   animator: {fileID: 6852920780801280929}
   addTimerAnimText: {fileID: 8583972813167217320}
   animDuration: 1
@@ -7360,7 +7361,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.7, y: 1.61, z: 1.56}
+  m_Size: {x: 1.18, y: 1.61, z: 1.08}
   m_Center: {x: -0.010971251, y: 0.37, z: -0.00000047683716}
 --- !u!1001 &2104823727281981234
 PrefabInstance:

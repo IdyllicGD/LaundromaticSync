@@ -72,6 +72,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     [SerializeField] StudioEventEmitter busySound;
     [SerializeField] StudioEventEmitter buttonSound;
     [SerializeField] StudioEventEmitter doorOpenSound;
+    [SerializeField] FMODEventTrack playThis;
 
     [Title("Animation", null, TitleAlignments.Centered)]
     [SerializeField] Animator animator;
@@ -220,6 +221,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     public void Interact(Camera camObject, GameObject secondaryObject, bool wasItemThrown)
     {
+        doneSound.Stop();
         if (isBusy) return;
         wasThrown = wasItemThrown;
         if(machineType == TypeOfMachine.LaundryMachine && hasDetergent && hasBasket)
@@ -228,7 +230,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
             {
                 if(itemTypeCurrent.ReturnMachineUsableItemsType() == MachineUsableItemsType.FabricSoftener)
                 {
-                    if (hasFabricSoftener)
+                    if (hasFabricSoftener && !wasItemThrown)
                     {
                         Interact(camObject);
                         return;
@@ -247,7 +249,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
                         currentFabricSoftener = null;
                         return;
                     }
-                }else if(machineType == TypeOfMachine.LaundryMachine)
+                }else if(machineType == TypeOfMachine.LaundryMachine && !wasItemThrown)
                 {
                     Interact(camObject);
                     return;
@@ -261,7 +263,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
         //     Interact(camObject);
         //     return;
         // }
-        if (machineType == TypeOfMachine.DryingMachine && hasBasket)
+        if (machineType == TypeOfMachine.DryingMachine && hasBasket && !wasItemThrown)
         {
             Interact(camObject);
             return;
@@ -497,12 +499,13 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
         //Change basket info
         isBusy = true;
         StartCoroutine(StartMachineTimer());
+        //doneSound.Play();
 
     }
 
     IEnumerator StartMachineTimer()
     {
-        doneSound.Stop();
+        
         isBusy = true;
         currentBasket.SetActive(false);
         while (timerTime > 0 && !interupt)
@@ -523,12 +526,13 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
     void MachineStop()
     {
         currentPs.Stop();
-        doneSound.Stop();
+        busySound.Stop();
+        //doneSound.Stop();
         currentBasket.GetComponent<Collider>().enabled = true;
         Rigidbody basketRb = currentBasket.GetComponent<Rigidbody>();
         basketRb.isKinematic = false;
         basketRb.useGravity = true;
-        busySound.Stop();
+        
         timerTime = originalMachineTimer;
         AnimMachineFinished();
         currentBasket.SetActive(true);
@@ -597,6 +601,7 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
     void AnimMachineFinished()
     {
+        busySound.Stop();
         animator.SetBool("isFinished", true);
         doneSound.Play();
     }

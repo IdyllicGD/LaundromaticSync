@@ -395,7 +395,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
-            objectToThrow = hatPosition.GetChild(currentActiveObjectIndex - 1).gameObject;
+            objectToThrow = hatPosition.GetChild(0).gameObject;
         }
         resetInteractBar = false;
         heldAmount = Time.time;
@@ -585,6 +585,7 @@ public class PlayerInteraction : MonoBehaviour
     public void MoveItemsOneDown()
     {
         canThrow = false;
+        
         for (int i = 0; i < handPosition.childCount; i++)
         {
             Transform currentObjectToMove = handPosition.GetChild(i).transform;
@@ -592,6 +593,7 @@ public class PlayerInteraction : MonoBehaviour
             currentObjectToMove.DOLocalMove(finalPos, 0.1f).OnComplete(() => canThrow = true);
             
         }
+        if(currentActiveObjectIndex == 0)return;
         --currentActiveObjectIndex;
     }
 

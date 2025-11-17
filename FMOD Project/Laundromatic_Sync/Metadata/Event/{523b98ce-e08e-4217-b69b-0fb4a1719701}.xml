@@ -56,7 +56,11 @@
 			<destination>{acd38d10-1612-416b-9d73-47f81156d063}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{a348301f-9805-4d89-a166-873523af62f8}" />
+	<object class="EventAutomatableProperties" id="{a348301f-9805-4d89-a166-873523af62f8}">
+		<property name="priority">
+			<value>4</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{67fda958-a1af-4bc5-8f73-10d17196d92b}" />
 	<object class="GroupTrack" id="{d09b98dc-fb36-4b47-8e61-6eb512e01fec}">
 		<relationship name="modules">
@@ -97,6 +101,9 @@
 		</property>
 		<property name="timelockedOffset">
 			<value>6.4400000000000004</value>
+		</property>
+		<property name="looping">
+			<value>true</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{3a3978c0-2b88-4553-b49e-34a30a7ceb3c}</destination>
