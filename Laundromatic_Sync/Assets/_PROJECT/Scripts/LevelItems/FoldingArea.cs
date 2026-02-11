@@ -67,10 +67,13 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
         //Check if the basket is WetClean
         if (ReturnBasketType(secondaryObject) != BasketType.DryClean) return;
         if (basketNotFoldedPosition.childCount != 0) return;
+
         //Get a ref to the basket script
         Basket basket = secondaryObject.GetComponent<Basket>();
+
         //Set items used on that basket
         itemsUsed = basket.ItemsUsed;
+
         //Get player interaction and player movement Script
         PlayerInteraction playerInteraction = camObject.transform.parent.GetComponentInParent<PlayerInteraction>();
         currentPlayerMovement = camObject.transform.parent.GetComponentInParent<PlayerMovement>();
@@ -85,9 +88,6 @@ public class FoldingArea : MonoBehaviour, IMachineInteractable, Iinteractable, R
         camObject.transform.DODynamicLookAt(lookAtPosition.position, 0.5f);
         secondaryObject.transform.SetParent(basketNotFoldedPosition);
         secondaryObject.transform.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() => StartButtons());
-
-
-
     }
     #endregion
 

@@ -60,11 +60,11 @@ public class NpcManager : MonoBehaviour
 
         int _index = _nearestWaypointTransform ? waitingPositions.IndexOf(_nearestWaypointTransform) : 0;
         _index++;
+        
         if (_index >= waitingPositions.Count)
         {
             _index = 0;
         }
-
 
         return waitingPositions[_index];
     }

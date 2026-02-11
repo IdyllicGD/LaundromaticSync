@@ -15,11 +15,6 @@ public class ByingObjectPlacing : MonoBehaviour
     public GameObject objectToPlace;
     public bool placingObjects;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         

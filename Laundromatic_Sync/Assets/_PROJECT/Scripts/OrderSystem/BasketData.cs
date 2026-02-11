@@ -7,6 +7,5 @@ public class BasketData : MonoBehaviour
     void Start()
     {
         NpcManager.instance.currentBaskets.Add(gameObject);
-        //GetParentNpcId
     }
 }

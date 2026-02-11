@@ -38,7 +38,6 @@ public class RhythmButtonInfo : MonoBehaviour
                 if (rhythmButtons == RhythmButtons.A)
                 {
                     transform.parent.parent.parent.GetComponentInChildren<RythmStages>().StageCheck();
-                    //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
                 else
@@ -54,7 +53,6 @@ public class RhythmButtonInfo : MonoBehaviour
                 if (rhythmButtons == RhythmButtons.B)
                 {
                     transform.parent.parent.parent.GetComponentInChildren<RythmStages>().StageCheck();
-                    //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
                 else
@@ -67,7 +65,6 @@ public class RhythmButtonInfo : MonoBehaviour
                 if (rhythmButtons == RhythmButtons.X)
                 {
                     transform.parent.parent.parent.GetComponentInChildren<RythmStages>().StageCheck();
-                    //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
                 else
@@ -80,7 +77,6 @@ public class RhythmButtonInfo : MonoBehaviour
                 if (rhythmButtons == RhythmButtons.Y)
                 {
                     transform.parent.parent.parent.GetComponentInChildren<RythmStages>().StageCheck();
-                    //transform.parent.parent.GetComponent<ButtonSpawner>().SpawnButton();
                     DestroyImmediate(gameObject);
                 }
                 else
@@ -112,9 +108,6 @@ public class RhythmButtonInfo : MonoBehaviour
 
     void GetParentScript()
     {
-        // Debug.Log($"[RythmButtonInfo] GetParentScript ran");
-        // Debug.Log($"[RythmButtonInfo] {transform.parent.parent.parent.GetChild(1).name} Lm Name");
-        // Debug.Log($"[RythmButtonInfo] {transform.parent.parent.parent.name} Dm name");
         //Laundry Machine
         if (transform.parent.parent.parent.GetChild(1).TryGetComponent(out TimerMachines currentMachine))
         {

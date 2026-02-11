@@ -155,14 +155,6 @@ public class DayNight : MonoBehaviour
         todaysStoreScore -= todaysOrdersWrongScore;
 
         storeScore += todaysStoreScore;
-
-
-
-
-
-
-
-
     }
 
     public void EndReview()
@@ -231,7 +223,6 @@ public class DayNight : MonoBehaviour
 
     public void StartUpDayAgain()
     {
-        
         Cursor.lockState = CursorLockMode.Locked;
         endOfDayPause = false;
         RenderSettings.skybox = sunriseSkybox;
@@ -274,10 +265,6 @@ public class DayNight : MonoBehaviour
             minutesText.text = minutes.ToString("00");
             tempSeconds = 0;
         }
-
-
-
-
     }
 
     void PassOut()
@@ -293,8 +280,6 @@ public class DayNight : MonoBehaviour
         yield return new WaitForSeconds(timeToWait);
         blinkText.DOFade(1f, blinkDuration).OnComplete(() => blinkText.text = "");
         blinkImage.DOFade(1f, blinkDuration).OnComplete(() => EndDayReview());
-        
-
     }
     void ChangeSkybox()
     {
@@ -329,14 +314,10 @@ public class DayNight : MonoBehaviour
         blinkImage.DOFade(0f, blinkDuration);
         blinkText.DOFade(0f, blinkDuration);
         playerMovement.playerSpeed = playerMovement.playerOriginalSpeed;
-
     }
-
-
 
     public void EndDay()
     {
-
         int currentNpcCount = NpcManager.instance.currentNpcs.Count;
         int basketCount = NpcManager.instance.currentBaskets.Count;
         int nullCountBasket = 0;
@@ -435,5 +416,4 @@ public class DayNight : MonoBehaviour
 
     }
 
-    
 }

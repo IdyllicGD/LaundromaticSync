@@ -25,20 +25,16 @@ public class CurtainBehaviour : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         UnityEngine.Debug.Log("Player Enter");
-        // if (other.CompareTag("Player"))
-        // {
-            Curtain01.DOMove(curtain01StartPos + curtain01EndPos, 1f).SetEase(Ease.InOutSine);
-            Curtain02.DOMove(curtain02StartPos + curtain02EndPos, 1f).SetEase(Ease.InOutSine);
-        //}
+        Curtain01.DOMove(curtain01StartPos + curtain01EndPos, 1f).SetEase(Ease.InOutSine);
+        Curtain02.DOMove(curtain02StartPos + curtain02EndPos, 1f).SetEase(Ease.InOutSine);
+
     }
 
     public void OnTriggerExit(Collider other)
     {
         UnityEngine.Debug.Log("Player Exit");
-        // if (other.CompareTag("Player"))
-        // {
-            Curtain01.DOMove(curtain01StartPos, 1f).SetEase(Ease.InOutSine);
-            Curtain02.DOMove(curtain02StartPos, 1f).SetEase(Ease.InOutSine);
-        // }
+        Curtain01.DOMove(curtain01StartPos, 1f).SetEase(Ease.InOutSine);
+        Curtain02.DOMove(curtain02StartPos, 1f).SetEase(Ease.InOutSine);
+
     }
 }

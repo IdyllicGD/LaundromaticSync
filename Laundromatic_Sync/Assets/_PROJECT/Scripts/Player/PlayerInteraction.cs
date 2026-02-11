@@ -87,9 +87,6 @@ public class PlayerInteraction : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         inputActions.Enable();
         inputActions.Player.Interact.performed += x => InteractWithObject();
-        //inputActions.Player.Pet.performed += x => PetAnimal();
-        //TODO: Implement a way for the player to cancel the action
-        //inputActions.Player.Back.performed += x => BackPressed();
         inputActions.Player.DropItem.performed += DropItem;
         inputActions.Player.DropItem.canceled += x => ThrowItem();
 
@@ -102,7 +99,6 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
-        
         if(!hasHat && hatPosition.childCount != 0)
         {
             buttonUiThrow.SetActive(true);
@@ -239,11 +235,6 @@ public class PlayerInteraction : MonoBehaviour
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("isCorrect", false);
                             npcBehaviour.BlackboardReference.SetVariableValue<bool>("OrderFinished", true);
                             ++DayNight.instance.ordersWrongToday;
-                            // PlayerSettings.instance.AddMoney(10);
-                            //Destroy(handPosition.GetChild(0).gameObject);
-
-
-
                         }
                     }
 
@@ -358,14 +349,6 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
         }
-
-
-
-
-
-
-
-
     }
 
     void BackPressed()
@@ -467,7 +450,6 @@ public class PlayerInteraction : MonoBehaviour
         {
           buttonUiThrow.SetActive(false);  
         }
-        //objectRigidbody.AddForce(Camera.main.transform.forward * finalForceAmount, ForceMode.Force);
         Debug.Log($"[PlayerInteraction] {finalTime}");
     }
     
@@ -617,8 +599,6 @@ public class PlayerInteraction : MonoBehaviour
     }
     
     #endregion
-    
-    
 }
 
 public enum InteractionType

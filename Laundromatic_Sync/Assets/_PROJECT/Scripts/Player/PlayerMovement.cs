@@ -189,85 +189,10 @@ public class PlayerMovement : MonoBehaviour
         camForward.y = 0;
         camRight.y = 0;
         moveDirection = camForward * moveInput.y + camRight * moveInput.x;
-        //playerRb.linearVelocity =  moveDirection * (playerSpeed * Time.fixedDeltaTime);
 
-        #region Collision Detection Forward Right Left Back
-        // if (Physics.Raycast(rayPositions[1].position, rayPositions[1].forward, out RaycastHit hit, rayMaxDistance, layerMaskForCollision) && currentMoveY > 0)
-        // {
-        //     //forward
-        //     currentMoveY = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[9].position, rayPositions[9].forward, out RaycastHit hitTwo, rayMaxDistance, layerMaskForCollision) && currentMoveY > 0)
-        // {
-        //     currentMoveY = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[17].position, rayPositions[17].forward, out RaycastHit hitThree, rayMaxDistance, layerMaskForCollision) && currentMoveY > 0)
-        // {
-        //     currentMoveY = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[3].position, rayPositions[3].forward, out RaycastHit a, rayMaxDistance, layerMaskForCollision) && currentMoveY < 0)
-        // {
-        //     //Back
-        //     currentMoveY = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[11].position, rayPositions[11].forward, out RaycastHit b, rayMaxDistance, layerMaskForCollision) && currentMoveY < 0)
-        // {
-        //     currentMoveY = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[19].position, rayPositions[19].forward, out RaycastHit c, rayMaxDistance, layerMaskForCollision) && currentMoveY < 0)
-        // {
-        //     currentMoveY = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[0].position, rayPositions[0].forward, out RaycastHit d, rayMaxDistance, layerMaskForCollision) && currentMoveX < 0)
-        // {
-        //     //Left
-        //     currentMoveX = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[8].position, rayPositions[8].forward, out RaycastHit e, rayMaxDistance, layerMaskForCollision) && currentMoveX < 0)
-        // {
-        //     currentMoveX = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[16].position, rayPositions[16].forward, out RaycastHit f, rayMaxDistance, layerMaskForCollision) && currentMoveX < 0)
-        // {
-        //     currentMoveX = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[2].position, rayPositions[2].forward, out RaycastHit g, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
-        // {
-        //     //Right
-        //     currentMoveX = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[10].position, rayPositions[10].forward, out RaycastHit h, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
-        // {
-        //     currentMoveX = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[18].position, rayPositions[18].forward, out RaycastHit i, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
-        // {
-        //     currentMoveX = 0;
-        // }
-        #endregion
-
-        #region Collision Detection FAngles Bangles
-
-        // if (Physics.Raycast(rayPositions[4].position, rayPositions[4].forward, out RaycastHit j, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0 || currentMoveY > 0)
-        // {
-        //     //Right Anfle Front
-        //     currentMoveX = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[12].position, rayPositions[12].forward, out RaycastHit k, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
-        // {
-        //     currentMoveX = 0;
-        // }
-        // else if (Physics.Raycast(rayPositions[20].position, rayPositions[20].forward, out RaycastHit l, rayMaxDistance, layerMaskForCollision) && currentMoveX > 0)
-        // {
-        //     currentMoveX = 0;
-        // }
-
-        #endregion
 
 
         playerRb.MovePosition(transform.position + moveDirection * playerSpeed * Time.deltaTime);
-        //playerRb.linearVelocity = new Vector3(moveInput.x, 0, moveInput.y) * playerSpeed;
-        //transform.Translate(currentMoveX * Time.fixedDeltaTime * playerSpeed, 0, currentMoveY * Time.fixedDeltaTime * playerSpeed);
         Debug.Log($"x: {currentMoveX} y: {currentMoveY}");
 
 
@@ -312,13 +237,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!itemHit.transform.TryGetComponent(out Rigidbody rigidbodyToKick)) return;
             rigidbodyToKick.AddForce(Camera.main.transform.forward * kickAcelerationAmount , ForceMode.Force);
-            Debug.Log($"[PlayerMovement] Kick Object");
-            //play kick sound
-
-
-
-            //play kick sound
-            //kick object   
+            Debug.Log($"[PlayerMovement] Kick Object"); 
         }
     }
 

@@ -23,7 +23,6 @@ public class HatPickUp : MonoBehaviour, Iinteractable
     void OnCollisionEnter(Collision collision)
     {
         touchSound.Play();
-        //play sound
     }
 
     void OnCollisionExit(Collision collision)

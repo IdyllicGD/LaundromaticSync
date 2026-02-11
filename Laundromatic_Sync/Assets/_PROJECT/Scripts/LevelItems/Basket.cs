@@ -31,15 +31,13 @@ namespace _PROJECT.Scripts.temp.Scripts
 
         void Awake()
         {
-
             rend = GetComponent<Renderer>();
             npcID = transform.parent.parent.GetComponent<NpcOrderData>().npcID;
             imageToChange.sprite = transform.parent.parent.GetComponent<NpcOrderData>().characterImage; 
             amountOfClothing = 0;
             NpcManager.instance.currentBaskets.Add(gameObject);
             dirtySystem.Play();
-            
-
+        
         }
 
         public BasketType ReturnBasketType()
