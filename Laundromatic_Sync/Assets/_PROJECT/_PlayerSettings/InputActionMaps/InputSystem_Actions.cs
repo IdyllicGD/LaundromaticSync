@@ -253,6 +253,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlaceObject"",
+                    ""type"": ""Button"",
+                    ""id"": ""b18da286-3e76-42dc-b89b-5002cf367b7d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -748,6 +757,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DropHat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e427a94-ed77-4b6f-ac4d-ce7b2d39b7dc"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlaceObject"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1572,6 +1592,34 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""BuildMode"",
+            ""id"": ""0b09dce8-99e0-4121-921c-2b95d9da8164"",
+            ""actions"": [
+                {
+                    ""name"": ""MousToScreenPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""eadf14aa-dbe2-4d7c-8306-42bfa3df7271"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d51af88e-ce6f-49f7-a835-b34fa9ff7719"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousToScreenPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1657,6 +1705,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Kick = m_Player.FindAction("Kick", throwIfNotFound: true);
         m_Player_DropItem = m_Player.FindAction("DropItem", throwIfNotFound: true);
         m_Player_DropHat = m_Player.FindAction("DropHat", throwIfNotFound: true);
+        m_Player_PlaceObject = m_Player.FindAction("PlaceObject", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1677,6 +1726,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_VendingMachine_Exit = m_VendingMachine.FindAction("Exit", throwIfNotFound: true);
         m_VendingMachine_Left = m_VendingMachine.FindAction("Left", throwIfNotFound: true);
         m_VendingMachine_Right = m_VendingMachine.FindAction("Right", throwIfNotFound: true);
+        // BuildMode
+        m_BuildMode = asset.FindActionMap("BuildMode", throwIfNotFound: true);
+        m_BuildMode_MousToScreenPosition = m_BuildMode.FindAction("MousToScreenPosition", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1684,6 +1736,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputSystem_Actions.UI.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_VendingMachine.enabled, "This will cause a leak and performance issues, InputSystem_Actions.VendingMachine.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_BuildMode.enabled, "This will cause a leak and performance issues, InputSystem_Actions.BuildMode.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1777,6 +1830,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Kick;
     private readonly InputAction m_Player_DropItem;
     private readonly InputAction m_Player_DropHat;
+    private readonly InputAction m_Player_PlaceObject;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1861,6 +1915,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @DropHat => m_Wrapper.m_Player_DropHat;
         /// <summary>
+        /// Provides access to the underlying input action "Player/PlaceObject".
+        /// </summary>
+        public InputAction @PlaceObject => m_Wrapper.m_Player_PlaceObject;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1940,6 +1998,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @DropHat.started += instance.OnDropHat;
             @DropHat.performed += instance.OnDropHat;
             @DropHat.canceled += instance.OnDropHat;
+            @PlaceObject.started += instance.OnPlaceObject;
+            @PlaceObject.performed += instance.OnPlaceObject;
+            @PlaceObject.canceled += instance.OnPlaceObject;
         }
 
         /// <summary>
@@ -2005,6 +2066,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @DropHat.started -= instance.OnDropHat;
             @DropHat.performed -= instance.OnDropHat;
             @DropHat.canceled -= instance.OnDropHat;
+            @PlaceObject.started -= instance.OnPlaceObject;
+            @PlaceObject.performed -= instance.OnPlaceObject;
+            @PlaceObject.canceled -= instance.OnPlaceObject;
         }
 
         /// <summary>
@@ -2384,6 +2448,102 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="VendingMachineActions" /> instance referencing this action map.
     /// </summary>
     public VendingMachineActions @VendingMachine => new VendingMachineActions(this);
+
+    // BuildMode
+    private readonly InputActionMap m_BuildMode;
+    private List<IBuildModeActions> m_BuildModeActionsCallbackInterfaces = new List<IBuildModeActions>();
+    private readonly InputAction m_BuildMode_MousToScreenPosition;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "BuildMode".
+    /// </summary>
+    public struct BuildModeActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public BuildModeActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "BuildMode/MousToScreenPosition".
+        /// </summary>
+        public InputAction @MousToScreenPosition => m_Wrapper.m_BuildMode_MousToScreenPosition;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_BuildMode; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="BuildModeActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(BuildModeActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="BuildModeActions" />
+        public void AddCallbacks(IBuildModeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_BuildModeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_BuildModeActionsCallbackInterfaces.Add(instance);
+            @MousToScreenPosition.started += instance.OnMousToScreenPosition;
+            @MousToScreenPosition.performed += instance.OnMousToScreenPosition;
+            @MousToScreenPosition.canceled += instance.OnMousToScreenPosition;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="BuildModeActions" />
+        private void UnregisterCallbacks(IBuildModeActions instance)
+        {
+            @MousToScreenPosition.started -= instance.OnMousToScreenPosition;
+            @MousToScreenPosition.performed -= instance.OnMousToScreenPosition;
+            @MousToScreenPosition.canceled -= instance.OnMousToScreenPosition;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="BuildModeActions.UnregisterCallbacks(IBuildModeActions)" />.
+        /// </summary>
+        /// <seealso cref="BuildModeActions.UnregisterCallbacks(IBuildModeActions)" />
+        public void RemoveCallbacks(IBuildModeActions instance)
+        {
+            if (m_Wrapper.m_BuildModeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="BuildModeActions.AddCallbacks(IBuildModeActions)" />
+        /// <seealso cref="BuildModeActions.RemoveCallbacks(IBuildModeActions)" />
+        /// <seealso cref="BuildModeActions.UnregisterCallbacks(IBuildModeActions)" />
+        public void SetCallbacks(IBuildModeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_BuildModeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_BuildModeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="BuildModeActions" /> instance referencing this action map.
+    /// </summary>
+    public BuildModeActions @BuildMode => new BuildModeActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -2582,6 +2742,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDropHat(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PlaceObject" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPlaceObject(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
@@ -2710,5 +2877,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRight(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "BuildMode" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="BuildModeActions.AddCallbacks(IBuildModeActions)" />
+    /// <seealso cref="BuildModeActions.RemoveCallbacks(IBuildModeActions)" />
+    public interface IBuildModeActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "MousToScreenPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMousToScreenPosition(InputAction.CallbackContext context);
     }
 }

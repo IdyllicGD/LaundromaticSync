@@ -11,5 +11,5 @@ public enum MachineUsableItemsType
 
 public enum CleanOrDirty
 {
-    Clean, Dirty
+    Clean, Dirty, Machine
 }

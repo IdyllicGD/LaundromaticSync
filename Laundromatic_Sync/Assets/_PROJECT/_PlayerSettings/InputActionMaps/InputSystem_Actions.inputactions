@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "InputSystem_Actions",
     "maps": [
         {
@@ -162,6 +163,15 @@
                     "name": "DropHat",
                     "type": "Button",
                     "id": "e0cad709-a547-4745-b2d9-b3d2710af769",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlaceObject",
+                    "type": "Button",
+                    "id": "b18da286-3e76-42dc-b89b-5002cf367b7d",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -661,6 +671,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "DropHat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e427a94-ed77-4b6f-ac4d-ce7b2d39b7dc",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlaceObject",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1481,6 +1502,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "BuildMode",
+            "id": "0b09dce8-99e0-4121-921c-2b95d9da8164",
+            "actions": [
+                {
+                    "name": "MousToScreenPosition",
+                    "type": "Value",
+                    "id": "eadf14aa-dbe2-4d7c-8306-42bfa3df7271",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d51af88e-ce6f-49f7-a835-b34fa9ff7719",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousToScreenPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

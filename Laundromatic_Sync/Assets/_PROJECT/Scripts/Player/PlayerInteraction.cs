@@ -58,6 +58,8 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] TextMeshProUGUI petableInfo;
     [SerializeField] GameObject buttonUiInteract;
     [SerializeField] GameObject buttonUiThrow;
+    [Title("Placing Objects Vars", null, TitleAlignments.Centered)]
+    List<PickupItem> placeableObjects = new();
     [Title("Ui Throw Bars", null, TitleAlignments.Left, false)]
     [SerializeField] GameObject itemBarUiParent;
     [SerializeField] UnityEngine.UI.Image itemBarImage;
@@ -89,6 +91,9 @@ public class PlayerInteraction : MonoBehaviour
         inputActions.Player.Interact.performed += x => InteractWithObject();
         inputActions.Player.DropItem.performed += DropItem;
         inputActions.Player.DropItem.canceled += x => ThrowItem();
+        inputActions.Player.PlaceObject.performed += CheckPlaceObject;
+        inputActions.Player.PlaceObject.canceled += x => PlaceObject();
+        
 
         #endregion
         playerCam = Camera.main;
@@ -483,7 +488,38 @@ public class PlayerInteraction : MonoBehaviour
     #endregion
 
     #region Cooldown Timers
+    
+    #region Place Objets
+    void CheckPlaceObject(InputAction.CallbackContext obj)
+    {
+        if(handPosition.childCount == 0)return;
+        PickupItem objectInHand = handPosition.GetChild(0).GetComponent<PickupItem>();
+        if(objectInHand.cleanOrDirty == CleanOrDirty.Machine)
+        {
+            Debug.Log("Im holding the button!");
+        }
+        else
+        {
+            return;
+        }
+        
+    }
+    void PlaceObject()
+    {
 
+        if(handPosition.childCount == 0)return;
+        PickupItem objectInHand = handPosition.GetChild(0).GetComponent<PickupItem>();
+        if(objectInHand.cleanOrDirty == CleanOrDirty.Machine)
+        {
+            Debug.Log("I let go!");
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    #endregion
     IEnumerator DialogueCooldown(float cooldownTime)
     {
         yield return new WaitForSeconds(cooldownTime);

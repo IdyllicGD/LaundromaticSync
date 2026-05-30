@@ -12,8 +12,6 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     [SerializeField] MachineType machineType;
     [SerializeField] GameObject deliveryArea;
     [SerializeField] Transform spawnPos;
-    [SerializeField] int maxAmountOfDryers;
-    [SerializeField] int maxAmountOfWashingMachines;
 
 
     [Title("Moving Camera Variables", null, TitleAlignments.Centered)]
@@ -56,12 +54,6 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
     [SerializeField] Upgrades currentSelectedUpgrade;
     [SerializeField] List<UpgradeInfo> upgradeInfo = new();
     [SerializeField] GameObject popupInfoTextGameObject;
-
-
-
-    [Title("Washer and Dryers", null, TitleAlignments.Centered)]
-    [SerializeField] List<GameObject> washingMashineList = new();
-    [SerializeField] List<GameObject> dryerMachineList = new();
 
     PlayerInteraction playerInteraction;
     PlayerMovement playerMovement;
@@ -241,67 +233,16 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         int price = GetLevelPrice(currentCamInt);
         if (PlayerSettings.instance.playerMoney >= price)
         {
-            if (currentCamInt < 3)
+            if (currentCamInt != 0)
             {
-                if (currentCamInt != 0)
-                {
-                    PlayerSettings.instance.ReduceMoney(price);
-                    SpawnSmallItem();
-                    buySound.Play();
-                }
-                else if (currentCamInt == 0)
-                {
-                    BuyBigItem();
-                }
+                PlayerSettings.instance.ReduceMoney(price);
+                SpawnItem();
+                buySound.Play();
             }
-            else if (currentCamInt >= 3)
+            else if (currentCamInt == 0)
             {
-                //Washing Machine
-                if (currentCamInt == 3)
-                {
-                    if (amountOfWashingMachinesBought != maxAmountOfWashingMachines)
-                    {
-                        PlayerSettings.instance.ReduceMoney(price);
-                        BuyBigItem();
-                        buySound.Play();
-                        ++amountOfWashingMachinesBought;
-                        if (amountOfWashingMachinesBought >= maxAmountOfWashingMachines)
-                        {
-                            laundryMachinePriceText.color = outOfStockColour;
-                            laundryMachinePriceText.text = "Out Of Stock";
-                            playerInteraction.UpdatePlayerPopupMessage("Max amount of Washing Machines Bought");
-                        }
-                    }
-                    else
-                    {
-                        cantBuySound.Play();
-                        laundryMachinePriceText.color = outOfStockColour;
-                    }
-                }
-                //Dryers
-                if (currentCamInt == 4)
-                {
-                    if (amountOfDryersBought != maxAmountOfDryers)
-                    {
-                        PlayerSettings.instance.ReduceMoney(price);
-                        BuyBigItem();
-                        buySound.Play();
-                        ++amountOfDryersBought;
-                        if (amountOfDryersBought >= maxAmountOfDryers)
-                        {
-                            dryingMachinePriceText.color = outOfStockColour;
-                            dryingMachinePriceText.text = "Out Of Stock";
-                            playerInteraction.UpdatePlayerPopupMessage("Max amount of Drying Machines Bought");
-                        }
-                    }
-                    else
-                    {
-                        cantBuySound.Play();
-                    }
-                }
+                BuyUpgrades();
             }
-
-            //buy item
         }
         else
         {
@@ -309,22 +250,7 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         }
     }
 
-    void BuySmallItem()
-    {
-        //Check waht item to buy
-        //Place it on table
-        int nextAvailableSpaceIndex = NextAvailableSpaceOnTable();
-        if (nextAvailableSpaceIndex == 555)
-        {
-            Debug.Log("You fucked up theres no space");
-            return;
-        }
-        Instantiate(itemsToBuy[currentCamInt], deliveryArea.transform.GetChild(nextAvailableSpaceIndex));
-        //OnExitPressed();
-
-    }
-
-    void SpawnSmallItem()
+    void SpawnItem()
     {
         GameObject currentObject = Instantiate(itemsToBuy[currentCamInt], spawnPos);
         Rigidbody rigidbody = currentObject.GetComponent<Rigidbody>();
@@ -337,24 +263,6 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
         rigidbody.constraints = RigidbodyConstraints.None;
     }
 
-    void BuyBigItem()
-    {
-        if (currentCamInt == 0)
-        {
-            BuyUpgrades();
-        }
-        if (currentCamInt == 3)
-        {
-            washingMashineList[amountOfWashingMachinesBought].SetActive(true);
-            //OnExitPressed();
-        }
-        else if (currentCamInt == 4)
-        {
-            dryerMachineList[amountOfDryersBought].SetActive(true);
-            //OnExitPressed();
-        }
-
-    }
 
     #region Upgrades
     void BuyUpgrades()
@@ -442,32 +350,6 @@ public class VendingMachine : MonoBehaviour, IMachineInteractable
 
 #endregion
 
-    int SpacesLeftOnTable()
-    {
-        int amountOfSpace = 0;
-        for (int i = 0; i < --deliveryAreaMaxAmount; i++)
-        {
-            if (deliveryArea.transform.GetChild(i).childCount == 0)
-            {
-                amountOfSpace++;
-            }
-
-        }
-        return amountOfSpace;
-    }
-
-    int NextAvailableSpaceOnTable()
-    {
-        for (int i = 0; i < deliveryAreaMaxAmount; i++)
-        {
-            if (deliveryArea.transform.GetChild(i).childCount == 0)
-            {
-                Debug.Log($"[Vending Machine] Next available space index {i}");
-                return i;
-            }
-        }
-        return 555;
-    }
 
     int GetLevelPrice(int currentLevelIndex)
     {
