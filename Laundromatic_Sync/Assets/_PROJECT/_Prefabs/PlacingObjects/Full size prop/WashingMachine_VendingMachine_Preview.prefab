@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1244369391938170330}
   - component: {fileID: 4656831558440896746}
-  - component: {fileID: 5356031048022468269}
-  - component: {fileID: 5438831531657366626}
   - component: {fileID: 3992509259856940479}
   m_Layer: 6
   m_Name: WashingMachine_VendingMachine_Preview
@@ -64,34 +62,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5356031048022468269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6164876679467613952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24ac28c9b5f888c4ea9a4f3e97010c46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stackPosition: {fileID: 0}
-  cleanOrDirty: 2
---- !u!114 &5438831531657366626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6164876679467613952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 709d485478b7ee646b209dcbb30d9cef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canBeKicked: 0
-  itemName: Laundry Machine
 --- !u!65 &3992509259856940479
 BoxCollider:
   m_ObjectHideFlags: 0

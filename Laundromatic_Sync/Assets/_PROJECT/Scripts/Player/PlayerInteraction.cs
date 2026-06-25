@@ -60,6 +60,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] GameObject buttonUiThrow;
     [Title("Placing Objects Vars", null, TitleAlignments.Centered)]
     List<PickupItem> placeableObjects = new();
+    [SerializeField] Transform objectPlaceParent;
     [Title("Ui Throw Bars", null, TitleAlignments.Left, false)]
     [SerializeField] GameObject itemBarUiParent;
     [SerializeField] UnityEngine.UI.Image itemBarImage;
@@ -67,6 +68,7 @@ public class PlayerInteraction : MonoBehaviour
     bool resetInteractBar;
     bool resetHatBar;
     public bool hasUpgrade;
+    bool isTryingToPlaceObject;
 
     Camera playerCam;
 
@@ -497,6 +499,12 @@ public class PlayerInteraction : MonoBehaviour
         if(objectInHand.cleanOrDirty == CleanOrDirty.Machine)
         {
             Debug.Log("Im holding the button!");
+            isTryingToPlaceObject = true;
+            while (true)
+            {
+                
+            }
+
         }
         else
         {

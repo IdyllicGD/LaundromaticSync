@@ -11,6 +11,7 @@ public class PickupItem : MonoBehaviour, IPickupable
     Collider collider;
     Rigidbody rigidbody;
     public CleanOrDirty cleanOrDirty;
+    public TypeOfMachine machineTypefApplicable;
 
     private void Awake()
     {
@@ -47,5 +48,7 @@ public class PickupItem : MonoBehaviour, IPickupable
 
     
 }
+
+
 
 

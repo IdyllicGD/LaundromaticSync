@@ -650,5 +650,5 @@ public class TimerMachines : MonoBehaviour, IMachineInteractable, RythmStages
 
 public enum TypeOfMachine
 {
-    LaundryMachine, DryingMachine
+    None, LaundryMachine, DryingMachine
 }
